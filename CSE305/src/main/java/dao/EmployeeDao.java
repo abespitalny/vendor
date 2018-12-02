@@ -14,23 +14,22 @@ public class EmployeeDao {
 	 * table
 	 */
 
-	//////////////////////////////////////////////
-	// TODO: Decide if we reformat the Java or the DB
+	/*
+	 * All the values of the add employee form are encapsulated in the
+	 * employee object.
+	 * 
+	 * These can be accessed by getter methods (see Employee class in model
+	 * package). e.g. firstName can be accessed by employee.getFirstName()
+	 * method.
+	 * 
+	 * The sample code returns "success" by default.
+	 * 
+	 * You need to handle the database insertion of the employee details and
+	 * return "success" or "failure" based on result of the database
+	 * insertion.
+	 */
 	public String addEmployee(Employee employee) {
-		/*
-		 * All the values of the add employee form are encapsulated in the
-		 * employee object.
-		 * 
-		 * These can be accessed by getter methods (see Employee class in model
-		 * package). e.g. firstName can be accessed by employee.getFirstName()
-		 * method.
-		 * 
-		 * The sample code returns "success" by default.
-		 * 
-		 * You need to handle the database insertion of the employee details and
-		 * return "success" or "failure" based on result of the database
-		 * insertion.
-		 */
+		// TODO: Decide if we reformat the Java or the DB
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -52,28 +51,28 @@ public class EmployeeDao {
 		String telephone = employee.getTelephone();
 		String revenue = employee.getRevenue();
 
-		String sql = "INSERT INTO \r\n" +
-				"	Employee (\r\n" +
-				"		SSN,\r\n" +
-				"        LastName,\r\n" +
-				"        FirstName,\r\n" +
-				"        Address,\r\n" +
-				"        ZipCode,\r\n" +
-				"        Telephone,\r\n" +
-				"        Email,\r\n" +
-				"        StartDate,\r\n" +
-				"        EmployeeLevel,\r\n" +
-				"        HourlyRate) \r\n" +
-				"	VALUES (\r\n" +
-				"		123123123,\r\n" +
-				"		'Doe',\r\n" +
-				"        'John',\r\n" +
-				"        '321 AppleCourt, Smithtown, NY',\r\n" +
-				"        '11984',\r\n" +
-				"        '6311234567',\r\n" +
-				"        'john@doe.com',\r\n" +
-				"        '2001-03-08',\r\n" +
-				"        1,\r\n" +
+		String sql = "INSERT INTO " +
+				"	Employee (" +
+				"		SSN," +
+				"        LastName," +
+				"        FirstName," +
+				"        Address," +
+				"        ZipCode," +
+				"        Telephone," +
+				"        Email," +
+				"        StartDate," +
+				"        EmployeeLevel," +
+				"        HourlyRate) " +
+				"	VALUES (" +
+				"		123123123," +
+				"		'Doe'," +
+				"        'John'," +
+				"        '321 AppleCourt, Smithtown, NY'," +
+				"        '11984'," +
+				"        '6311234567'," +
+				"        'john@doe.com'," +
+				"        '2001-03-08'," +
+				"        1," +
 				"        40.00)";
 
 		int result = statement.executeUpdate(sql);
@@ -84,22 +83,21 @@ public class EmployeeDao {
 		return "success";
 	}
 
-	///////////////////////////////////////////////
-	// TODO: Decide if we reformat the Java or the DB
+	/*
+	 * All the values of the edit employee form are encapsulated in the
+	 * employee object.
+	 * 
+	 * These can be accessed by getter methods (see Employee class in model
+	 * package). e.g. firstName can be accessed by employee.getFirstName()
+	 * method.
+	 * 
+	 * The sample code returns "success" by default.
+	 * 
+	 * You need to handle the database update and return "success" or
+	 * "failure" based on result of the database update.
+	 */
 	public String editEmployee(Employee employee) {
-		/*
-		 * All the values of the edit employee form are encapsulated in the
-		 * employee object.
-		 * 
-		 * These can be accessed by getter methods (see Employee class in model
-		 * package). e.g. firstName can be accessed by employee.getFirstName()
-		 * method.
-		 * 
-		 * The sample code returns "success" by default.
-		 * 
-		 * You need to handle the database update and return "success" or
-		 * "failure" based on result of the database update.
-		 */
+		// TODO: Decide if we reformat the Java or the DB
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -121,13 +119,13 @@ public class EmployeeDao {
 		String telephone = employee.getTelephone();
 		String revenue = employee.getRevenue();
 
-		String sql = "UPDATE \r\n" +
-				"		Employee \r\n" +
-				"	SET \r\n" +
-				"		StartDate = '2001-03-09', \r\n" +
-				"        EmployeeLevel = 3, \r\n" +
-				"        HourlyRate = 45\r\n" +
-				"	WHERE \r\n" +
+		String sql = "UPDATE " +
+				"		Employee " +
+				"	SET " +
+				"		StartDate = '2001-03-09', " +
+				"        EmployeeLevel = 3, " +
+				"        HourlyRate = 45" +
+				"	WHERE " +
 				"		SSN = 123123123";
 
 		int result = statement.executeUpdate(sql);
@@ -138,16 +136,16 @@ public class EmployeeDao {
 		return "success";
 	}
 
+	/*
+	 * employeeID, which is the Employee's ID which has to be deleted, is
+	 * given as method parameter
+	 * 
+	 * The sample code returns "success" by default.
+	 * 
+	 * You need to handle the database deletion and return "success" or
+	 * "failure" based on result of the database deletion.
+	 */
 	public String deleteEmployee(String employeeID) {
-		/*
-		 * employeeID, which is the Employee's ID which has to be deleted, is
-		 * given as method parameter
-		 * 
-		 * The sample code returns "success" by default.
-		 * 
-		 * You need to handle the database deletion and return "success" or
-		 * "failure" based on result of the database deletion.
-		 */
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -155,9 +153,9 @@ public class EmployeeDao {
 		// Create statement
 		Statement statement = connection.createStatement();
 
-		String sql = "DELETE FROM \r\n" +
-				"		Employee\r\n" +
-				"	WHERE \r\n" +
+		String sql = "DELETE FROM " +
+				"		Employee" +
+				"	WHERE " +
 				"		SSN = " + employeeID;
 
 		int result = statement.executeUpdate(sql);
@@ -168,18 +166,17 @@ public class EmployeeDao {
 		return "success";
 	}
 
-	//////////////////////////////////////
-	// TODO: Data base might have to be refactored
+	/*
+	 * The students code to fetch data from the database will be written
+	 * here
+	 * 
+	 * Query to return details about all the employees must be implemented
+	 * 
+	 * Each record is required to be encapsulated as a "Employee" class
+	 * object and added to the "employees" List
+	 */
 	public List<Employee> getEmployees() {
-		/*
-		 * The students code to fetch data from the database will be written
-		 * here
-		 * 
-		 * Query to return details about all the employees must be implemented
-		 * 
-		 * Each record is required to be encapsulated as a "Employee" class
-		 * object and added to the "employees" List
-		 */
+		// TODO: Data base might have to be refactored
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -226,17 +223,17 @@ public class EmployeeDao {
 		return employees;
 	}
 
+	/*
+	 * The students code to fetch data from the database based on
+	 * "employeeID" will be written here
+	 * 
+	 * employeeID, which is the Employee's ID who's details have to be
+	 * fetched, is given as method parameter
+	 * 
+	 * The record is required to be encapsulated as a "Employee" class
+	 * object
+	 */
 	public Employee getEmployee(String employeeID) {
-		/*
-		 * The students code to fetch data from the database based on
-		 * "employeeID" will be written here
-		 * 
-		 * employeeID, which is the Employee's ID who's details have to be
-		 * fetched, is given as method parameter
-		 * 
-		 * The record is required to be encapsulated as a "Employee" class
-		 * object
-		 */
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -244,11 +241,11 @@ public class EmployeeDao {
 		// Create statement
 		Statement statement = connection.createStatement();
 
-		String sql = "SELECT\r\n" +
-				"        *\r\n" +
-				"    FROM\r\n" +
-				"        Employee\r\n" +
-				"    WHERE\r\n" +
+		String sql = "SELECT" +
+				"        *" +
+				"    FROM" +
+				"        Employee" +
+				"    WHERE" +
 				"        EmployeeID = " + employeeID;
 
 		ResultSet rs = statement.executeQuery(sql);
@@ -283,16 +280,15 @@ public class EmployeeDao {
 		return employee;
 	}
 
-	/////////////////////////////////////////////
-	// TODO: The DB might have to be reformatted
+	/*
+	 * The students code to fetch employee data who generated the highest
+	 * revenue will be written here
+	 * 
+	 * The record is required to be encapsulated as a "Employee" class
+	 * object
+	 */
 	public Employee getHighestRevenueEmployee() {
-		/*
-		 * The students code to fetch employee data who generated the highest
-		 * revenue will be written here
-		 * 
-		 * The record is required to be encapsulated as a "Employee" class
-		 * object
-		 */
+		// TODO: The DB might have to be reformatted
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -300,22 +296,22 @@ public class EmployeeDao {
 		// Create statement
 		Statement statement = connection.createStatement();
 
-		String sql = "SELECT \r\n" +
-				"        E.Email,\r\n" +
-				"        E.FirstName,\r\n" +
-				"        E.LastName,\r\n" +
-				"		 E.EmployeeID,\r\n" +
-				"        SUM(A.CurrentHighestBidPrice) AS TotalRevenue\r\n" +
-				"	FROM \r\n" +
-				"		Employee E, \r\n" +
-				"        Auction A, \r\n" +
-				"        Post P\r\n" +
-				"	WHERE \r\n" +
-				"		A.Monitor = E.EmployeeID AND \r\n" +
-				"        P.AuctionID = A.AuctionID AND \r\n" +
-				"        P.EndDate < CURDATE() \r\n" +
-				"	GROUP BY 1 \r\n" +
-				"    ORDER BY TotalRevenue DESC;";
+		String sql = "SELECT " +
+				"        E.Email," +
+				"        E.FirstName," +
+				"        E.LastName," +
+				"		 E.EmployeeID," +
+				"        SUM(A.CurrentHighestBidPrice) AS TotalRevenue" +
+				"	FROM " +
+				"		Employee E, " +
+				"        Auction A, " +
+				"        Post P" +
+				"	WHERE " +
+				"		A.Monitor = E.EmployeeID AND " +
+				"        P.AuctionID = A.AuctionID AND " +
+				"        P.EndDate < CURDATE() " +
+				"	GROUP BY 1 " +
+				"    ORDER BY TotalRevenue DESC";
 
 		ResultSet rs = statement.executeQuery(sql);
 
@@ -335,18 +331,17 @@ public class EmployeeDao {
 		return employee;
 	}
 
-	//////////////////////////////////////////////
-	// TODO: Employees don't have usernames
+	/*
+	 * The students code to fetch data from the database based on "username"
+	 * will be written here
+	 * 
+	 * username, which is the Employee's email address who's Employee ID has
+	 * to be fetched, is given as method parameter
+	 * 
+	 * The Employee ID is required to be returned as a String
+	 */
 	public String getEmployeeID(String username) {
-		/*
-		 * The students code to fetch data from the database based on "username"
-		 * will be written here
-		 * 
-		 * username, which is the Employee's email address who's Employee ID has
-		 * to be fetched, is given as method parameter
-		 * 
-		 * The Employee ID is required to be returned as a String
-		 */
+		// TODO: Employees don't have usernames
 
 		return "111-11-1111";
 	}

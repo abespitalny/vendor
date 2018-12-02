@@ -14,17 +14,17 @@ import model.Bid;
 
 public class BidDao {
 
+	/*
+	 * The students code to fetch data from the database 
+	 * 
+	 * Each record is required to be encapsulated as a "Bid" class object 
+	 * and added to the "bids" ArrayList auctionID, which is the Auction's 
+	 * ID, is given as method parameter 
+	 * 
+	 * Query to get the bid history of an auction, indicated by auctionID, 
+	 * must be implemented
+	 */
 	public List<Bid> getBidHistory(String auctionID1) {
-		/*
-		 * The students code to fetch data from the database 
-		 * 
-		 * Each record is required to be encapsulated as a "Bid" class object 
-		 * and added to the "bids" ArrayList auctionID, which is the Auction's 
-		 * ID, is given as method parameter 
-		 * 
-		 * Query to get the bid history of an auction, indicated by auctionID, 
-		 * must be implemented
-		 */
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -32,16 +32,16 @@ public class BidDao {
 		// Create statement
 		Statement statement = connection.createStatement();
 
-		String sql = "SELECT\r\n" +
-				"        AuctionID,\r\n" +
-				"        CustomerID,\r\n" +
-				"        BidTime,\r\n" +
-				"        BidPrice\r\n" +
-				"    FROM\r\n" +
-				"        Bid\r\n" +
-				"    WHERE\r\n" +
-				"        AuctionID = " + auctionID1 + "\r\n" +
-				"    ORDER BY\r\n" +
+		String sql = "SELECT" +
+				"        AuctionID," +
+				"        CustomerID," +
+				"        BidTime," +
+				"        BidPrice" +
+				"    FROM" +
+				"        Bid" +
+				"    WHERE" +
+				"        AuctionID = " + auctionID1 + "" +
+				"    ORDER BY" +
 				"        BidTime DESC";
 
 		ResultSet rs = statement.executeQuery(sql);
@@ -65,17 +65,17 @@ public class BidDao {
 		return bids;
 	}
 
+	/*
+	 * The students code to fetch data from the database 
+	 * 
+	 * Each record is required to be encapsulated as a "Bid" class object 
+	 * and added to the "bids" ArrayList customerID, which is the Customer's 
+	 * ID, is given as method parameter 
+	 * 
+	 * Query to get the bid history of all the auctions in which a customer 
+	 * participated, indicated by customerID, must be implemented
+	 */	
 	public List<Bid> getAuctionHistory(String customerID1) {
-		/*
-		 * The students code to fetch data from the database 
-		 * 
-		 * Each record is required to be encapsulated as a "Bid" class object 
-		 * and added to the "bids" ArrayList customerID, which is the Customer's 
-		 * ID, is given as method parameter 
-		 * 
-		 * Query to get the bid history of all the auctions in which a customer 
-		 * participated, indicated by customerID, must be implemented
-		 */	
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -83,16 +83,16 @@ public class BidDao {
 		// Create statement
 		Statement statement = connection.createStatement();
 
-		String sql = "SELECT\r\n" +
-				"        AuctionID,\r\n" +
-				"        CustomerID,\r\n" +
-				"        BidTime,\r\n" +
-				"        BidPrice\r\n" +
-				"    FROM\r\n" +
-				"        Bid\r\n" +
-				"    WHERE\r\n" +
-				"        CustomerID = " + customerID1 + "\r\n" +
-				"    ORDER BY\r\n" +
+		String sql = "SELECT" +
+				"        AuctionID," +
+				"        CustomerID," +
+				"        BidTime," +
+				"        BidPrice" +
+				"    FROM" +
+				"        Bid" +
+				"    WHERE" +
+				"        CustomerID = " + customerID1 + "" +
+				"    ORDER BY" +
 				"        BidTime DESC";
 
 		ResultSet rs = statement.executeQuery(sql);
@@ -116,32 +116,31 @@ public class BidDao {
 		return bids;
 	}
 
-	///////////////////////////////////////////////////////////////////////
-	// TODO: This might need to be rewritten
+	/*
+	 * The students code to insert data in the database 
+	 * 
+	 * auctionID, which is the Auction's ID for which the bid is submitted, 
+	 * is given as method parameter 
+	 * 
+	 * itemID, which is the Item's ID for which the bid is submitted, is 
+	 * given as method parameter 
+	 * 
+	 * currentBid, which is the Customer's current bid, is given as method 
+	 * parameter 
+	 * 
+	 * maxBid, which is the Customer's maximum bid for the item, is given 
+	 * as method parameter
+	 * 
+	 * customerID, which is the Customer's ID, is given as method parameter
+	 * 
+	 * Query to submit a bid by a customer, indicated by customerID, must be
+	 * implemented After inserting the bid data, return the bid details
+	 * encapsulated in "bid" object
+	 */
 	public Bid submitBid(String auctionID, String itemID, Float currentBid,
-			Float maxBid, String customerID) {
-		/*
-		 * The students code to insert data in the database 
-		 * 
-		 * auctionID, which is the Auction's ID for which the bid is submitted, 
-		 * is given as method parameter 
-		 * 
-		 * itemID, which is the Item's ID for which the bid is submitted, is 
-		 * given as method parameter 
-		 * 
-		 * currentBid, which is the Customer's current bid, is given as method 
-		 * parameter 
-		 * 
-		 * maxBid, which is the Customer's maximum bid for the item, is given 
-		 * as method parameter
-		 * 
-		 * customerID, which is the Customer's ID, is given as method parameter
-		 * 
-		 * Query to submit a bid by a customer, indicated by customerID, must be
-		 * implemented After inserting the bid data, return the bid details
-		 * encapsulated in "bid" object
-		 */
-
+	Float maxBid, String customerID) {
+		// TODO: This might need to be rewritten
+		
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
 
@@ -150,32 +149,41 @@ public class BidDao {
 
 		Date currentTime = new Date(); // So we don't have to run a third query
 
-		String sql = "INSERT INTO \r\n" +
-				"		Bid\r\n" +
-				"	SELECT \r\n" +
-				"		 " + customerID + " AS CustomerID, \r\n" +
-				"        AuctionID, \r\n" +
-				"        NOW() AS BidTime, \r\n" + // Might change this
-				"        " + currentBid + " AS BidPrice\r\n" +
-				"	FROM \r\n" +
-				"		Auction\r\n" +
-				"	WHERE \r\n" +
-				"		AuctionID = " + auctionID + " AND \r\n" +
+		String sql = "INSERT INTO " +
+				"		Bid" +
+				"	SELECT " +
+				"		 " + customerID + " AS CustomerID, " +
+				"        AuctionID, " +
+				"        NOW() AS BidTime, " + // Might change this
+				"        " + currentBid + " AS BidPrice" +
+				"	FROM " +
+				"		Auction" +
+				"	WHERE " +
+				"		AuctionID = " + auctionID + " AND " +
 				"        IF(CurrentHighestBidPrice IS NULL, " + maxBid +
-				" >= MinBidPrice, " + maxBid + " > CurrentHighestBidPrice)";
+				" >= MinBidPrice, " + maxBid + " > CurrentHighestBidPUPDATE " +
+				"		Auction" +
+				"	SET " +
+				"		CurrentHighestBidPrice = IF(CurrentHighestBidPrice IS NULL, MinBidPrice, IF(12.00 > CurrentMaxBidPrice, LEAST(12.00, CurrentMaxBidPrice + BidIncrement), LEAST(12.00 + BidIncrement, CurrentMaxBidPrice))),"
+				+
+				"		CurrentMaxBidPrice = IF(CurrentMaxBidPrice IS NULL, 12.00, IF(12.00 > CurrentMaxBidPrice, 12.00, CurrentMaxBidPrice)),"
+				+
+				"		BidIncrement = 1.00" +
+				"	WHERE " +
+				"		AuctionID = 1357rice)";
 
 		statement.executeUpdate(sql); // Returns int, but not needed unless we
 										// check for errors
 
-		String sql_update = "UPDATE \r\n" +
-				"		Auction\r\n" +
-				"	SET \r\n" +
-				"		CurrentHighestBidPrice = IF(CurrentHighestBidPrice IS NULL, MinBidPrice, IF(12.00 > CurrentMaxBidPrice, LEAST(12.00, CurrentMaxBidPrice + BidIncrement), LEAST(12.00 + BidIncrement, CurrentMaxBidPrice))),\r\n"
+		String sql_update = "UPDATE " +
+				"		Auction" +
+				"	SET " +
+				"		CurrentHighestBidPrice = IF(CurrentHighestBidPrice IS NULL, MinBidPrice, IF(12.00 > CurrentMaxBidPrice, LEAST(12.00, CurrentMaxBidPrice + BidIncrement), LEAST(12.00 + BidIncrement, CurrentMaxBidPrice))),"
 				+
-				"		CurrentMaxBidPrice = IF(CurrentMaxBidPrice IS NULL, 12.00, IF(12.00 > CurrentMaxBidPrice, 12.00, CurrentMaxBidPrice)),\r\n"
+				"		CurrentMaxBidPrice = IF(CurrentMaxBidPrice IS NULL, 12.00, IF(12.00 > CurrentMaxBidPrice, 12.00, CurrentMaxBidPrice)),"
 				+
-				"		BidIncrement = 1.00\r\n" +
-				"	WHERE \r\n" +
+				"		BidIncrement = 1.00" +
+				"	WHERE " +
 				"		AuctionID = 1357";
 
 		statement.executeUpdate(sql_update); // Returns int, but not needed
@@ -200,21 +208,20 @@ public class BidDao {
 		return bid;
 	}
 
-	////////////////////////////////////////////////////////
-	// TODO: Not sure why we are returning a list of Bid objects. Auctions would 
-	// make more sense. I need to ask the TA.
+	/*
+	 * The students code to fetch data from the database 
+	 * 
+	 * Each record is required to be encapsulated as a "Bid" class object and 
+	 * added to the "bids" ArrayList searchKeyword, which is the search 
+	 * parameter, is given as method parameter 
+	 * 
+	 * Query to produce a list of sales by item name or by customer name must 
+	 * be implemented The item name or the customer name can be searched with 
+	 * the provided searchKeyword
+	 */
 	public List<Bid> getSalesListing(String searchKeyword) {
-		/*
-		 * The students code to fetch data from the database 
-		 * 
-		 * Each record is required to be encapsulated as a "Bid" class object and 
-		 * added to the "bids" ArrayList searchKeyword, which is the search 
-		 * parameter, is given as method parameter 
-		 * 
-		 * Query to produce a list of sales by item name or by customer name must 
-		 * be implemented The item name or the customer name can be searched with 
-		 * the provided searchKeyword
-		 */
+		// TODO: Not sure why we are returning a list of Bid objects. Auctions would 
+		// make more sense. I need to ask the TA.
 		
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();

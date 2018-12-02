@@ -16,21 +16,20 @@ import model.Item;
 
 public class AuctionDao {
 
-	///////////////////////////////////////
-	// TODO: Apparently bidIncrement and reserve can only be integers, but
-	// bidIncrement and minimumBid can be floats. ...Interesting.
-	//
-	// Also, the query or DB needs to be reformatted for closingBid.
+	/*
+	* The students code to fetch data from the database will be written
+	* here
+	* 
+	* Each record is required to be encapsulated as a "Auction" class
+	* object and added to the "auctions" ArrayList
+	* 
+	* Query to get data about all the auctions should be implemented
+	*/
 	public List<Auction> getAllAuctions() {
-		/*
-		 * The students code to fetch data from the database will be written
-		 * here
-		 * 
-		 * Each record is required to be encapsulated as a "Auction" class
-		 * object and added to the "auctions" ArrayList
-		 * 
-		 * Query to get data about all the auctions should be implemented
-		 */
+		// TODO: Apparently bidIncrement and reserve can only be integers, but
+		// bidIncrement and minimumBid can be floats. ...Interesting.
+		//
+		// Also, the query or DB needs to be reformatted for closingBid.
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -73,20 +72,20 @@ public class AuctionDao {
 		return auctions;
 	}
 
-	/////////////////////////////////////////////////////
-	// TODO: closingBid has to be refactored into either the DB or the query
+	/*
+	* The students code to fetch data from the database will be written
+	* here
+	* 
+	* Each record is required to be encapsulated as a "Auction" class
+	* object and added to the "auctions" ArrayList
+	* 
+	* Query to get data about all the auctions in which a customer
+	* participated should be implemented customerID is the customer's
+	* primary key, given as method parameter
+	*/
 	public List<Auction> getAuctions(String customerID) {
-		/*
-		 * The students code to fetch data from the database will be written
-		 * here
-		 * 
-		 * Each record is required to be encapsulated as a "Auction" class
-		 * object and added to the "auctions" ArrayList
-		 * 
-		 * Query to get data about all the auctions in which a customer
-		 * participated should be implemented customerID is the customer's
-		 * primary key, given as method parameter
-		 */
+		// TODO: closingBid has to be refactored into either the DB or the query
+	
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -94,18 +93,18 @@ public class AuctionDao {
 		// Create statement
 		Statement statement = connection.createStatement();
 
-		String sql = "SELECT \r\n" +
-				"		CustomerID, \r\n" +
-				"        AuctionID, \r\n" +
-				"        MAX(BidTime) AS LastBidTime, \r\n" +
-				"        MAX(BidPrice) AS LastBidPrice\r\n" +
-				"	FROM \r\n" +
-				"		Bid NATURAL JOIN Auction\r\n" +
-				"	WHERE \r\n" +
-				"		CustomerID = " + customerID + "\r\n" +
-				"	GROUP BY \r\n" +
-				"		AuctionID\r\n" +
-				"	ORDER BY \r\n" +
+		String sql = "SELECT " +
+				"		CustomerID, " +
+				"        AuctionID, " +
+				"        MAX(BidTime) AS LastBidTime, " +
+				"        MAX(BidPrice) AS LastBidPrice" +
+				"	FROM " +
+				"		Bid NATURAL JOIN Auction" +
+				"	WHERE " +
+				"		CustomerID = " + customerID + "" +
+				"	GROUP BY " +
+				"		AuctionID" +
+				"	ORDER BY " +
 				"		LastBidTime DESC";
 
 		ResultSet rs = statement.executeQuery(sql);
@@ -141,22 +140,21 @@ public class AuctionDao {
 		return auctions;
 	}
 
-	////////////////////////////////////////////////////////////
-	// TODO: Reformat either the SQL or DB
-	//
-	// Also, why do we need a closingBid for open auctions?
+	/*
+	* The students code to fetch data from the database will be written
+	* here
+	* 
+	* Each record is required to be encapsulated as a "Auction" class
+	* object and added to the "auctions" ArrayList
+	* 
+	* Query to get data about all the open auctions monitored by a customer
+	* representative should be implemented employeeEmail is the email ID of
+	* the customer representative, which is given as method parameter
+	*/
 	public List<Auction> getOpenAuctions(String employeeEmail) {
-		/*
-		 * The students code to fetch data from the database will be written
-		 * here
-		 * 
-		 * Each record is required to be encapsulated as a "Auction" class
-		 * object and added to the "auctions" ArrayList
-		 * 
-		 * Query to get data about all the open auctions monitored by a customer
-		 * representative should be implemented employeeEmail is the email ID of
-		 * the customer representative, which is given as method parameter
-		 */
+		// TODO: Reformat either the SQL or DB
+		//
+		// Also, why do we need a closingBid for open auctions?
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -164,24 +162,24 @@ public class AuctionDao {
 		// Create statement
 		Statement statement = connection.createStatement();
 
-		String sql = "SELECT\r\n" +
-				"        A.AuctionID,\r\n" +
-				"        A.BidIncrement,\r\n" +
-				"        A.MinBidPrice,\r\n" +
-				"        A.NumCopies,\r\n" +
-				"        A.ItemID,\r\n" +
-				"        A.ClosingBid,\r\n" +
-				"        A.CurrentHighestBidPrice,\r\n" +
-				"        A.CurrentMaxBidPrice,\r\n" +
-				"        A.ReservePrice\r\n" +
-				"    FROM\r\n" +
-				"        Auction A,\r\n" +
-				"        Employee E,\r\n" +
-				"        Post P\r\n" +
-				"    WHERE\r\n" +
-				"        E.Email = 'tom@smolka.com' AND\r\n" +
-				"        E.SSN = A.Monitor AND\r\n" +
-				"        P.AuctionID = A.AuctionID AND\r\n" +
+		String sql = "SELECT" +
+				"        A.AuctionID," +
+				"        A.BidIncrement," +
+				"        A.MinBidPrice," +
+				"        A.NumCopies," +
+				"        A.ItemID," +
+				"        A.ClosingBid," +
+				"        A.CurrentHighestBidPrice," +
+				"        A.CurrentMaxBidPrice," +
+				"        A.ReservePrice" +
+				"    FROM" +
+				"        Auction A," +
+				"        Employee E," +
+				"        Post P" +
+				"    WHERE" +
+				"        E.Email = 'tom@smolka.com' AND" +
+				"        E.SSN = A.Monitor AND" +
+				"        P.AuctionID = A.AuctionID AND" +
 				"        P.EndDate > NOW()";
 
 		ResultSet rs = statement.executeQuery(sql);
@@ -216,19 +214,19 @@ public class AuctionDao {
 
 		return auctions;
 	}
-
-	////////////////////////////////////////////
-	// TODO: The query has to be rewritten
+	
+	/*
+	 * The students code to update data in the database will be written here
+	 * 
+	 * Query to record a sale, indicated by the auction ID, should be
+	 * implemented auctionID is the Auction's ID, given as method parameter
+	 * 
+	 * The method should return a "success" string if the update is
+	 * successful, else return "failure"
+	 */
 	public String recordSale(String auctionID) {
-		/*
-		 * The students code to update data in the database will be written here
-		 * 
-		 * Query to record a sale, indicated by the auction ID, should be
-		 * implemented auctionID is the Auction's ID, given as method parameter
-		 * 
-		 * The method should return a "success" string if the update is
-		 * successful, else return "failure"
-		 */
+		////////////////////////////////////////////
+		// TODO: The query has to be rewritten
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -246,43 +244,43 @@ public class AuctionDao {
 		return "success";
 	}
 
+	/*
+	 * The students code to fetch data from the database will be written
+	 * here
+	 * 
+	 * The item details are required to be encapsulated as a "Item" class
+	 * object
+	 * 
+	 * The bid details are required to be encapsulated as a "Bid" class
+	 * object
+	 * 
+	 * The auction details are required to be encapsulated as a "Auction"
+	 * class object
+	 * 
+	 * The customer details are required to be encapsulated as a "Customer"
+	 * class object
+	 * 
+	 * Query to get data about auction indicated by auctionID and itemID
+	 * should be implemented
+	 * 
+	 * auctionID is the Auction's ID, given as method parameter
+	 * 
+	 * itemID is the Item's ID, given as method parameter
+	 * 
+	 * The customer details must include details about the current winner of
+	 * the auction
+	 * 
+	 * The bid details must include details about the current highest bid
+	 * 
+	 * The item details must include details about the item, indicated by
+	 * itemID
+	 * 
+	 * The auction details must include details about the item, indicated by
+	 * auctionID
+	 * 
+	 * All the objects must be added in the "output" list and returned
+	 */
 	public List getAuctionData(String auctionID1, String itemID1) {
-		/*
-		 * The students code to fetch data from the database will be written
-		 * here
-		 * 
-		 * The item details are required to be encapsulated as a "Item" class
-		 * object
-		 * 
-		 * The bid details are required to be encapsulated as a "Bid" class
-		 * object
-		 * 
-		 * The auction details are required to be encapsulated as a "Auction"
-		 * class object
-		 * 
-		 * The customer details are required to be encapsulated as a "Customer"
-		 * class object
-		 * 
-		 * Query to get data about auction indicated by auctionID and itemID
-		 * should be implemented
-		 * 
-		 * auctionID is the Auction's ID, given as method parameter
-		 * 
-		 * itemID is the Item's ID, given as method parameter
-		 * 
-		 * The customer details must include details about the current winner of
-		 * the auction
-		 * 
-		 * The bid details must include details about the current highest bid
-		 * 
-		 * The item details must include details about the item, indicated by
-		 * itemID
-		 * 
-		 * The auction details must include details about the item, indicated by
-		 * auctionID
-		 * 
-		 * All the objects must be added in the "output" list and returned
-		 */
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -290,31 +288,31 @@ public class AuctionDao {
 		// Create statement
 		Statement statement = connection.createStatement();
 
-		String sql = "SELECT\r\n" +
-				"        I.ItemID,\r\n" +
-				"        I.Description,\r\n" +
-				"        I.ItemType,\r\n" +
-				"        I.ItemName,\r\n" +
-				"        B.CustomerID,\r\n" +
-				"        B.BidPrice,\r\n" +
-				"        C.CustomerID,\r\n" +
-				"        C.FirstName,\r\n" +
-				"        C.LastName,\r\n" +
-				"        A.MinBidPrice,\r\n" +
-				"        A.BidIncrement,\r\n" +
-				"        A.CurrentHighestBidPrice,\r\n" +
-				"        A.CurrentMaxBidPrice,\r\n" +
-				"        A.auctionID\r\n" +
-				"    FROM\r\n" +
-				"        Item I,\r\n" +
-				"        Bid B,\r\n" +
-				"        Customer C,\r\n" +
-				"        Auction A\r\n" +
-				"    WHERE \r\n" +
-				"        A.AuctionID = " + auctionID1 + " AND\r\n" +
-				"        I.ItemID = " + itemID1 + " AND\r\n" +
-				"        A.AuctionID = B.AuctionID AND\r\n" +
-				"        B.CustomerID = C.CustomerID AND\r\n" +
+		String sql = "SELECT" +
+				"        I.ItemID," +
+				"        I.Description," +
+				"        I.ItemType," +
+				"        I.ItemName," +
+				"        B.CustomerID," +
+				"        B.BidPrice," +
+				"        C.CustomerID," +
+				"        C.FirstName," +
+				"        C.LastName," +
+				"        A.MinBidPrice," +
+				"        A.BidIncrement," +
+				"        A.CurrentHighestBidPrice," +
+				"        A.CurrentMaxBidPrice," +
+				"        A.auctionID" +
+				"    FROM" +
+				"        Item I," +
+				"        Bid B," +
+				"        Customer C," +
+				"        Auction A" +
+				"    WHERE " +
+				"        A.AuctionID = " + auctionID1 + " AND" +
+				"        I.ItemID = " + itemID1 + " AND" +
+				"        A.AuctionID = B.AuctionID AND" +
+				"        B.CustomerID = C.CustomerID AND" +
 				"        I.ItemID = A.ItemID";
 
 		ResultSet rs = statement.executeQuery(sql);

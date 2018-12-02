@@ -20,20 +20,19 @@ public class CustomerDao {
 	 * @param String searchKeyword
 	 * @return ArrayList<Customer> object
 	 */
-	//////////////////////////////////////////////////////////
-	// TODO: Write the SQL. Address must be split up into city and state.
-	// zipCode should be int. customerID should be String.
+	/*
+	 * This method fetches one or more customers based on the searchKeyword
+	 * and returns it as an ArrayList
+	 *
+	 * The students code to fetch data from the database based on
+	 * searchKeyword will be written here
+	 * 
+	 * Each record is required to be encapsulated as a "Customer" class
+	 * object and added to the "customers" List
+	 */
 	public List<Customer> getCustomers(String searchKeyword) {
-		/*
-		 * This method fetches one or more customers based on the searchKeyword
-		 * and returns it as an ArrayList
-		 *
-		 * The students code to fetch data from the database based on
-		 * searchKeyword will be written here
-		 * 
-		 * Each record is required to be encapsulated as a "Customer" class
-		 * object and added to the "customers" List
-		 */
+		// TODO: Write the SQL. Address must be split up into city and state.
+		// zipCode should be int. customerID should be String.
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -78,19 +77,18 @@ public class CustomerDao {
 		return customers;
 	}
 
-	/////////////////////////////////////////////
-	// TODO: customerID should be String.
+	/*
+	 * This method fetches the customer who generated the highest total
+	 * revenue and returns it
+	 * 
+	 * The students code to fetch data from the database will be written
+	 * here
+	 * 
+	 * The customer record is required to be encapsulated as a "Customer"
+	 * class object
+	 */
 	public Customer getHighestRevenueCustomer() {
-		/*
-		 * This method fetches the customer who generated the highest total
-		 * revenue and returns it
-		 * 
-		 * The students code to fetch data from the database will be written
-		 * here
-		 * 
-		 * The customer record is required to be encapsulated as a "Customer"
-		 * class object
-		 */
+		// TODO: customerID should be String.
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -98,23 +96,23 @@ public class CustomerDao {
 		// Create statement
 		Statement statement = connection.createStatement();
 
-		String sql = "SELECT \r\n" +
-				"		C.CustomerID, \r\n" +
-				"        C.LastName, \r\n" +
-				"        C.FirstName, \r\n" +
-				"        C.Email, \r\n" +
-				"        SUM(A.CurrentHighestBidPrice) AS TotalRevenue\r\n" +
-				"	FROM \r\n" +
-				"		Customer C, \r\n" +
-				"        Auction A, \r\n" +
-				"        Post P\r\n" +
-				"	WHERE \r\n" +
-				"		C.CustomerID = P.CustomerID AND \r\n" +
-				"        P.AuctionID = A.AuctionID AND \r\n" +
-				"        P.EndDate < CURDATE() \r\n" +
-				"	GROUP BY \r\n" +
-				"		TotalRevenue\r\n" +
-				"    ORDER BY \r\n" +
+		String sql = "SELECT " +
+				"		C.CustomerID, " +
+				"        C.LastName, " +
+				"        C.FirstName, " +
+				"        C.Email, " +
+				"        SUM(A.CurrentHighestBidPrice) AS TotalRevenue" +
+				"	FROM " +
+				"		Customer C, " +
+				"        Auction A, " +
+				"        Post P" +
+				"	WHERE " +
+				"		C.CustomerID = P.CustomerID AND " +
+				"        P.AuctionID = A.AuctionID AND " +
+				"        P.EndDate < CURDATE() " +
+				"	GROUP BY " +
+				"		TotalRevenue" +
+				"    ORDER BY " +
 				"		TotalRevenue DESC";
 
 		ResultSet rs = statement.executeQuery(sql);
@@ -133,19 +131,18 @@ public class CustomerDao {
 		return customer;
 	}
 
-	////////////////////////////////////////////////
-	// TODO: I don't know if this is right. It's pretty much getAllCustomers
-	// minus some attributes. customerID should be String.
+	/*
+	 * This method fetches the all customer mailing details and returns it
+	 * 
+	 * The students code to fetch data from the database will be written
+	 * here
+	 * 
+	 * Each customer record is required to be encapsulated as a "Customer"
+	 * class object and added to the "customers" List
+	 */
 	public List<Customer> getCustomerMailingList() {
-		/*
-		 * This method fetches the all customer mailing details and returns it
-		 * 
-		 * The students code to fetch data from the database will be written
-		 * here
-		 * 
-		 * Each customer record is required to be encapsulated as a "Customer"
-		 * class object and added to the "customers" List
-		 */
+		// TODO: I don't know if this is right. It's pretty much getAllCustomers
+		// minus some attributes. customerID should be String.
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -153,16 +150,16 @@ public class CustomerDao {
 		// Create statement
 		Statement statement = connection.createStatement();
 
-		String sql = "SELECT\r\n" +
-				"        CustomerID,\r\n" +
-				"        Address,\r\n" +
-				"        LastName,\r\n" +
-				"        FirstName,\r\n" +
-				"        City,\r\n" +
-				"        State,\r\n" +
-				"        Email,\r\n" +
-				"        ZipCode\r\n" +
-				"    FROM\r\n" +
+		String sql = "SELECT" +
+				"        CustomerID," +
+				"        Address," +
+				"        LastName," +
+				"        FirstName," +
+				"        City," +
+				"        State," +
+				"        Email," +
+				"        ZipCode" +
+				"    FROM" +
 				"        Customer";
 
 		ResultSet rs = statement.executeQuery(sql);
@@ -194,20 +191,19 @@ public class CustomerDao {
 		return customers;
 	}
 
-	////////////////////////////////////////////////
-	// TODO: customerID in DB should be String. Qury needs to be rewritten
+	/*
+	 * This method fetches the customer details and returns it customerID,
+	 * which is the Customer's ID who's details have to be fetched, is given
+	 * as method parameter
+	 * 
+	 * The students code to fetch data from the database will be written
+	 * here
+	 * 
+	 * The customer record is required to be encapsulated as a "Customer"
+	 * class object
+	 */
 	public Customer getCustomer(String customerID) {
-		/*
-		 * This method fetches the customer details and returns it customerID,
-		 * which is the Customer's ID who's details have to be fetched, is given
-		 * as method parameter
-		 * 
-		 * The students code to fetch data from the database will be written
-		 * here
-		 * 
-		 * The customer record is required to be encapsulated as a "Customer"
-		 * class object
-		 */
+		// TODO: customerID in DB should be String. Qury needs to be rewritten
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -215,11 +211,11 @@ public class CustomerDao {
 		// Create statement
 		Statement statement = connection.createStatement();
 
-		String sql = "SELECT\r\n" +
-				"        *\r\n" +
-				"    FROM\r\n" +
-				"        Customer\r\n" +
-				"    WHERE\r\n" +
+		String sql = "SELECT" +
+				"        *" +
+				"    FROM" +
+				"        Customer" +
+				"    WHERE" +
 				"        CustomerID = " + customerID;
 
 		ResultSet rs = statement.executeQuery(sql);
@@ -252,15 +248,15 @@ public class CustomerDao {
 		return customer;
 	}
 
+	/*
+	 * This method deletes a customer returns "success" string on success,
+	 * else returns "failure"
+	 * 
+	 * The students code to delete the data from the database will be
+	 * written here customerID, which is the Customer's ID who's details
+	 * have to be deleted, is given as method parameter
+	 */
 	public String deleteCustomer(String customerID) {
-		/*
-		 * This method deletes a customer returns "success" string on success,
-		 * else returns "failure"
-		 * 
-		 * The students code to delete the data from the database will be
-		 * written here customerID, which is the Customer's ID who's details
-		 * have to be deleted, is given as method parameter
-		 */
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -268,13 +264,13 @@ public class CustomerDao {
 		// Create statement
 		Statement statement = connection.createStatement();
 
-		String sql = "UPDATE \r\n" +
-				"		Employee \r\n" +
-				"	SET \r\n" +
-				"		StartDate = '2001-03-09', \r\n" +
-				"        EmployeeLevel = 3, \r\n" +
-				"        HourlyRate = 45\r\n" +
-				"	WHERE \r\n" +
+		String sql = "UPDATE " +
+				"		Employee " +
+				"	SET " +
+				"		StartDate = '2001-03-09', " +
+				"        EmployeeLevel = 3, " +
+				"        HourlyRate = 45" +
+				"	WHERE " +
 				"		SSN = " + customerID;
 
 		int result = statement.executeUpdate(sql);
@@ -285,38 +281,36 @@ public class CustomerDao {
 		return "success";
 	}
 
-	//////////////////////////////////////////////
-	// TODO: Need to add a username property to Customer database, unless this
-	// means customerID
+	/*
+	 * This method returns the Customer's ID based on the provided email
+	 * address
+	 * 
+	 * The students code to fetch data from the database will be written
+	 * here username, which is the email address of the customer, who's ID
+	 * has to be returned, is given as method parameter
+	 * 
+	 * The Customer's ID is required to be returned as a String
+	 */
 	public String getCustomerID(String username) {
-		/*
-		 * This method returns the Customer's ID based on the provided email
-		 * address
-		 * 
-		 * The students code to fetch data from the database will be written
-		 * here username, which is the email address of the customer, who's ID
-		 * has to be returned, is given as method parameter
-		 * 
-		 * The Customer's ID is required to be returned as a String
-		 */
+		// TODO: Need to add a username property to Customer database, unless this
+		// means customerID
 
 		return "111-11-1111";
 	}
 
-	////////////////////////////////////
-	// TODO: Need to write a new query as far as I know
+	/*
+	 * This method fetches the all seller details and returns it
+	 * 
+	 * The students code to fetch data from the database will be written
+	 * here
+	 * 
+	 * The seller (which is a customer) record is required to be
+	 * encapsulated as a "Customer" class object and added to the
+	 * "customers" List
+	 */
 	public List<Customer> getSellers() {
+		// TODO: Need to write a new query as far as I know
 
-		/*
-		 * This method fetches the all seller details and returns it
-		 * 
-		 * The students code to fetch data from the database will be written
-		 * here
-		 * 
-		 * The seller (which is a customer) record is required to be
-		 * encapsulated as a "Customer" class object and added to the
-		 * "customers" List
-		 */
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -355,24 +349,23 @@ public class CustomerDao {
 		return customers;
 	}
 
-	//////////////////////////////////////////////
-	// TODO: We need to reformat the database to fit these data. zipCode needs
-	// to be an int. customerID needs to be a String.
+	/*
+	 * All the values of the add customer form are encapsulated in the
+	 * customer object.
+	 * 
+	 * These can be accessed by getter methods (see Customer class in model
+	 * package). e.g. firstName can be accessed by customer.getFirstName()
+	 * method.
+	 * 
+	 * The sample code returns "success" by default.
+	 * 
+	 * You need to handle the database insertion of the customer details and
+	 * return "success" or "failure" based on result of the database
+	 * insertion.
+	 */
 	public String addCustomer(Customer customer) {
-		/*
-		 * All the values of the add customer form are encapsulated in the
-		 * customer object.
-		 * 
-		 * These can be accessed by getter methods (see Customer class in model
-		 * package). e.g. firstName can be accessed by customer.getFirstName()
-		 * method.
-		 * 
-		 * The sample code returns "success" by default.
-		 * 
-		 * You need to handle the database insertion of the customer details and
-		 * return "success" or "failure" based on result of the database
-		 * insertion.
-		 */
+		// TODO: We need to reformat the database to fit these data. zipCode needs
+		// to be an int. customerID needs to be a String.
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -392,34 +385,34 @@ public class CustomerDao {
 		int rating = customer.getRating();
 		String creditCard = customer.getCreditCard();
 
-		String sql = "INSERT INTO \r\n" +
-				"	Customer (\r\n" +
-				"		CustomerID,\r\n" +
-				"        FirstName,\r\n" +
-				"        LastName,\r\n" +
-				"        Address,\r\n" +
-				"        City,\r\n" +
-				"        State,\r\n" +
-				"        ZipCode,\r\n" +
-				"        Telephone,\r\n" +
-				"        Email,\r\n" +
-				"        Rating,\r\n" +
-				"        CreditCardNum,\r\n" +
-				"        ItemsSold,\r\n" +
-				"        ItemsPurchased) \r\n" +
-				"	VALUES (\r\n" +
-				"		 " + customerID + ",\r\n" +
-				"		 '" + firstName + "',\r\n" +
-				"        '" + lastName + "',\r\n" +
-				"        '" + address + "', \r\n" +
-				"        '" + city + "', \r\n" +
-				"        '" + state + "',\r\n" +
-				"        " + zipCode + ",\r\n" +
-				"        '" + telephone + "',\r\n" +
-				"        '" + email + "',\r\n" +
-				"        " + rating + ",\r\n" +
-				"        '" + creditCard + "',\r\n" +
-				"        0,\r\n" +
+		String sql = "INSERT INTO " +
+				"	Customer (" +
+				"		CustomerID," +
+				"        FirstName," +
+				"        LastName," +
+				"        Address," +
+				"        City," +
+				"        State," +
+				"        ZipCode," +
+				"        Telephone," +
+				"        Email," +
+				"        Rating," +
+				"        CreditCardNum," +
+				"        ItemsSold," +
+				"        ItemsPurchased) " +
+				"	VALUES (" +
+				"		 " + customerID + "," +
+				"		 '" + firstName + "'," +
+				"        '" + lastName + "'," +
+				"        '" + address + "', " +
+				"        '" + city + "', " +
+				"        '" + state + "'," +
+				"        " + zipCode + "," +
+				"        '" + telephone + "'," +
+				"        '" + email + "'," +
+				"        " + rating + "," +
+				"        '" + creditCard + "'," +
+				"        0," +
 				"        0)";
 
 		int result = statement.executeUpdate(sql);
@@ -430,22 +423,21 @@ public class CustomerDao {
 		return "success";
 	}
 
-	///////////////////////////////////////////////
-	// TODO: zipCode needs to be an int
+	/*
+	 * All the values of the edit customer form are encapsulated in the
+	 * customer object.
+	 * 
+	 * These can be accessed by getter methods (see Customer class in model
+	 * package). e.g. firstName can be accessed by customer.getFirstName()
+	 * method.
+	 * 
+	 * The sample code returns "success" by default.
+	 * 
+	 * You need to handle the database update and return "success" or
+	 * "failure" based on result of the database update.
+	 */
 	public String editCustomer(Customer customer) {
-		/*
-		 * All the values of the edit customer form are encapsulated in the
-		 * customer object.
-		 * 
-		 * These can be accessed by getter methods (see Customer class in model
-		 * package). e.g. firstName can be accessed by customer.getFirstName()
-		 * method.
-		 * 
-		 * The sample code returns "success" by default.
-		 * 
-		 * You need to handle the database update and return "success" or
-		 * "failure" based on result of the database update.
-		 */
+		// TODO: zipCode needs to be an int
 
 		// Get connection
 		Connection connection = ConnectionUtils.getMyConnection();
@@ -465,19 +457,19 @@ public class CustomerDao {
 		int rating = customer.getRating();
 		String creditCard = customer.getCreditCard();
 
-		String sql = "UPDATE \r\n" +
-				"		Customer\r\n" +
-				"	SET \r\n" +
-				"		FirstName = '" + firstName + "',\r\n" +
-				"        LastName = '" + lastName + "',\r\n" +
-				"		Address = '" + address + "',\r\n" +
-				"        City = '" + city + "',\r\n" +
-				"        State = '" + state + "',\r\n" +
-				"        ZipCode = " + zipCode + ",\r\n" +
-				"        Telephone = '" + telephone + "',\r\n" +
-				"        Email = '" + email + "',\r\n" +
-				"        Rating = " + rating + ",\r\n" +
-				"        CreditCardNum = '" + creditCard + "'\r\n" +
+		String sql = "UPDATE " +
+				"		Customer" +
+				"	SET " +
+				"		FirstName = '" + firstName + "'," +
+				"        LastName = '" + lastName + "'," +
+				"		Address = '" + address + "'," +
+				"        City = '" + city + "'," +
+				"        State = '" + state + "'," +
+				"        ZipCode = " + zipCode + "," +
+				"        Telephone = '" + telephone + "'," +
+				"        Email = '" + email + "'," +
+				"        Rating = " + rating + "," +
+				"        CreditCardNum = '" + creditCard + "'" +
 				"	WHERE CustomerID = " + customerID;
 
 		int result = statement.executeUpdate(sql);
