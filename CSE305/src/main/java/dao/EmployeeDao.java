@@ -1,10 +1,12 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Scalar.String;
-import com.mysql.cj.xdevapi.Statement;
 
 import model.Employee;
 
@@ -16,7 +18,7 @@ public class EmployeeDao {
 
 	//////////////////////////////////////////////
 	// TODO: Decide if we reformat the Java or the DB
-	public String addEmployee(Employee employee) {
+	public String addEmployee(Employee employee) throws SQLException {
 		/*
 		 * All the values of the add employee form are encapsulated in the
 		 * employee object.
@@ -86,7 +88,7 @@ public class EmployeeDao {
 
 	///////////////////////////////////////////////
 	// TODO: Decide if we reformat the Java or the DB
-	public String editEmployee(Employee employee) {
+	public String editEmployee(Employee employee) throws SQLException {
 		/*
 		 * All the values of the edit employee form are encapsulated in the
 		 * employee object.
@@ -138,7 +140,7 @@ public class EmployeeDao {
 		return "success";
 	}
 
-	public String deleteEmployee(String employeeID) {
+	public String deleteEmployee(String employeeID) throws SQLException {
 		/*
 		 * employeeID, which is the Employee's ID which has to be deleted, is
 		 * given as method parameter
@@ -170,7 +172,7 @@ public class EmployeeDao {
 
 	//////////////////////////////////////
 	// TODO: Data base might have to be refactored
-	public List<Employee> getEmployees() {
+	public List<Employee> getEmployees() throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here
@@ -226,7 +228,7 @@ public class EmployeeDao {
 		return employees;
 	}
 
-	public Employee getEmployee(String employeeID) {
+	public Employee getEmployee(String employeeID) throws SQLException {
 		/*
 		 * The students code to fetch data from the database based on
 		 * "employeeID" will be written here
@@ -263,7 +265,6 @@ public class EmployeeDao {
 		String state = rs.getString(9);
 		int zipCode = rs.getInt(10);
 		String telephone = rs.getString(12);
-		String employeeID = rs.getString(1);
 		float hourlyRate = rs.getFloat(3);
 
 		// Add data to employee
@@ -285,7 +286,7 @@ public class EmployeeDao {
 
 	/////////////////////////////////////////////
 	// TODO: The DB might have to be reformatted
-	public Employee getHighestRevenueEmployee() {
+	public Employee getHighestRevenueEmployee() throws SQLException {
 		/*
 		 * The students code to fetch employee data who generated the highest
 		 * revenue will be written here

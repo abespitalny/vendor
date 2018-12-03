@@ -1,6 +1,7 @@
 package resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -45,7 +46,14 @@ public class BidInAuctionController extends HttpServlet {
 		String itemID = request.getParameter("itemID");
 		
 		AuctionDao auctionDao = new AuctionDao();
-		List data = auctionDao.getAuctionData(auctionID, itemID);
+		List data;
+		try {
+			data = auctionDao.getAuctionData(auctionID, itemID);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		request.setAttribute("item", data.get(0));
 		request.setAttribute("bid", data.get(1));

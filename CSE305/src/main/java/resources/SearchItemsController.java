@@ -1,6 +1,7 @@
 package resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -32,7 +33,14 @@ public class SearchItemsController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		ItemDao itemDao = new ItemDao();
-		List<Item> items = itemDao.getItemTypes();
+		List<Item> items;
+		try {
+			items = itemDao.getItemTypes();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		request.setAttribute("items", items);
 		

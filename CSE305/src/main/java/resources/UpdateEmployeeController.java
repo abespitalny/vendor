@@ -1,6 +1,8 @@
 package resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -65,7 +67,14 @@ public class UpdateEmployeeController extends HttpServlet {
 		employee.setHourlyRate(hourlyRate);
 		
 		EmployeeDao employeeDao = new EmployeeDao();
-		String result = employeeDao.editEmployee(employee);
+		String result;
+		try {
+			result = employeeDao.editEmployee(employee);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		if(result.equals("success")) {
 			response.sendRedirect("managerHome.jsp?status=editEmployeeSuccess");

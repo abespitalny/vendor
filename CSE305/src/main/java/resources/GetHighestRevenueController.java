@@ -1,6 +1,7 @@
 package resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,13 @@ public class GetHighestRevenueController extends HttpServlet {
 				
 		EmployeeDao employeeDao = new EmployeeDao();
 		Employee employee = new Employee();
-		employee = employeeDao.getHighestRevenueEmployee();
+		try {
+			employee = employeeDao.getHighestRevenueEmployee();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		request.setAttribute("employee", employee);
 		RequestDispatcher rd = request.getRequestDispatcher("showHighestRevenueEmployee.jsp");

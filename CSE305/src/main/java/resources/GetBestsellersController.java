@@ -1,6 +1,7 @@
 package resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,13 @@ public class GetBestsellersController extends HttpServlet {
 		// TODO Auto-generated method stub
 		ItemDao itemDao = new ItemDao();
 		List<Item> items = new ArrayList<Item>();
-		items = itemDao.getBestsellerItems();
+		try {
+			items = itemDao.getBestsellerItems();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		request.setAttribute("items", items);
 		RequestDispatcher rd = request.getRequestDispatcher("showItems.jsp");

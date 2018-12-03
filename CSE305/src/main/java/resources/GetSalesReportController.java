@@ -1,6 +1,7 @@
 package resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -42,7 +43,14 @@ public class GetSalesReportController extends HttpServlet {
 		post.setExpireDate(expireDate);
 		
 		PostDao postDao = new PostDao();
-		List<Item> items = postDao.getSalesReport(post);
+		List<Item> items;
+		try {
+			items = postDao.getSalesReport(post);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		request.setAttribute("items", items);
 		request.setAttribute("year", year);

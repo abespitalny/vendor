@@ -1,9 +1,12 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jdt.internal.compiler.ast.Statement;
 
 import model.Employee;
 import model.Item;
@@ -14,7 +17,7 @@ public class PostDao {
 	/////////////////////////////////////////////
 	// TODO: The query needs to be reformatted to properly pull month from the
 	// post.
-	public List<Item> getSalesReport(Post post) {
+	public List<Item> getSalesReport(Post post) throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here

@@ -1,5 +1,10 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import model.Employee;
 import model.Login;
 
@@ -11,7 +16,7 @@ public class LoginDao {
 
 	//////////////////////////////////////////////////////
 	// TODO: Add username and passwords to the DB. Then write SQL
-	public Login login(String username, String password) {
+	public Login login(String username, String password) throws SQLException {
 		/*
 		 * Return a Login object with role as "manager",
 		 * "customerRepresentative" or "customer" if successful login
@@ -53,7 +58,7 @@ public class LoginDao {
 
 	////////////////////////////////////////////////////
 	// TODO: Add username and passwords to the DB, then write SQL
-	public String addUser(Login login) {
+	public String addUser(Login login) throws SQLException {
 		/*
 		 * Query to insert a new record for user login must be implemented
 		 * 

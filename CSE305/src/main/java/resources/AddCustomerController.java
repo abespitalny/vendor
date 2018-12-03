@@ -1,6 +1,8 @@
 package resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -68,7 +70,14 @@ public class AddCustomerController extends HttpServlet {
 		customer.setRating(rating);
 		
 		CustomerDao customerDao = new CustomerDao();
-		String result = customerDao.addCustomer(customer);
+		String result;
+		try {
+			result = customerDao.addCustomer(customer);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		if(result.equals("success")) {
 			Login login = new Login();
@@ -76,7 +85,14 @@ public class AddCustomerController extends HttpServlet {
 			login.setPassword(password);
 			login.setRole("customer");
 			LoginDao loginDao = new LoginDao();
-			String loginResult = loginDao.addUser(login);
+			String loginResult;
+			try {
+				loginResult = loginDao.addUser(login);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
 			if(loginResult.equals("success")) {
 				response.sendRedirect("customerRepresentativeHome.jsp?status=addCustomerSuccess");
 			}

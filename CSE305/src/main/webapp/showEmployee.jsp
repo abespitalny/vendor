@@ -27,7 +27,7 @@
 	<h1>The Employee Details are:</h1>
 	<div class="container">
 	<c:if test="${empty employees}">
-		<h3> Employee details not found! <h3/> 
+		<h3> Employee details not found! </h3> 
 	</c:if>
 	<c:if test="${not empty employees}">
 		<table class="table table-striped">
@@ -65,7 +65,7 @@
 		         <td>
 		         	<form method="POST" action="editEmployee">
 						<div class="form-group">
-			            	<input type="hidden" class="form-control" name="employeeID" value=${cd.employeeID}>
+			            	<input type="hidden" class="form-control" name="employeeID" value="${cd.employeeID}">
 			        	</div>
 						<input type="submit" value="Edit" class="btn btn-success"/>
 					</form>
@@ -73,7 +73,7 @@
    		         <td>
 		         	<form method="POST" action="deleteEmployee">
 						<div class="form-group">
-			            	<input type="hidden" class="form-control" name="employeeID" value=${cd.employeeID}>
+			            	<input type="hidden" class="form-control" name="employeeID" value="${cd.employeeID}">
 			        	</div>
 						<input type="submit" value="Delete" class="btn btn-success"/>
 					</form>

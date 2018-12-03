@@ -1,6 +1,8 @@
 package resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +40,14 @@ public class DeleteCustomerController extends HttpServlet {
 		String customerID = request.getParameter("customerID");
 		
 		CustomerDao customerDao = new CustomerDao();
-		String result = customerDao.deleteCustomer(customerID);
+		String result;
+		try {
+			result = customerDao.deleteCustomer(customerID);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		if(result.equals("success")) {
 			response.sendRedirect("customerRepresentativeHome.jsp?status=deleteSuccess");

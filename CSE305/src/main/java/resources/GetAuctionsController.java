@@ -1,6 +1,7 @@
 package resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +37,13 @@ public class GetAuctionsController extends HttpServlet {
 		// TODO Auto-generated method stub
 		AuctionDao auctionDao = new AuctionDao();
 		List<Auction> auctions = new ArrayList<Auction>();
-		auctions = auctionDao.getAllAuctions();
+		try {
+			auctions = auctionDao.getAllAuctions();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		request.setAttribute("auctions", auctions);
 		RequestDispatcher rd = request.getRequestDispatcher("showAllAuctions.jsp");

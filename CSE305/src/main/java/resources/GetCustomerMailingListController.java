@@ -1,6 +1,7 @@
 package resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,13 @@ public class GetCustomerMailingListController extends HttpServlet {
 		
 		CustomerDao customerDao = new CustomerDao();
 		List<Customer> customers = new ArrayList<Customer>(); 
-		customers = customerDao.getCustomerMailingList();
+		try {
+			customers = customerDao.getCustomerMailingList();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		request.setAttribute("customers", customers);
 		RequestDispatcher rd = request.getRequestDispatcher("showCustomerMailingList.jsp");

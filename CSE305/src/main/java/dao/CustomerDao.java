@@ -4,10 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jdt.internal.compiler.ast.Statement;
-
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Scalar.String;
-
 import model.Customer;
 
 public class CustomerDao {
@@ -19,11 +15,12 @@ public class CustomerDao {
 	/**
 	 * @param String searchKeyword
 	 * @return ArrayList<Customer> object
+	 * @throws SQLException 
 	 */
 	//////////////////////////////////////////////////////////
 	// TODO: Write the SQL. Address must be split up into city and state.
 	// zipCode should be int. customerID should be String.
-	public List<Customer> getCustomers(String searchKeyword) {
+	public List<Customer> getCustomers(String searchKeyword) throws SQLException {
 		/*
 		 * This method fetches one or more customers based on the searchKeyword
 		 * and returns it as an ArrayList
@@ -58,7 +55,7 @@ public class CustomerDao {
 			int zipCode = rs.getInt(8);
 			String telephone = rs.getString(9);
 			String creditCard = rs.getString(10);
-			int rating = rs.getString(11);
+			int rating = rs.getInt(11);
 
 			Customer customer = new Customer();
 			customer.setCustomerID(customerID);
@@ -80,7 +77,7 @@ public class CustomerDao {
 
 	/////////////////////////////////////////////
 	// TODO: customerID should be String.
-	public Customer getHighestRevenueCustomer() {
+	public Customer getHighestRevenueCustomer() throws SQLException {
 		/*
 		 * This method fetches the customer who generated the highest total
 		 * revenue and returns it
@@ -136,7 +133,7 @@ public class CustomerDao {
 	////////////////////////////////////////////////
 	// TODO: I don't know if this is right. It's pretty much getAllCustomers
 	// minus some attributes. customerID should be String.
-	public List<Customer> getCustomerMailingList() {
+	public List<Customer> getCustomerMailingList() throws SQLException {
 		/*
 		 * This method fetches the all customer mailing details and returns it
 		 * 
@@ -196,7 +193,7 @@ public class CustomerDao {
 
 	////////////////////////////////////////////////
 	// TODO: customerID in DB should be String. Qury needs to be rewritten
-	public Customer getCustomer(String customerID) {
+	public Customer getCustomer(String customerID) throws SQLException {
 		/*
 		 * This method fetches the customer details and returns it customerID,
 		 * which is the Customer's ID who's details have to be fetched, is given
@@ -224,7 +221,6 @@ public class CustomerDao {
 
 		ResultSet rs = statement.executeQuery(sql);
 
-		String customerID = rs.getString(1);
 		String address = rs.getString(2);
 		String lastName = rs.getString(3);
 		String firstName = rs.getString(4);
@@ -234,7 +230,7 @@ public class CustomerDao {
 		int zipCode = rs.getInt(8);
 		String telephone = rs.getString(9);
 		String creditCard = rs.getString(10);
-		int rating = rs.getString(11);
+		int rating = rs.getInt(11);
 
 		Customer customer = new Customer();
 		customer.setCustomerID(customerID);
@@ -252,7 +248,7 @@ public class CustomerDao {
 		return customer;
 	}
 
-	public String deleteCustomer(String customerID) {
+	public String deleteCustomer(String customerID) throws SQLException {
 		/*
 		 * This method deletes a customer returns "success" string on success,
 		 * else returns "failure"
@@ -305,7 +301,7 @@ public class CustomerDao {
 
 	////////////////////////////////////
 	// TODO: Need to write a new query as far as I know
-	public List<Customer> getSellers() {
+	public List<Customer> getSellers() throws SQLException {
 
 		/*
 		 * This method fetches the all seller details and returns it
@@ -358,7 +354,7 @@ public class CustomerDao {
 	//////////////////////////////////////////////
 	// TODO: We need to reformat the database to fit these data. zipCode needs
 	// to be an int. customerID needs to be a String.
-	public String addCustomer(Customer customer) {
+	public String addCustomer(Customer customer) throws SQLException {
 		/*
 		 * All the values of the add customer form are encapsulated in the
 		 * customer object.
@@ -432,7 +428,7 @@ public class CustomerDao {
 
 	///////////////////////////////////////////////
 	// TODO: zipCode needs to be an int
-	public String editCustomer(Customer customer) {
+	public String editCustomer(Customer customer) throws SQLException {
 		/*
 		 * All the values of the edit customer form are encapsulated in the
 		 * customer object.

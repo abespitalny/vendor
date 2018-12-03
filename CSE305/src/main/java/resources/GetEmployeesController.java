@@ -1,6 +1,7 @@
 package resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,13 @@ public class GetEmployeesController extends HttpServlet {
 		
 		EmployeeDao employeeDao = new EmployeeDao();
 		List<Employee> employees = new ArrayList<Employee>(); 
-		employees = employeeDao.getEmployees();
+		try {
+			employees = employeeDao.getEmployees();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		request.setAttribute("employees", employees);
 		RequestDispatcher rd = request.getRequestDispatcher("showEmployee.jsp");

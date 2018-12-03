@@ -2,19 +2,18 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.eclipse.jdt.internal.compiler.ast.Statement;
-
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Scalar.String;
 
 import model.Bid;
 
 public class BidDao {
 
-	public List<Bid> getBidHistory(String auctionID1) {
+	public List<Bid> getBidHistory(String auctionID1) throws SQLException {
 		/*
 		 * The students code to fetch data from the database 
 		 * 
@@ -49,7 +48,7 @@ public class BidDao {
 		List<Bid> bids = new ArrayList<Bid>();
 
 		while (rs.next()) {
-			int auctionID2 = rs.getInt(1)
+			int auctionID2 = rs.getInt(1);
 			String customerID = rs.getString(2);
 			String bidTime = rs.getDate(3).toString();
 			float bidPrice = rs.getFloat(4);
@@ -65,7 +64,7 @@ public class BidDao {
 		return bids;
 	}
 
-	public List<Bid> getAuctionHistory(String customerID1) {
+	public List<Bid> getAuctionHistory(String customerID1) throws SQLException {
 		/*
 		 * The students code to fetch data from the database 
 		 * 
@@ -100,7 +99,7 @@ public class BidDao {
 		List<Bid> bids = new ArrayList<Bid>();
 
 		while (rs.next()) {
-			int auctionID = rs.getInt(1)
+			int auctionID = rs.getInt(1);
 			String customerID2 = rs.getString(2);
 			String bidTime = rs.getDate(3).toString();
 			float bidPrice = rs.getFloat(4);
@@ -119,7 +118,7 @@ public class BidDao {
 	///////////////////////////////////////////////////////////////////////
 	// TODO: This might need to be rewritten
 	public Bid submitBid(String auctionID, String itemID, Float currentBid,
-			Float maxBid, String customerID) {
+			Float maxBid, String customerID) throws SQLException {
 		/*
 		 * The students code to insert data in the database 
 		 * 
@@ -203,7 +202,7 @@ public class BidDao {
 	////////////////////////////////////////////////////////
 	// TODO: Not sure why we are returning a list of Bid objects. Auctions would 
 	// make more sense. I need to ask the TA.
-	public List<Bid> getSalesListing(String searchKeyword) {
+	public List<Bid> getSalesListing(String searchKeyword) throws SQLException {
 		/*
 		 * The students code to fetch data from the database 
 		 * 
@@ -229,7 +228,7 @@ public class BidDao {
 		List<Bid> bids = new ArrayList<Bid>();
 
 		while (rs.next()) {
-			int auctionID2 = rs.getInt(1)
+			int auctionID2 = rs.getInt(1);
 			String customerID = rs.getString(2);
 			String bidTime = rs.getDate(3).toString();
 			float bidPrice = rs.getFloat(4);

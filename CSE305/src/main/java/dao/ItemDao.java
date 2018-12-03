@@ -1,18 +1,18 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.eclipse.jdt.internal.compiler.ast.Statement;
-
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Scalar.String;
 
 import model.Auction;
 import model.Item;
 
 public class ItemDao {
 
-	public List<Item> getItems() {
+	public List<Item> getItems() throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here
@@ -65,7 +65,7 @@ public class ItemDao {
 
 	////////////////////////////////////////
 	// TODO: I have to rewrite the query. This is not correct
-	public List<Item> getBestsellerItems() {
+	public List<Item> getBestsellerItems() throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here
@@ -118,7 +118,7 @@ public class ItemDao {
 		return items;
 	}
 
-	public List<Item> getSummaryListing(String searchKeyword) {
+	public List<Item> getSummaryListing(String searchKeyword) throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here
@@ -183,7 +183,7 @@ public class ItemDao {
 
 	/////////////////////////////////////////////////////////
 	// TODO: The query needs to be reformatteds
-	public List<Item> getItemSuggestions(String customerID) {
+	public List<Item> getItemSuggestions(String customerID) throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here
@@ -241,7 +241,7 @@ public class ItemDao {
 
 	/////////////////////////////////////////////
 	// TODO: Is this signature correct? Does List need a type?
-	public List getItemsBySeller(String sellerID) {
+	public List getItemsBySeller(String sellerID) throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here
@@ -316,7 +316,7 @@ public class ItemDao {
 		return items;
 	}
 
-	public List<Item> getItemTypes() {
+	public List<Item> getItemTypes() throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here
@@ -360,7 +360,7 @@ public class ItemDao {
 
 	/////////////////////////////////////////////
 	// TODO: Is this signature correct? Does List need a type?
-	public List getItemsByName(String itemName) {
+	public List getItemsByName(String itemName) throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here
@@ -415,8 +415,8 @@ public class ItemDao {
 			String description = rs.getString(2);
 			String type = rs.getString(3);
 			String name = rs.getString(4);
-			float minBidPrice = rs.getDouble(5);
-			float bidIncrement = rs.getDouble(6);
+			float minBidPrice = rs.getFloat(5);
+			float bidIncrement = rs.getFloat(6);
 
 			// Add data to item
 			Item item = new Item();
@@ -441,7 +441,7 @@ public class ItemDao {
 
 	/////////////////////////////////////////////
 	// TODO: Is this signature correct? Does List need a type?
-	public List getItemsByType(String itemType) {
+	public List getItemsByType(String itemType) throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here
@@ -496,8 +496,8 @@ public class ItemDao {
 			String description = rs.getString(2);
 			String type = rs.getString(3);
 			String name = rs.getString(4);
-			float minBidPrice = rs.getDouble(5);
-			float bidIncrement = rs.getDouble(6);
+			float minBidPrice = rs.getFloat(5);
+			float bidIncrement = rs.getFloat(6);
 
 			// Add data to item
 			Item item = new Item();
@@ -522,7 +522,7 @@ public class ItemDao {
 
 	////////////////////////////////////////////////////////////////
 	// TODO: Write the SQL. I'm not sure as to what exactly is to be requested.
-	public List<Item> getBestsellersForCustomer(String customerID) {
+	public List<Item> getBestsellersForCustomer(String customerID) throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here.

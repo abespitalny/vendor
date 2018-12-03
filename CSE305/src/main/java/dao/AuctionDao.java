@@ -2,12 +2,10 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.eclipse.jdt.internal.compiler.ast.Statement;
-
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Scalar.String;
 
 import model.Auction;
 import model.Bid;
@@ -21,7 +19,7 @@ public class AuctionDao {
 	// bidIncrement and minimumBid can be floats. ...Interesting.
 	//
 	// Also, the query or DB needs to be reformatted for closingBid.
-	public List<Auction> getAllAuctions() {
+	public List<Auction> getAllAuctions() throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here
@@ -75,7 +73,7 @@ public class AuctionDao {
 
 	/////////////////////////////////////////////////////
 	// TODO: closingBid has to be refactored into either the DB or the query
-	public List<Auction> getAuctions(String customerID) {
+	public List<Auction> getAuctions(String customerID) throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here
@@ -145,7 +143,7 @@ public class AuctionDao {
 	// TODO: Reformat either the SQL or DB
 	//
 	// Also, why do we need a closingBid for open auctions?
-	public List<Auction> getOpenAuctions(String employeeEmail) {
+	public List<Auction> getOpenAuctions(String employeeEmail) throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here
@@ -219,7 +217,7 @@ public class AuctionDao {
 
 	////////////////////////////////////////////
 	// TODO: The query has to be rewritten
-	public String recordSale(String auctionID) {
+	public String recordSale(String auctionID) throws SQLException {
 		/*
 		 * The students code to update data in the database will be written here
 		 * 
@@ -246,7 +244,7 @@ public class AuctionDao {
 		return "success";
 	}
 
-	public List getAuctionData(String auctionID1, String itemID1) {
+	public List getAuctionData(String auctionID1, String itemID1) throws SQLException {
 		/*
 		 * The students code to fetch data from the database will be written
 		 * here

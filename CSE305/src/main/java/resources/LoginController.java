@@ -1,6 +1,8 @@
 package resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +42,14 @@ public class LoginController extends HttpServlet {
 		String password = request.getParameter("password");
 		
 		LoginDao loginDao = new LoginDao();
-		Login login = loginDao.login(username, password);
+		Login login;
+		try {
+			login = loginDao.login(username, password);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		if(login != null) {
 			String role = login.getRole();

@@ -1,6 +1,7 @@
 package resources;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -34,7 +35,14 @@ public class PersonalizedSuggestionsController extends HttpServlet {
 		String customerID = (String)request.getSession(false).getAttribute("customerID");
 		
 		ItemDao itemDao = new ItemDao();
-		List<Item> items = itemDao.getItemSuggestions(customerID);
+		List<Item> items;
+		try {
+			items = itemDao.getItemSuggestions(customerID);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		request.setAttribute("items", items);
 		RequestDispatcher rd = request.getRequestDispatcher("showItemSuggestions.jsp");
