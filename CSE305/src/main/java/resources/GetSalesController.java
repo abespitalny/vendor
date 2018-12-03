@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.BidDao;
-import dao.ItemDao;
 import model.Bid;
-import model.Item;
 
 /**
  * Servlet implementation class GetSalesController
