@@ -2,11 +2,9 @@
 -- CREATE DATABASE vendor;
 USE vendor;
 
--- Relational Model
-
-CREATE TABLE IF NOT EXISTS User (
+CREATE TABLE IF NOT EXISTS VendorUser (
     Username VARCHAR(16),
-    PasswordHash BINARY(32),
+    PasswordHash BINARY(32) NOT NULL,
     FirstName VARCHAR(255) NOT NULL,
     LastName VARCHAR(255) NOT NULL,
     Address VARCHAR(255),
@@ -25,18 +23,18 @@ CREATE TABLE IF NOT EXISTS Customer (
     ItemsSold INTEGER UNSIGNED DEFAULT 0,
     ItemsPurchased INTEGER UNSIGNED DEFAULT 0,
     PRIMARY KEY (CustomerID),
-    FOREIGN KEY (CustomerID) REFERENCES User(Username) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (CustomerID) REFERENCES VendorUser(Username) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Employee (
     EmployeeID VARCHAR(16),
 	SSN CHAR(9) NOT NULL,
-	StartDate DATE NOT NULL DEFAULT (CURRENT_DATE()),
+	StartDate DATE NOT NULL,
     EmployeeLevel INTEGER NOT NULL,
     HourlyRate DECIMAL(13, 2) UNSIGNED NOT NULL,
     PRIMARY KEY (EmployeeID),
     UNIQUE (SSN),
-    FOREIGN KEY (EmployeeID) REFERENCES User(Username) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (EmployeeID) REFERENCES VendorUser(Username) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Item (
@@ -57,13 +55,16 @@ CREATE TABLE IF NOT EXISTS Auction (
     CurrentHighestBidPrice DECIMAL(13, 2) UNSIGNED,
     CurrentMaxBidPrice DECIMAL(13, 2) UNSIGNED,
     NumCopies INTEGER UNSIGNED NOT NULL,
+    -- I cannot add the NOT NULL modifier because if the seller's account is deleted then this value will be set to NULL
+    Seller VARCHAR(16),
     Monitor VARCHAR(16) NOT NULL,
     ItemID BIGINT UNSIGNED NOT NULL,
-    OpenDate DATETIME NOT NULL DEFAULT (CURRENT_DATE()),
+    OpenDate DATETIME NOT NULL,
     EndDate DATETIME NOT NULL,
     -- The ID of the winning bid
     WinningBidID BIGINT UNSIGNED,
     PRIMARY KEY (AuctionID),
+    FOREIGN KEY (Seller) REFERENCES Customer(CustomerID) ON DELETE SET NULL ON UPDATE CASCADE,
     FOREIGN KEY (Monitor) REFERENCES Employee(EmployeeID) ON DELETE NO ACTION ON UPDATE CASCADE,
     FOREIGN KEY (ItemID) REFERENCES Item(ItemID) ON DELETE NO ACTION ON UPDATE CASCADE
 );
@@ -72,9 +73,9 @@ CREATE TABLE IF NOT EXISTS Bid (
     -- As per the documentation, LAST_INSERT_ID() function is maintained on a per-connection basis so there isn't a race condition if 
     -- multiple threads insert and call LAST_INSERT_ID()
     BidID SERIAL,
-	CustomerID BIGINT UNSIGNED,
-    AuctionID BIGINT UNSIGNED,
-    BidTime DATETIME,
+	CustomerID VARCHAR(16) NOT NULL,
+    AuctionID BIGINT UNSIGNED NOT NULL,
+    BidTime DATETIME NOT NULL,
     BidPrice DECIMAL(13, 2) UNSIGNED NOT NULL,
     PRIMARY KEY (BidID),
     -- A bidder cannot bid twice on the same auction at the same time

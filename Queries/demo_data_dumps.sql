@@ -1,425 +1,80 @@
 USE vendor;
 
+-- SET FOREIGN_KEY_CHECKS = 0;
+-- TRUNCATE VendorUser;
+-- TRUNCATE Customer;
+-- TRUNCATE Employee;
+-- TRUNCATE Item;
+-- TRUNCATE Auction;
+-- TRUNCATE Bid;
+-- SET FOREIGN_KEY_CHECKS = 1;
+
 -- Customers
-INSERT INTO 
-	Customer (
-		CustomerID, 
-        LastName, 
-		FirstName, 
-		Address, 
-        ZipCode, 
-        Telephone, 
-        Email, 
-        Rating, 
-		CreditCardNum)
-	VALUES (
-		111111111, 
-        'Lu', 
-        'ShiYong', 
-        '123 Success Street, Stony Brook, NY', 
-        '11790',
-        '5166328959', 
-        'shiyong@cs.sunysb.edu', 
-        1, 
-        '1234567812345678');
+INSERT INTO VendorUser VALUES ('shiyong', UNHEX(SHA2('1234', 256)), 'ShiYong', 'Lu', '123 Success Street', 'Stony Brook', 'NY', '11790', '5166328959', 'shiyong@cs.sunysb.edu');
+INSERT INTO Customer(CustomerID, CreditCardNum) VALUES ('shiyong', '1234567812345678');
 
-INSERT INTO 
-	Customer (
-		CustomerID, 
-        LastName, 
-        FirstName, 
-        Address, 
-        ZipCode, 
-        Telephone, 
-        Email,
-        Rating,
-        CreditCardNum)
-	VALUES (
-		222222222, 
-        'Du', 
-        'Haixia', 
-        '456 fortune Road, Stony Brook, NY', 
-        '11790', 
-        '5166324360', 
-        'dhaixia@cs.sunysb.edu', 
-        1, 
-        '5678123456781234');
-  
-INSERT INTO 
-	Customer (
-		CustomerID, 
-        LastName, 
-        FirstName,
-        Address, 
-        ZipCode, 
-        Telephone, 
-        Email, 
-        Rating, 
-        CreditCardNum)
-	VALUES (
-		333333333, 
-		'Smith', 
-		'John', 
-		'789 Peace Blvd., Los Angeles, CA', 
-		'12345',
-		'4124434321',
-		'shlu@ic.sunysb.edu', 
-		1,
-		'2345678923456789');
-  
-INSERT INTO 	
-	Customer (
-		CustomerID, 
-        LastName, 
-        FirstName,
-        Address, 
-        ZipCode, 
-        Telephone, 
-        Email,
-        Rating, 
-        CreditCardNum)
-	VALUES (
-		444444444, 
-		'Paul', 
-		'Lewis', 
-        '135 Knowledge Lane, Stony Brook, NY', 
-        '11790', 
-        '5166668888', 
-        'pml@cs.sunysb.edu',
-        1, 
-        '6789234567892345');
+INSERT INTO VendorUser VALUES ('haixia', UNHEX(SHA2('2018', 256)), 'Haixia', 'Du', '456 Fortune Road', 'Stony Brook', 'NY', '11790', '5166324360', 'dhaixia@cs.sunysb.edu');
+INSERT INTO Customer(CustomerID, CreditCardNum) VALUES ('haixia', '5678123456781234');
 
+INSERT INTO VendorUser VALUES ('john', UNHEX(SHA2('2000', 256)), 'John', 'Smith', '789 Peace Blvd.', 'Los Angeles', 'CA', '12345', '4124434321', 'shlu@ic.sunysb.edu');
+INSERT INTO Customer(CustomerID, CreditCardNum) VALUES ('john', '2345678923456789');
 
+INSERT INTO VendorUser VALUES ('phil', UNHEX(SHA2('2001', 256)), 'Phil', 'Lewis', '135 Knowledge Lane', 'Stony Brook', 'NY', '11790', '5166668888', 'pml@cs.sunysb.edu');
+INSERT INTO Customer(CustomerID, CreditCardNum) VALUES ('phil', '6789234567892345');
 
 -- Employees
-INSERT INTO 
-	Employee (
-		SSN,
-        LastName, 
-        FirstName,
-        Address,
-        ZipCode, 
-        Telephone, 
-        Email,
-        StartDate, 
-        EmployeeLevel, 
-        HourlyRate)
-	VALUES (
-		123456789, 
-        'Smith', 
-        'David', 
-        '123 College Road, Stony Brook, NY',
-        '11790', 
-        '5162152345',
-        'david@smith.com',
-        '1998-11-01',
-        1, 
-        60.00);
-  
-INSERT INTO 
-	Employee (
-		SSN, 
-        LastName, 
-        FirstName, 
-        Address,
-        ZipCode,
-        Telephone, 
-        Email,
-        StartDate,
-        EmployeeLevel, 
-        HourlyRate)
-	VALUES (
-		789123456,
-        'Warren', 
-        'David',
-        '456 Sunken Street, Stony Brook, NY', 
-        '11794',
-        '5166329987', 
-        'david@smith.com', 
-        '1999-02-02', 
-        2,
-        50.00);
-  
-  
-  
+INSERT INTO VendorUser VALUES ('david', UNHEX(SHA2('2001', 256)), 'David', 'Smith', '123 College Road', 'Stony Brook', 'NY', '11790', '5162152345', 'david@smith.com');
+INSERT INTO Employee(EmployeeID, SSN, StartDate, EmployeeLevel, HourlyRate) VALUES ('david', '123456789', '1998-11-01', 1, 60.00);
+
+INSERT INTO VendorUser VALUES ('davidw', UNHEX(SHA2('2001', 256)), 'David', 'Warren', '456 Sunken Street', 'Stony Brook', 'NY', '11794', '5166329987', 'david@warren.com');
+INSERT INTO Employee(EmployeeID, SSN, StartDate, EmployeeLevel, HourlyRate) VALUES ('davidw', '789123456', '1999-02-02', 2, 50.00);
+
 -- Items
-INSERT INTO 
-	Item (
-		ItemID, 
-		ItemName, 
-        ItemType, 
-        Description,
-        Quantity)
-	VALUES (
-		987654321, 
-        'Titanic', 
-        'DVD', 
-        '2005',
-        4);
-  
-INSERT INTO 
-	Item (
-		ItemID, 
-		ItemName, 
-		ItemType, 
-		Description,
-		Quantity)
-	VALUES (
-		876543219, 
-        'Nissan Sentra', 
-        'Car', 
-        '2007', 
-        1);
-  
-INSERT INTO 
-	Item (
-		ItemID,
-        ItemName, 
-        ItemType,
-        Description,
-        Quantity)
-	VALUES (
-		134739572, 	
-        'Cars 2', 
-        'DVD', 
-        '2012', 
-        3);
+INSERT INTO Item(ItemName, ItemType, Description, Quantity) VALUES ('Titanic', 'DVD', '2005', 4);
+SET @item_id1 = LAST_INSERT_ID();
 
-INSERT INTO 
-	Item (
-		ItemID, 
-        ItemName, 
-        ItemType, 
-        Description,
-        Quantity)
-	VALUES (
-		476318495, 
-        'Bee Movie', 
-        'DVD',
-        '2004',
-        13);
-  
+INSERT INTO Item(ItemName, ItemType, Description, Quantity) VALUES ('Nissan Sentra', 'Car', '2007', 1);
+SET @item_id2 = LAST_INSERT_ID();
 
+INSERT INTO Item (ItemName, ItemType, Description, Quantity) VALUES ('Cars 2', 'DVD', '2012', 3);
+SET @item_id3 = LAST_INSERT_ID();
+
+INSERT INTO Item (ItemName, ItemType, Description, Quantity) VALUES ('Bee Movie', 'DVD', '2004', 13);
+SET @item_id4 = LAST_INSERT_ID();
 
 -- Auctions
-INSERT INTO 
-	Auction (
-		AuctionID,
-		BidIncrement, 
-		MinBidPrice, 
-		ReservePrice, 
-		CurrentHighestBidPrice, 
-		CurrentMaxBidPrice,
-		NumCopies, 
-		Monitor, 
-		ItemID)
-	VALUES (
-		1357, 
-		1, 
-		5, 
-		10,
-		11, 
-		15, 
-		4, 
-		'123456789', 
-		987654321);
+INSERT INTO Auction(BidIncrement, MinBidPrice, ReservePrice, NumCopies, Seller, Monitor, ItemID, OpenDate, EndDate)
+VALUES (1.00, 5.00, 10.00, 4, 'phil', 'davidw', @item_id1, NOW(), DATE_ADD(NOW(), INTERVAL 3 DAY));
+SET @auction_id1 = LAST_INSERT_ID();
 
-INSERT INTO 
-	Auction (
-		AuctionID,
-        BidIncrement,
-        MinBidPrice,
-        ReservePrice,
-        CurrentHighestBidPrice,
-        CurrentMaxBidPrice, 
-        NumCopies, 
-        Monitor, 
-        ItemID)
-	VALUES (
-		2468, 
-        10, 
-        1000, 
-        2000, 
-        1000, 
-        1000, 
-        1,
-        '789123456', 
-        876543219);
-  
-INSERT INTO 
-	Auction (
-		AuctionID,
-		BidIncrement, 
-		MinBidPrice,
-		ReservePrice,
-		CurrentHighestBidPrice, 
-		CurrentMaxBidPrice,
-		NumCopies,
-		Monitor, 
-		ItemID)
-	VALUES (
-		3579,
-        1, 
-        5, 
-        10, 
-        11, 
-        15, 
-        1,
-        '123456789', 
-        134739572);
+INSERT INTO Auction(BidIncrement, MinBidPrice, ReservePrice, NumCopies, Seller, Monitor, ItemID, OpenDate, EndDate)
+VALUES (10.00, 1000.00, 2000.00, 1, 'john', 'david', @item_id2, NOW(), DATE_ADD(NOW(), INTERVAL 5 DAY));
 
-INSERT INTO 
-	Auction (	
-		AuctionID, 
-        BidIncrement,
-        MinBidPrice, 
-        ReservePrice,
-        CurrentHighestBidPrice, 
-        CurrentMaxBidPrice, 
-        NumCopies, 
-        Monitor, 
-        ItemID)
-	VALUES (
-		1234,
-        1,
-        5,
-        10, 
-        11, 
-        15,
-        7,
-        '789123456',
-        476318495);
-  
+INSERT INTO Auction(BidIncrement, MinBidPrice, ReservePrice, NumCopies, Seller, Monitor, ItemID, OpenDate, EndDate)
+VALUES (1.00, 5.00, 10.00, 1, 'phil', 'david', @item_id3, NOW(), DATE_ADD(NOW(), INTERVAL 1 DAY));
+SET @auction_id3 = LAST_INSERT_ID();
 
+INSERT INTO Auction(BidIncrement, MinBidPrice, ReservePrice, NumCopies, Seller, Monitor, ItemID, OpenDate, EndDate)
+VALUES (1.00, 5.00, 10.00, 7, 'haixia', 'david', @item_id4, NOW(), DATE_ADD(NOW(), INTERVAL 3 DAY));
+SET @auction_id4 = LAST_INSERT_ID();
 
 -- Bids
-INSERT INTO 
-	Bid (
-		CustomerID,
-        AuctionID, 
-        BidTime,
-        BidPrice)
-	VALUES (
-		222222222, 
-        1357, 
-        '2008-12-16 12:00:02', 
-        10);
+INSERT INTO Bid(CustomerID, AuctionID, BidTime, BidPrice) VALUES ('haixia', @auction_id1, '2008-12-16 12:00:02', 10.00);
 
-INSERT INTO 
-	Bid (
-		CustomerID, 
-        AuctionID, 
-        BidTime,
-        BidPrice)
-	VALUES (
-		111111111, 
-        1357, 
-        '2008-12-16 12:47:41', 
-        9);
-  
-INSERT INTO 
-	Bid (
-		CustomerID,
-		AuctionID, 
-		BidTime,
-		BidPrice)
-	VALUES (
-		111111111, 
-        1357, 
-        '2008-12-16 12:53:13', 
-        10);
+INSERT INTO Bid(CustomerID, AuctionID, BidTime, BidPrice) VALUES ('shiyong', @auction_id1, '2008-12-16 12:47:41', 9.00);
 
-INSERT INTO 
-	Bid (
-		CustomerID, 
-        AuctionID, 
-        BidTime, 
-        BidPrice)
-	VALUES (
-		111111111, 
-        1357, 
-        '2008-12-16 12:59:41',
-        15);
-  
-INSERT INTO 
-	Bid (
-		CustomerID, 
-        AuctionID, 
-        BidTime, 
-        BidPrice)
-	VALUES (
-		111111111,
-        3579, 
-        '2008-12-16 12:53:13', 
-        10);
+INSERT INTO Bid(CustomerID, AuctionID, BidTime, BidPrice) VALUES ('shiyong', @auction_id1, '2008-12-16 12:53:13', 10.00);
 
-INSERT INTO 
-	Bid (
-		CustomerID,
-        AuctionID,
-        BidTime, 
-        BidPrice)
-	VALUES (
-		111111111,
-        1234, 
-        '2008-12-16 12:59:41', 
-        15);  
-  
+INSERT INTO Bid(CustomerID, AuctionID, BidTime, BidPrice) VALUES ('shiyong', @auction_id1, '2008-12-16 12:59:41', 15.00);
 
+INSERT INTO Bid(CustomerID, AuctionID, BidTime, BidPrice) VALUES ('shiyong', @auction_id3, '2008-12-16 12:53:13', 10.00);
 
--- Posts
-INSERT INTO 
-	Post (
-		EndDate,
-        OpenDate,
-        CustomerID, 
-        AuctionID)
-	VALUES (
-		'2008-12-16 13:00:00', 
-        '2008-12-13 13:00:00', 
-        444444444, 
-        1357);
-  
-INSERT INTO 
-	Post (
-		EndDate, 
-        OpenDate,
-        CustomerID, 
-        AuctionID)
-	VALUES (
-		'2008-12-16 13:00:00', 
-        '2008-12-11 13:00:00',
-        333333333, 
-        2468);  
-
-INSERT INTO 
-	Post (
-		EndDate, 
-        OpenDate,
-        CustomerID, 
-        AuctionID)
-	VALUES (
-		'2008-12-16 13:00:00',
-        '2008-12-13 13:00:00', 
-        444444444,
-        1234);
-  
-INSERT INTO 
-	Post (
-		EndDate, 
-        OpenDate,
-        CustomerID, 
-        AuctionID)
-	VALUES (
-		'2008-12-16 13:00:00',
-		'2008-12-13 13:00:00', 
-		444444444, 
-		3579);
+INSERT INTO Bid(CustomerID, AuctionID, BidTime, BidPrice) VALUES ('shiyong', @auction_id4, '2008-12-16 12:59:41', 15.00);
 
 -- SQL Dumps
-SELECT * FROM Auction;
-SELECT * FROM Bid;
+SELECT * FROM VendorUser;
 SELECT * FROM Customer;
 SELECT * FROM Employee;
 SELECT * FROM Item;
-SELECT * FROM Post;
+SELECT * FROM Auction;
+SELECT * FROM Bid;
