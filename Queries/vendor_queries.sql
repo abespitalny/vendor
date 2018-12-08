@@ -7,6 +7,7 @@ INSERT INTO Employee VALUES (?, ?, ?, ?, ?);
 -- (Manager access-level) Edit the info. of employees below him
 UPDATE VendorUser INNER JOIN Employee ON Username = EmployeeID
 SET Username = ?,
+    UserPassword = ?,
     FirstName = ?,
     LastName = ?,
     Address = ?,
@@ -19,11 +20,6 @@ SET Username = ?,
     HourlyRate = ?
 WHERE
     Username = ? AND EmployeeLevel < ?;
-
--- Manager can reset password of an employee below him
-UPDATE VendorUser INNER JOIN Employee ON Username = EmployeeID
-SET PasswordHash = UNHEX(SHA2(?, 256))
-WHERE Username = ? AND EmployeeLevel < ?;
 
 -- (Customer-representative access-level) Employees can edit their own information
 UPDATE VendorUser INNER JOIN Employee ON Username = EmployeeID
@@ -49,49 +45,36 @@ FROM Auction INNER JOIN Item USING (ItemID)
 WHERE MONTH(EndDate) = ? AND EndDate < NOW() AND WinningBidID IS NOT NULL;
 
 -- Produce a comprehensive listing of all items
-CREATE VIEW items_comprehensive 
-	AS SELECT 
-		I.ItemID as ItemID, 
-		I.ItemName as ItemName, 
-		I.ItemType as ItemType, 
-		I.Description as Description, 
-        I.Quantity as Quantity, 
-        (SELECT COUNT(A.ItemID) 
-			FROM Auction A 
-            WHERE A.ItemID = I.ItemID) as NumberOfAuctions, 
-		(SELECT MAX(A.CurrentHighestBidPrice) 
-			FROM Auction A, Post P 
-			WHERE A.ItemID = I.ItemID AND 
-				P.AuctionID = A.AuctionID AND 
-				P.EndDate < CURDATE()) as ‘MinEndBid’, 
-			(SELECT FORMAT(AVG(A.CurrentHighestBidPrice), 2) 
-				FROM Auction A, Post P 
-                WHERE A.ItemID = I.ItemID 
-					AND P.AuctionID = A.AuctionID 
-					AND P.EndDate < CURDATE()) as ‘AvgEndBid’, 
-			(SELECT MIN(A.CurrentHighestBidPrice) 
-				FROM Auction A, Post P 
-                WHERE A.ItemID = I.ItemID 
-					AND P.AuctionID = A.AuctionID 
-                    AND P.EndDate < CURDATE()) as ‘MaxEndBid’ 
-	FROM Item I;
-
 SELECT *
-FROM Item INNER JOIN 
-(SELECT A1.ItemID, COUNT(*) AS NumAuctionsSold,
+FROM (Item LEFT JOIN 
+(SELECT ItemID, COUNT(*) AS NumAuctionsSold,
         FORMAT(MAX(CurrentHighestBidPrice / NumCopies), 2) AS MaxSoldPrice,
         FORMAT(MIN(CurrentHighestBidPrice / NumCopies), 2) AS MinSoldPrice,
         FORMAT(AVG(CurrentHighestBidPrice / NumCopies), 2) AS AvgSoldPrice,
         SUM(NumCopies) AS TotalNumSold,
         SUM(CurrentHighestBidPrice) AS TotalRevenue
- FROM Auction AS A1 INNER JOIN
- (SELECT A2.ItemID, COUNT(*) AS NumActiveAuctions
-  FROM Auction AS A2
-  WHERE A2.EndDate >= NOW() OR A2.WinningBidID IS NULL GROUP BY A2.ItemID
- ) USING (A1.ItemID)
- WHERE A1.EndDate < NOW() AND A1.WinningBidID IS NOT NULL GROUP BY A1.ItemID
-) USING (ItemID);
+ FROM Auction
+ WHERE EndDate < NOW() AND WinningBidID IS NOT NULL GROUP BY ItemID
+) AS A1 USING (ItemID)) LEFT JOIN
+(SELECT ItemID, COUNT(*) AS NumAuctionsActive
+ FROM Auction
+ WHERE EndDate >= NOW() OR WinningBidID IS NULL GROUP BY ItemID
+) AS A2 USING (ItemID);
 
+-- Produce a list of sales by item name
+SELECT AuctionID, ItemName, CurrentHighestBidPrice AS SoldPrice
+FROM Auction INNER JOIN Item USING (ItemID)
+WHERE ItemName LIKE CONCAT('%', ?, '%') AND EndDate < NOW() AND WinningBidID IS NOT NULL;
+
+-- Produce a list of sales by customer name (seller)
+SELECT AuctionID, Seller, FirstName, LastName, CurrentHighestBidPrice AS SoldPrice
+FROM Auction AS A INNER JOIN Customer AS C ON A.Seller = C.CustomerID
+WHERE FirstName LIKE CONCAT('%', ?, '%') OR LastName LIKE CONCAT('%', ?, '%') AND EndDate < NOW() AND WinningBidID IS NOT NULL;
+
+-- Produce a list of sales by customer name (seller)
+SELECT AuctionID, Seller, FirstName, LastName, CurrentHighestBidPrice AS SoldPrice
+FROM Auction AS A INNER JOIN Customer AS C ON A.Seller = C.CustomerID
+WHERE FirstName LIKE CONCAT('%', ?, '%') OR LastName LIKE CONCAT('%', ?, '%');
 
 -- Customer-representative Level Transactions
 
