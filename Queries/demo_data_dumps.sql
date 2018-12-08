@@ -10,23 +10,23 @@ USE vendor;
 -- SET FOREIGN_KEY_CHECKS = 1;
 
 -- Customers
-INSERT INTO VendorUser VALUES ('shiyong', UNHEX(SHA2('1234', 256)), 'ShiYong', 'Lu', '123 Success Street', 'Stony Brook', 'NY', '11790', '5166328959', 'shiyong@cs.sunysb.edu');
+INSERT INTO VendorUser VALUES ('shiyong', '1234', 'ShiYong', 'Lu', '123 Success Street', 'Stony Brook', 'NY', '11790', '5166328959', 'shiyong@cs.sunysb.edu');
 INSERT INTO Customer(CustomerID, CreditCardNum) VALUES ('shiyong', '1234567812345678');
 
-INSERT INTO VendorUser VALUES ('haixia', UNHEX(SHA2('2018', 256)), 'Haixia', 'Du', '456 Fortune Road', 'Stony Brook', 'NY', '11790', '5166324360', 'dhaixia@cs.sunysb.edu');
+INSERT INTO VendorUser VALUES ('haixia', '2018', 'Haixia', 'Du', '456 Fortune Road', 'Stony Brook', 'NY', '11790', '5166324360', 'dhaixia@cs.sunysb.edu');
 INSERT INTO Customer(CustomerID, CreditCardNum) VALUES ('haixia', '5678123456781234');
 
-INSERT INTO VendorUser VALUES ('john', UNHEX(SHA2('2000', 256)), 'John', 'Smith', '789 Peace Blvd.', 'Los Angeles', 'CA', '12345', '4124434321', 'shlu@ic.sunysb.edu');
+INSERT INTO VendorUser VALUES ('john', '2000', 'John', 'Smith', '789 Peace Blvd.', 'Los Angeles', 'CA', '12345', '4124434321', 'shlu@ic.sunysb.edu');
 INSERT INTO Customer(CustomerID, CreditCardNum) VALUES ('john', '2345678923456789');
 
-INSERT INTO VendorUser VALUES ('phil', UNHEX(SHA2('2001', 256)), 'Phil', 'Lewis', '135 Knowledge Lane', 'Stony Brook', 'NY', '11790', '5166668888', 'pml@cs.sunysb.edu');
+INSERT INTO VendorUser VALUES ('phil', '2001', 'Phil', 'Lewis', '135 Knowledge Lane', 'Stony Brook', 'NY', '11790', '5166668888', 'pml@cs.sunysb.edu');
 INSERT INTO Customer(CustomerID, CreditCardNum) VALUES ('phil', '6789234567892345');
 
 -- Employees
-INSERT INTO VendorUser VALUES ('david', UNHEX(SHA2('2001', 256)), 'David', 'Smith', '123 College Road', 'Stony Brook', 'NY', '11790', '5162152345', 'david@smith.com');
+INSERT INTO VendorUser VALUES ('david', '2001', 'David', 'Smith', '123 College Road', 'Stony Brook', 'NY', '11790', '5162152345', 'david@smith.com');
 INSERT INTO Employee(EmployeeID, SSN, StartDate, EmployeeLevel, HourlyRate) VALUES ('david', '123456789', '1998-11-01', 1, 60.00);
 
-INSERT INTO VendorUser VALUES ('davidw', UNHEX(SHA2('2001', 256)), 'David', 'Warren', '456 Sunken Street', 'Stony Brook', 'NY', '11794', '5166329987', 'david@warren.com');
+INSERT INTO VendorUser VALUES ('davidw', '2001', 'David', 'Warren', '456 Sunken Street', 'Stony Brook', 'NY', '11794', '5166329987', 'david@warren.com');
 INSERT INTO Employee(EmployeeID, SSN, StartDate, EmployeeLevel, HourlyRate) VALUES ('davidw', '789123456', '1999-02-02', 2, 50.00);
 
 -- Items
