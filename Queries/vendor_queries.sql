@@ -51,7 +51,6 @@ FROM (Item LEFT JOIN
         FORMAT(MAX(CurrentHighestBidPrice / NumCopies), 2) AS MaxSoldPrice,
         FORMAT(MIN(CurrentHighestBidPrice / NumCopies), 2) AS MinSoldPrice,
         FORMAT(AVG(CurrentHighestBidPrice / NumCopies), 2) AS AvgSoldPrice,
-        SUM(NumCopies) AS TotalNumSold,
         SUM(CurrentHighestBidPrice) AS TotalRevenue
  FROM Auction
  WHERE SaleStatus = 'Paid' GROUP BY ItemID
@@ -119,14 +118,9 @@ HAVING HighestRevenue = (SELECT SUM(CurrentHighestBidPrice) AS TotalRevenue
                          ORDER BY TotalRevenue DESC LIMIT 1);
 
 -- Produce a best-sellers list of items
-SELECT ItemID, ItemName, TotalNumSold
-FROM Item INNER JOIN 
-(SELECT ItemID, SUM(NumCopies) AS TotalNumSold
- FROM Auction
- WHERE SaleStatus = 'Paid'
- GROUP BY ItemID
-) AS A USING (ItemID)
-ORDER BY TotalNumSold DESC LIMIT ?;
+SELECT ItemID, ItemName, NumSold
+FROM Item
+ORDER BY NumSold DESC LIMIT ?;
 
 
 -- Customer-representative Level Transactions
@@ -160,11 +154,13 @@ FROM (Auction AS A INNER JOIN Bid AS B ON A.WinningBidID = B.BidID) INNER JOIN I
 WHERE CustomerID = ? AND SaleStatus = 'Pending';
 
 -- Customer pays for Auction. The number of ItemsSold and ItemsPurchased should be updated as well
-UPDATE ((Auction AS A INNER JOIN Customer AS C1 ON A.Seller = C1.CustomerID) 
+UPDATE (((Auction AS A INNER JOIN Customer AS C1 ON A.Seller = C1.CustomerID) INNER JOIN Item USING (ItemID))
     INNER JOIN Bid AS B ON A.WinningBidID = B.BidID)
     INNER JOIN Customer AS C2 ON B.CustomerID = C2.CustomerID
 SET C1.ItemsSold = C1.ItemsSold + 1,
     C2.ItemsPurchased = C2.ItemsPurchased + 1,
+    NumSold = NumSold + NumCopies,
+    Quantity = Quantity - NumCopies,
     SaleStatus = 'Paid'
 WHERE A.AuctionID = ?;
 
@@ -199,6 +195,15 @@ SELECT CustomerID, FirstName, LastName, Address, City, State, ZipCode, Email
 FROM VendorUser INNER JOIN Customer ON Username = CustomerID;
 
 -- Produce a list of item suggestions for a given customer based on that customer's past purchases
+-- Show the purchase history for a given customer where there is greater than 0 quantity on the item which means that there are active auctions
+-- on the item
+SELECT ItemID, ItemName, ItemType, Description, Quantity
+FROM (Auction INNER JOIN Bid ON WinningBidID = BidID) INNER JOIN Item USING (ItemID)
+WHERE CustomerID = ? AND Quantity > 0;
 
+INSERT INTO ItemSuggestion VALUES (?, ?);
+
+-- When the customer views the suggestions and presses 'Dismiss all' then the suggestions will be deleted from the table
+DELETE FROM ItemSuggestion WHERE CustomerID = ?;
 
 -- Customer Level Transactions
