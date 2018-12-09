@@ -44,18 +44,18 @@ SET @item_id4 = LAST_INSERT_ID();
 
 -- Auctions
 INSERT INTO Auction(BidIncrement, MinBidPrice, ReservePrice, NumCopies, Seller, Monitor, ItemID, OpenDate, EndDate)
-VALUES (1.00, 5.00, 10.00, 4, 'phil', 'davidw', @item_id1, NOW(), DATE_ADD(NOW(), INTERVAL 3 DAY));
+VALUES (1.00, 5.00, 10.00, 4, 'phil', 'davidw', @item_id1, '2008-12-13 13:00:00', '2008-12-16 13:00:00');
 SET @auction_id1 = LAST_INSERT_ID();
 
 INSERT INTO Auction(BidIncrement, MinBidPrice, ReservePrice, NumCopies, Seller, Monitor, ItemID, OpenDate, EndDate)
-VALUES (10.00, 1000.00, 2000.00, 1, 'john', 'david', @item_id2, NOW(), DATE_ADD(NOW(), INTERVAL 5 DAY));
+VALUES (10.00, 1000.00, 2000.00, 1, 'john', 'david', @item_id2, '2008-12-11 13:00:00', '2008-12-16 13:00:00');
 
 INSERT INTO Auction(BidIncrement, MinBidPrice, ReservePrice, NumCopies, Seller, Monitor, ItemID, OpenDate, EndDate)
-VALUES (1.00, 5.00, 10.00, 1, 'phil', 'david', @item_id3, NOW(), DATE_ADD(NOW(), INTERVAL 1 DAY));
+VALUES (1.00, 5.00, 10.00, 1, 'phil', 'david', @item_id3, '2008-12-13 13:00:00', '2008-12-16 13:00:00');
 SET @auction_id3 = LAST_INSERT_ID();
 
 INSERT INTO Auction(BidIncrement, MinBidPrice, ReservePrice, NumCopies, Seller, Monitor, ItemID, OpenDate, EndDate)
-VALUES (1.00, 5.00, 10.00, 7, 'haixia', 'david', @item_id4, NOW(), DATE_ADD(NOW(), INTERVAL 3 DAY));
+VALUES (1.00, 5.00, 10.00, 7, 'haixia', 'david', @item_id4, '2008-12-13 13:00:00', '2008-12-16 13:00:00');
 SET @auction_id4 = LAST_INSERT_ID();
 
 -- Bids

@@ -63,8 +63,13 @@ CREATE TABLE IF NOT EXISTS Auction (
     ItemID BIGINT UNSIGNED NOT NULL,
     OpenDate DATETIME NOT NULL,
     EndDate DATETIME NOT NULL,
-    -- It's NULL unless there was a sale that was fully completed, that is the customer paid for the item 
-    SaleID BIGINT UNSIGNED,
+    -- Set to the BidID of a new bid that comes in that has a higher MaxBidPrice than what is currently the MaxBidPrice
+    WinningBidID BIGINT UNSIGNED,
+    -- SaleStatus values:
+    -- 0: Pending, that is it was recorded by employee but the customer has not been able to perform an action
+    -- 1: Paid, the customer fulfilled the auction
+    -- 2: Cancelled, the customer cancelled his order
+    SaleStatus ENUM('Pending', 'Paid', 'Cancelled'),
     PRIMARY KEY (AuctionID),
     FOREIGN KEY (Seller) REFERENCES Customer(CustomerID) ON DELETE SET NULL ON UPDATE CASCADE,
     FOREIGN KEY (Monitor) REFERENCES Employee(EmployeeID) ON DELETE NO ACTION ON UPDATE CASCADE,
@@ -81,29 +86,13 @@ CREATE TABLE IF NOT EXISTS Bid (
     BidTime DATETIME NOT NULL,
     BidPrice DECIMAL(13, 2) UNSIGNED NOT NULL,
     PRIMARY KEY (BidID),
-    -- A bidder cannot bid twice on the same auction at the same time
-    UNIQUE (CustomerID, AuctionID, BidTime),
+    -- Two bids cannot be placed on the same auction at the same time and at the same price since there is no logical way to handle such a tie 
+    UNIQUE (AuctionID, BidTime, BidPrice),
     -- A bidder cannot bid on the same auction at the same price
     UNIQUE (CustomerID, AuctionID, BidPrice),
     FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (AuctionID) REFERENCES Auction(AuctionID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS Sale (
-    WinningBidID BIGINT UNSIGNED,
-    -- SaleStatus values:
-    -- 0: Pending, that is it was recorded by employee but the customer has not been able to perform an action
-    -- 1: Paid, the customer fulfilled the auction
-    -- 2: Cancelled, the customer cancelled his order
-    SaleStatus ENUM('Pending', 'Paid', 'Cancelled') NOT NULL,
-    SaleDate DATETIME NOT NULL,
-    -- Employee that recorded the sale
-    -- I cannot add the NOT NULL modifier because if the employee's account is deleted then this value will be set to NULL
-    Recorder VARCHAR(16),
-    PRIMARY KEY (WinningBidID),
-    FOREIGN KEY (Recorder) REFERENCES Employee(EmployeeID) ON DELETE SET NULL ON UPDATE CASCADE,
-    FOREIGN KEY (WinningBidID) REFERENCES Bid(BidID) ON DELETE NO ACTION ON UPDATE CASCADE
-);
-
 ALTER TABLE Auction ADD
-FOREIGN KEY (SaleID) REFERENCES Sale(WinningBidID) ON DELETE SET NULL ON UPDATE CASCADE;
+FOREIGN KEY (WinningBidID) REFERENCES Bid(BidID) ON DELETE SET NULL ON UPDATE CASCADE;
