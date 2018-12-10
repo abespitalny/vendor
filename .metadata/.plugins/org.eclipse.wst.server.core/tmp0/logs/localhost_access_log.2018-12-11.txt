@@ -1,0 +1,13 @@
+127.0.0.1 - - [11/Dec/2018:03:07:42 -0500] "GET / HTTP/1.1" 404 1074
+0:0:0:0:0:0:0:1 - - [11/Dec/2018:03:07:42 -0500] "GET /vendor/ HTTP/1.1" 200 1231
+0:0:0:0:0:0:0:1 - - [11/Dec/2018:03:07:42 -0500] "GET /vendor/webjars/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 1131
+0:0:0:0:0:0:0:1 - - [11/Dec/2018:03:07:42 -0500] "GET /vendor/webjars/bootstrap/4.1.3/bootstrap.min.js HTTP/1.1" 404 1137
+127.0.0.1 - - [11/Dec/2018:03:10:29 -0500] "GET / HTTP/1.1" 404 1074
+0:0:0:0:0:0:0:1 - - [11/Dec/2018:03:10:29 -0500] "GET /vendor/ HTTP/1.1" 200 1231
+0:0:0:0:0:0:0:1 - - [11/Dec/2018:03:10:29 -0500] "GET /vendor/webjars/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 1131
+0:0:0:0:0:0:0:1 - - [11/Dec/2018:03:10:29 -0500] "GET /vendor/webjars/bootstrap/4.1.3/bootstrap.min.js HTTP/1.1" 404 1137
+0:0:0:0:0:0:0:1 - - [11/Dec/2018:03:10:34 -0500] "GET /vendor/ HTTP/1.1" 200 1231
+0:0:0:0:0:0:0:1 - - [11/Dec/2018:03:10:34 -0500] "GET /vendor/webjars/jquery/3.3.1/jquery.min.js HTTP/1.1" 404 1131
+0:0:0:0:0:0:0:1 - - [11/Dec/2018:03:10:34 -0500] "GET /vendor/webjars/bootstrap/4.1.3/bootstrap.min.js HTTP/1.1" 404 1137
+0:0:0:0:0:0:0:1 - - [11/Dec/2018:03:10:34 -0500] "GET /vendor/webjars/bootstrap/4.1.3/bootstrap.min.js HTTP/1.1" 404 1137
+0:0:0:0:0:0:0:1 - - [11/Dec/2018:03:10:34 -0500] "GET /favicon.ico HTTP/1.1" 404 1085
