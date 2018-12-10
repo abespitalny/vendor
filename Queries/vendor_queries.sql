@@ -2,7 +2,7 @@
 
 -- Add new employee
 INSERT INTO VendorUser VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-INSERT INTO Employee VALUES (?, ?, ?, ?, ?);
+INSERT INTO Employee VALUES (?, ?, CURDATE(), ?, ?);
 
 -- Managers can only edit the info. of customer representatives
 UPDATE VendorUser INNER JOIN Employee ON Username = EmployeeID
@@ -207,3 +207,32 @@ INSERT INTO ItemSuggestion VALUES (?, ?);
 DELETE FROM ItemSuggestion WHERE CustomerID = ?;
 
 -- Customer Level Transactions
+
+-- Place bid
+-- Transaction starts here
+INSERT INTO Bid
+SELECT ? AS CustomerID, AuctionID, NOW() AS BidTime, ? AS BidPrice
+FROM Auction
+WHERE AuctionID = ? AND IF(CurrentHighestBidPrice IS NULL, ? >= MinBidPrice, ? > CurrentHighestBidPrice);
+    
+-- If the bid is not inserted into the Bid table above then do not
+-- proceed and rollback the transaction
+
+-- Assuming that BidPrice is >= MinBidPrice
+-- and > CurrentHighestBidPrice, if applicable
+UPDATE Auction
+SET CurrentHighestBidPrice = IF(CurrentHighestBidPrice IS NULL, MinBidPrice, IF(? > CurrentMaxBidPrice, LEAST(?, CurrentMaxBidPrice + BidIncrement), LEAST(? + BidIncrement, CurrentMaxBidPrice))),
+    CurrentMaxBidPrice = IF(CurrentMaxBidPrice IS NULL, ?, IF(? > CurrentMaxBidPrice, ?, CurrentMaxBidPrice)),
+    BidIncrement = ?,
+    WinningBidID = IF(WinningBidID IS NULL, ?, IF(? > CurrentMaxBidPrice, ?, WinningBidID))
+WHERE AuctionID = ?;
+-- Transaction ends here
+
+
+
+
+-- Logging into vendor
+SELECT IF(UserPassword = ?, TRUE, FALSE) AS ValidPassword, Email, CustomerID, EmployeeID, EmployeeLevel
+FROM (VendorUser LEFT JOIN Employee ON Username = EmployeeID) LEFT JOIN Customer ON Username = CustomerID
+WHERE Username = ?;
+
