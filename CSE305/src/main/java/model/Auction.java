@@ -21,7 +21,8 @@ public class Auction {
     private Date endDate;
     private int winningBidID;
     private SaleStatus status;
-
+    private String itemName;
+    
     public int getAuctionID() {
         return auctionID;
     }
@@ -105,5 +106,11 @@ public class Auction {
     }
     public void setStatus(SaleStatus status) {
         this.status = status;
-    } 
+    }
+    public String getItemName() {
+        return itemName;
+    }
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 }
