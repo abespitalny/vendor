@@ -1,8 +1,6 @@
 package resources;
 
 import java.io.IOException;
-import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import dao.EmployeeDao;
 import dao.LoginDao;
 import model.Employee;
-import model.Login;
 
 /**
  * Servlet implementation class UpdateEmployeeController
@@ -41,47 +38,40 @@ public class UpdateEmployeeController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		String email = request.getParameter("employeeEmail");
-		String firstName = request.getParameter("employeeFirstName");
-		String lastName = request.getParameter("employeeLastName");
-		String address = request.getParameter("employeeAddress");
-		String city = request.getParameter("employeeCity");
-		String state= request.getParameter("employeeState");
-		int zipcode = Integer.parseInt(request.getParameter("employeeZipcode"));
-		String telephone = request.getParameter("employeeTelephone");
-		String ssn = request.getParameter("employeeSSN");
-		String startDate = request.getParameter("employeeStartDate");
-		float hourlyRate = Float.parseFloat(request.getParameter("employeeHourlyRate"));
-		
-		Employee employee = new Employee();
-		employee.setEmail(email);
-		employee.setFirstName(firstName);
-		employee.setLastName(lastName);
-		employee.setAddress(address);
-		employee.setCity(city);
-		employee.setStartDate(startDate);
-		employee.setState(state);
-		employee.setZipCode(zipcode);
-		employee.setTelephone(telephone);
-		employee.setEmployeeID(ssn);
-		employee.setHourlyRate(hourlyRate);
-		
-		EmployeeDao employeeDao = new EmployeeDao();
-		String result;
-		try {
-			result = employeeDao.editEmployee(employee);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
-		
-		if(result.equals("success")) {
-			response.sendRedirect("managerHome.jsp?status=editEmployeeSuccess");
-		}
-		else {
-			response.sendRedirect("editEmployee.jsp?status=error");
-		}
+//		String email = request.getParameter("employeeEmail");
+//		String firstName = request.getParameter("employeeFirstName");
+//		String lastName = request.getParameter("employeeLastName");
+//		String address = request.getParameter("employeeAddress");
+//		String city = request.getParameter("employeeCity");
+//		String state= request.getParameter("employeeState");
+//		int zipcode = Integer.parseInt(request.getParameter("employeeZipcode"));
+//		String telephone = request.getParameter("employeeTelephone");
+//		String ssn = request.getParameter("employeeSSN");
+//		String startDate = request.getParameter("employeeStartDate");
+//		float hourlyRate = Float.parseFloat(request.getParameter("employeeHourlyRate"));
+//		
+//		Employee employee = new Employee();
+//		employee.setEmail(email);
+//		employee.setFirstName(firstName);
+//		employee.setLastName(lastName);
+//		employee.setAddress(address);
+//		employee.setCity(city);
+//		employee.setStartDate(startDate);
+//		employee.setState(state);
+//		employee.setZipCode(zipcode);
+//		employee.setTelephone(telephone);
+//		employee.setEmployeeID(ssn);
+//		employee.setHourlyRate(hourlyRate);
+//		
+//		EmployeeDao employeeDao = new EmployeeDao();
+//		String result = employeeDao.editEmployee(employee);
+//		
+//		if(result.equals("success")) {
+//			response.sendRedirect("managerHome.jsp?status=editEmployeeSuccess");
+//		}
+//		else {
+//			response.sendRedirect("editEmployee.jsp?status=error");
+//		}
 
 	}
 

@@ -1,47 +1,46 @@
 package model;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+
+/*
+ * This class is a representation of the Bid table from the schema
+ */
 public class Bid {
-	
-	/*
-	 * This class is a representation of the bid table in the database
-	 * Each instance variable has a corresponding getter and setter
-	 */
-
-	private String customerID;
-	private int auctionID;
-	private String bidTime;
-	private float bidPrice;
-	private float maxBid;
-	public float getMaxBid() {
-		return maxBid;
-	}
-	public void setMaxBid(float maxBid) {
-		this.maxBid = maxBid;
-	}
-	public String getCustomerID() {
-		return customerID;
-	}
-	public void setCustomerID(String customerID) {
-		this.customerID = customerID;
-	}
-	public int getAuctionID() {
-		return auctionID;
-	}
-	public void setAuctionID(int auctionID) {
-		this.auctionID = auctionID;
-	}
-	public String getBidTime() {
-		return bidTime;
-	}
-	public void setBidTime(String bidTime) {
-		this.bidTime = bidTime;
-	}
-	public float getBidPrice() {
-		return bidPrice;
-	}
-	public void setBidPrice(float bidPrice) {
-		this.bidPrice = bidPrice;
-	}
-	
-
+    private int bidID;
+    private String customerID;
+    private int auctionID;
+    private Date bidTime;
+    private BigDecimal bidPrice;
+    
+    public int getBidID() {
+        return bidID;
+    }
+    public void setBidID(int bidID) {
+        this.bidID = bidID;
+    }
+    public String getCustomerID() {
+        return customerID;
+    }
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
+    }
+    public int getAuctionID() {
+        return auctionID;
+    }
+    public void setAuctionID(int auctionID) {
+        this.auctionID = auctionID;
+    }
+    public Date getBidTime() {
+        return bidTime;
+    }
+    public void setBidTime(Date bidTime) {
+        this.bidTime = bidTime;
+    }
+    public BigDecimal getBidPrice() {
+        return bidPrice;
+    }
+    public void setBidPrice(BigDecimal bidPrice) {
+        this.bidPrice = bidPrice;
+    }
 }

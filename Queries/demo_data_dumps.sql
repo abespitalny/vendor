@@ -30,16 +30,16 @@ INSERT INTO VendorUser VALUES ('davidw', '2001', 'David', 'Warren', '456 Sunken 
 INSERT INTO Employee(EmployeeID, SSN, StartDate, EmployeeLevel, HourlyRate) VALUES ('davidw', '789123456', '1999-02-02', 2, 50.00);
 
 -- Items
-INSERT INTO Item(ItemName, ItemType, Description, Quantity) VALUES ('Titanic', 'DVD', '2005', 4);
+INSERT INTO Item(ItemName, ItemType, YearManufactured, Quantity) VALUES ('Titanic', 'DVD', 2005, 4);
 SET @item_id1 = LAST_INSERT_ID();
 
-INSERT INTO Item(ItemName, ItemType, Description, Quantity) VALUES ('Nissan Sentra', 'Car', '2007', 1);
+INSERT INTO Item(ItemName, ItemType, YearManufactured, Quantity) VALUES ('Nissan Sentra', 'Car', 2007, 1);
 SET @item_id2 = LAST_INSERT_ID();
 
-INSERT INTO Item (ItemName, ItemType, Description, Quantity) VALUES ('Cars 2', 'DVD', '2012', 3);
+INSERT INTO Item (ItemName, ItemType, YearManufactured, Quantity) VALUES ('Cars 2', 'DVD', 2012, 3);
 SET @item_id3 = LAST_INSERT_ID();
 
-INSERT INTO Item (ItemName, ItemType, Description, Quantity) VALUES ('Bee Movie', 'DVD', '2004', 13);
+INSERT INTO Item (ItemName, ItemType, YearManufactured, Quantity) VALUES ('Bee Movie', 'DVD', 2004, 13);
 SET @item_id4 = LAST_INSERT_ID();
 
 -- Auctions

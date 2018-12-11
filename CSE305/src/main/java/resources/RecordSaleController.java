@@ -1,8 +1,6 @@
 package resources;
 
 import java.io.IOException;
-import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,14 +39,7 @@ public class RecordSaleController extends HttpServlet {
 		String auctionID = request.getParameter("auctionID");
 		
 		AuctionDao auctionDao = new AuctionDao();
-		String result;
-		try {
-			result = auctionDao.recordSale(auctionID);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
+		String result = auctionDao.recordSale(auctionID);
 		
 		if(result.equals("success")) {
 			response.sendRedirect("customerRepresentativeHome.jsp?status=recordSuccess");

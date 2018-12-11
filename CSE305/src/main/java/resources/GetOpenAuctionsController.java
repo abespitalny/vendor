@@ -1,7 +1,6 @@
 package resources;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,13 +35,7 @@ public class GetOpenAuctionsController extends HttpServlet {
 		String employeeEmail = (String)request.getSession(false).getAttribute("employeeEmail");
 		AuctionDao auctionDao = new AuctionDao();
 		List<Auction> auctions = new ArrayList<Auction>();
-		try {
-			auctions = auctionDao.getOpenAuctions(employeeEmail);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
+		auctions = auctionDao.getOpenAuctions(employeeEmail);
 		
 		request.setAttribute("auctions", auctions);
 		RequestDispatcher rd = request.getRequestDispatcher("showOpenAuctions.jsp");

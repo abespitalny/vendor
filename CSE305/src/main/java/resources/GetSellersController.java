@@ -1,7 +1,6 @@
 package resources;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -33,14 +32,7 @@ public class GetSellersController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		CustomerDao customerDao = new CustomerDao();
-		List<Customer> sellers;
-		try {
-			sellers = customerDao.getSellers();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
+		List<Customer> sellers = customerDao.getSellers();
 		
 		request.setAttribute("sellers", sellers);
 		RequestDispatcher rd = request.getRequestDispatcher("showSellers.jsp");
