@@ -236,3 +236,8 @@ SELECT IF(UserPassword = ?, TRUE, FALSE) AS ValidPassword, Email, CustomerID, Em
 FROM (VendorUser LEFT JOIN Employee ON Username = EmployeeID) LEFT JOIN Customer ON Username = CustomerID
 WHERE Username = ?;
 
+-- Get all active auctions
+SELECT AuctionID, IF(CurrentHighestBidPrice IS NULL, MinBidPrice, CurrentHighestBidPrice) AS Price, ItemID, ItemName, NumCopies
+FROM Auction INNER JOIN Item USING (ItemID)
+WHERE NOW() < EndDate;
+
