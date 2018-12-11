@@ -14,29 +14,8 @@ public class Item {
     private int yearManufactured;
     private int numInStock;
     private int numSold;
-<<<<<<< HEAD
-    private int soldPrice;
-
-    public int getSoldPrice() {
-        return soldPrice;
-    }
-
-    public void setSoldPrice(int soldPrice) {
-        this.soldPrice = soldPrice;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-=======
     private BigDecimal soldPrice;
-    
->>>>>>> 0e271dbbd3fe2d279204cbce55827b937c5c198c
+
     public int getItemID() {
         return itemID;
     }
@@ -84,17 +63,20 @@ public class Item {
     public void setNumSold(int numSold) {
         this.numSold = numSold;
     }
-<<<<<<< HEAD
 
-=======
     public String getDescription() {
         return description;
     }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public BigDecimal getSoldPrice() {
         return soldPrice;
     }
+
     public void setSoldPrice(BigDecimal soldPrice) {
         this.soldPrice = soldPrice;
     }
->>>>>>> 0e271dbbd3fe2d279204cbce55827b937c5c198c
 }
