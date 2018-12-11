@@ -1,44 +1,45 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import model.Auction;
-import model.Bid;
-import model.Customer;
-import model.Item;
 
 public class AuctionDao {
-	
-	public List<Auction> getAllAuctions() {
-		
-//		List<Auction> auctions = new ArrayList<Auction>();
-//		
-//		/*
-//		 * The students code to fetch data from the database will be written here
-//		 * Each record is required to be encapsulated as a "Auction" class object and added to the "auctions" ArrayList
-//		 * Query to get data about all the auctions should be implemented
-//		 */
-//		
-//		/*Sample data begins*/
-//		for (int i = 0; i < 10; i++) {
-//			Auction auction = new Auction();
-//			auction.setAuctionID(1);
-//			auction.setBidIncrement(10);
-//			auction.setMinimumBid(10);
-//			auction.setCopiesSold(12);
-//			auction.setItemID(1234);
-//			auction.setClosingBid(120);
-//			auction.setCurrentBid(120);
-//			auction.setCurrentHighBid(120);
-//			auction.setReserve(10);
-//			auctions.add(auction);
-//		}
-//		/*Sample data ends*/
-//		
-//		return auctions;
-            return null;
-	}
+    public List<Auction> getAllActiveAuctions() {
+        List<Auction> auctions = new ArrayList<>();
+        
+        String sql = "SELECT AuctionID, IF(CurrentHighestBidPrice IS NULL, MinBidPrice, CurrentHighestBidPrice) AS Price, ItemID, ItemName, NumCopies" +
+                    " FROM Auction INNER JOIN Item USING (ItemID)" +
+                    " WHERE NOW() < EndDate";
+
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+        ) {
+            try (
+                    ResultSet rs = statement.executeQuery();
+            ) {
+                while (rs.next()) {
+                    Auction auction = new Auction();
+                    auction.setAuctionID(rs.getInt(1));
+                    auction.setCurrentHighestBidPrice(rs.getBigDecimal(2));
+                    auction.setItemID(rs.getInt(3));
+                    auction.setItemName(rs.getString(4));
+                    auction.setNumCopies(rs.getInt(5));
+                    auctions.add(auction);
+                }
+            }
+            
+            
+        } catch (SQLException e) {
+        }
+        return auctions;
+    }
 
 	public List<Auction> getAuctions(String customerID) {
 		

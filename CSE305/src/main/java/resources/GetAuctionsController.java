@@ -34,13 +34,13 @@ public class GetAuctionsController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		AuctionDao auctionDao = new AuctionDao();
-		List<Auction> auctions = new ArrayList<Auction>();
-		auctions = auctionDao.getAllAuctions();
-		
-		request.setAttribute("auctions", auctions);
-		RequestDispatcher rd = request.getRequestDispatcher("showAllAuctions.jsp");
-		rd.forward(request, response);
+//		AuctionDao auctionDao = new AuctionDao();
+//		List<Auction> auctions = new ArrayList<Auction>();
+//		auctions = auctionDao.getAllAuctions();
+//		
+//		request.setAttribute("auctions", auctions);
+//		RequestDispatcher rd = request.getRequestDispatcher("showAllAuctions.jsp");
+//		rd.forward(request, response);
 
 	}
 

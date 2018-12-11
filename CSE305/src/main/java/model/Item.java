@@ -1,5 +1,7 @@
 package model;
 
+import java.math.BigDecimal;
+
 /*
  * This class is a representation of the Item table from the schema
  */	 
@@ -11,6 +13,7 @@ public class Item {
     private int yearManufactured;
     private int numInStock;
     private int numSold;
+    private BigDecimal soldPrice;
     
     public int getItemID() {
         return itemID;
@@ -50,5 +53,11 @@ public class Item {
     }
     public String getDescription() {
         return description;
+    }
+    public BigDecimal getSoldPrice() {
+        return soldPrice;
+    }
+    public void setSoldPrice(BigDecimal soldPrice) {
+        this.soldPrice = soldPrice;
     }
 }

@@ -34,32 +34,35 @@ public class LoginDao {
             statement.setString(1, password);
             // set the username
             statement.setString(2, username);
-
-            ResultSet rs = statement.executeQuery();
-            // get the info. seeing if this username belongs to an employee or customer
-            if (rs.next()) {
-                Boolean isPasswordValid = rs.getBoolean("ValidPassword");
-                if (isPasswordValid) {
-                    String email = rs.getString("Email");
-                    String employeeID = rs.getString("EmployeeID");
-                    if (employeeID == null) {
-                        Customer customer = new Customer(username, email);
-                        return customer;
+        
+            try (
+                    ResultSet rs = statement.executeQuery();
+            ) {
+                // get the info. seeing if this username belongs to an employee or customer
+                if (rs.next()) {
+                    Boolean isPasswordValid = rs.getBoolean("ValidPassword");
+                    if (isPasswordValid) {
+                        String email = rs.getString("Email");
+                        String employeeID = rs.getString("EmployeeID");
+                        if (employeeID == null) {
+                            Customer customer = new Customer(username, email);
+                            return customer;
+                        } else {
+                            EmployeeLevel level = EmployeeLevel.valueOf(rs.getString("EmployeeLevel"));
+                            Employee employee = new Employee(username, email, level);
+                            return employee;
+                        }
                     } else {
-                        EmployeeLevel level = EmployeeLevel.valueOf(rs.getString("EmployeeLevel"));
-                        Employee employee = new Employee(username, email, level);
-                        return employee;
+                        System.out.println("Password was invalid");
+                        return null;
                     }
-                } else {
-                    System.out.println("Password was invalid");
+                }
+                // if there were no results than username wasn't valid
+                else {
+                    System.out.println("No rows were found because of invalid username");
                     return null;
                 }
             }
-            // if there were no results than username wasn't valid
-            else {
-                System.out.println("No rows were found because of invalid username");
-                return null;
-            }	
         } catch (SQLException e) {
             System.out.println("There was an unexpected error");
             System.err.println(e);
