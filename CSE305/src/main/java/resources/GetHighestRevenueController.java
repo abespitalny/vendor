@@ -1,7 +1,6 @@
 package resources;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,19 +35,13 @@ public class GetHighestRevenueController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 				
-		EmployeeDao employeeDao = new EmployeeDao();
-		Employee employee = new Employee();
-		try {
-			employee = employeeDao.getHighestRevenueEmployee();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
-		
-		request.setAttribute("employee", employee);
-		RequestDispatcher rd = request.getRequestDispatcher("showHighestRevenueEmployee.jsp");
-		rd.forward(request, response);
+//		EmployeeDao employeeDao = new EmployeeDao();
+//		Employee employee = new Employee();
+//		employee = employeeDao.getHighestRevenueEmployee();
+//		
+//		request.setAttribute("employee", employee);
+//		RequestDispatcher rd = request.getRequestDispatcher("showHighestRevenueEmployee.jsp");
+//		rd.forward(request, response);
 
 	}
 

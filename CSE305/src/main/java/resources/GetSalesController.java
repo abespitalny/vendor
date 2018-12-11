@@ -1,7 +1,6 @@
 package resources;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.BidDao;
+import dao.ItemDao;
 import model.Bid;
+import model.Item;
 
 /**
  * Servlet implementation class GetSalesController
@@ -37,13 +38,7 @@ public class GetSalesController extends HttpServlet {
 		
 		BidDao bidDao = new BidDao();
 		List<Bid> bids = new ArrayList<Bid>(); 
-		try {
-			bids = bidDao.getSalesListing(searchKeyword);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
+		bids = bidDao.getSalesListing(searchKeyword);
 		
 		request.setAttribute("bids", bids);
 		RequestDispatcher rd = request.getRequestDispatcher("showSalesListing.jsp");

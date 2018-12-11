@@ -1,7 +1,6 @@
 package resources;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -34,14 +33,7 @@ public class GetCustomerAuctionsController extends HttpServlet {
 		String customerID = request.getParameter("customerID");
 		
 		AuctionDao auctionDao = new AuctionDao();
-		List<Auction> auctions;
-		try {
-			auctions = auctionDao.getAuctions(customerID);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
+		List<Auction> auctions = auctionDao.getAuctions(customerID);
 		
 		request.setAttribute("auctions", auctions);
 		RequestDispatcher rd = request.getRequestDispatcher("showAllAuctions.jsp");

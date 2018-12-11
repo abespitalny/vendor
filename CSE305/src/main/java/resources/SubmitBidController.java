@@ -1,7 +1,7 @@
 package resources;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.AuctionDao;
 import dao.BidDao;
 import model.Bid;
 
@@ -47,13 +48,7 @@ public class SubmitBidController extends HttpServlet {
 		Float maxBid = Float.parseFloat(request.getParameter("maxBid"));
 		
 		BidDao bidDao = new BidDao();
-		try {
-			Bid bid = bidDao.submitBid(auctionID, itemID, currentBid, maxBid, customerID);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
+		Bid bid = bidDao.submitBid(auctionID, itemID, currentBid, maxBid, customerID);
 		
 		request.setAttribute("auctionID", auctionID);
 		request.setAttribute("itemID", itemID);

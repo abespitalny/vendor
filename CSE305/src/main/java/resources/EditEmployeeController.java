@@ -1,8 +1,6 @@
 package resources;
 
 import java.io.IOException;
-import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,14 +39,7 @@ public class EditEmployeeController extends HttpServlet {
 		String employeeID = request.getParameter("employeeID");
 				
 		EmployeeDao employeeDao = new EmployeeDao();
-		Employee editEmployee;
-		try {
-			editEmployee = employeeDao.getEmployee(employeeID);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
+		Employee editEmployee = employeeDao.getEmployee(employeeID);
 		
 		request.getSession(true).setAttribute("editEmployee", editEmployee);
 		response.sendRedirect("editEmployee.jsp");

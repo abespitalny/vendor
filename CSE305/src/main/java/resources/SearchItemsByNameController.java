@@ -1,7 +1,6 @@
 package resources;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -43,14 +42,7 @@ public class SearchItemsByNameController extends HttpServlet {
 		String itemName = request.getParameter("itemName");
 		
 		ItemDao itemDao = new ItemDao();
-		List data;
-		try {
-			data = itemDao.getItemsByName(itemName);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
+		List data = itemDao.getItemsByName(itemName);
 		
 		request.setAttribute("items", data.get(0));
 		request.setAttribute("auctions", data.get(1));

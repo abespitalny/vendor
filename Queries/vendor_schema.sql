@@ -44,6 +44,8 @@ CREATE TABLE IF NOT EXISTS Item (
     ItemName VARCHAR(255) NOT NULL,
     ItemType VARCHAR(255),
     Description TEXT,
+    YearManufactured YEAR,
+    -- this is the quantity still in stock
     Quantity INTEGER UNSIGNED NOT NULL,
     NumSold INTEGER UNSIGNED DEFAULT 0,
     PRIMARY KEY (ItemID),

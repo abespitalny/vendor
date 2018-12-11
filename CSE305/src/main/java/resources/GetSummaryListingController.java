@@ -1,7 +1,6 @@
 package resources;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,13 +39,7 @@ public class GetSummaryListingController extends HttpServlet {
 		
 		ItemDao itemDao = new ItemDao();
 		List<Item> items = new ArrayList<Item>(); 
-		try {
-			items = itemDao.getSummaryListing(searchKeyword);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
+		items = itemDao.getSummaryListing(searchKeyword);
 		
 		request.setAttribute("items", items);
 		RequestDispatcher rd = request.getRequestDispatcher("showSummaryListing.jsp");

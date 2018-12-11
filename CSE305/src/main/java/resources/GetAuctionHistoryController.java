@@ -1,7 +1,6 @@
 package resources;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.BidDao;
+import dao.CustomerDao;
 import model.Bid;
 
 /**
@@ -35,14 +35,7 @@ public class GetAuctionHistoryController extends HttpServlet {
 		String customerID = (String)request.getSession(false).getAttribute("customerID");;
 		
 		BidDao bidDao = new BidDao();
-		List<Bid> bids;
-		try {
-			bids = bidDao.getAuctionHistory(customerID);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
+		List<Bid> bids = bidDao.getAuctionHistory(customerID);
 		
 		request.setAttribute("bids", bids);
 		RequestDispatcher rd = request.getRequestDispatcher("showAuctionHistory.jsp");

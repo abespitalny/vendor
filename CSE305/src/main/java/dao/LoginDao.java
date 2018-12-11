@@ -1,99 +1,70 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
+import model.Customer;
 import model.Employee;
-import model.Login;
+import model.EmployeeLevel;
+import model.VendorUser;
 
+/*
+ * This class handles all the database operations related to login functionality
+ */
 public class LoginDao {
-	/*
-	 * This class handles all the database operations related to login
-	 * functionality
-	 */
+    /**
+     * Return a VendorUser object with permissions of Manager, Customer rep., or Customer if successful login
+     * 
+     * @param username Username of VendorUser
+     * @param password Plain text password for VendorUser (in the future we hope to hash it with a salt)
+     * @return a VendorUser which is either an Employee or Customer if the username and password are valid else it returns null
+     * @throws java.lang.ClassNotFoundException
+     */
+    public VendorUser login(String username, String password) {
+        String sql = "SELECT IF(UserPassword = ?, TRUE, FALSE) AS ValidPassword, Email, CustomerID, EmployeeID, EmployeeLevel" + 
+                    " FROM (VendorUser LEFT JOIN Employee ON Username = EmployeeID) LEFT JOIN Customer ON Username = CustomerID" + 
+                    " WHERE Username = ?";
 
-	//////////////////////////////////////////////////////
-	// TODO: Add username and passwords to the DB. Then write SQL
-	public Login login(String username, String password) throws SQLException {
-		/*
-		 * Return a Login object with role as "manager",
-		 * "customerRepresentative" or "customer" if successful login
-		 * 
-		 * Else, return null
-		 * 
-		 * The role depends on the type of the user, which has to be handled in
-		 * the database
-		 * 
-		 * username, which is the email address of the user, is given as method
-		 * parameter
-		 * 
-		 * password, which is the password of the user, is given as method
-		 * parameter
-		 * 
-		 * Query to verify the username and password and fetch the role of the
-		 * user, must be implemented
-		 */
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+        ) {
+            // set the password
+            statement.setString(1, password);
+            // set the username
+            statement.setString(2, username);
 
-		// Get connection
-		Connection connection = ConnectionUtils.getMyConnection();
-
-		// Create statement
-		Statement statement = connection.createStatement();
-
-		String sql = "";
-
-		ResultSet rs = statement.executeQuery(sql);
-
-		// Pull data from database
-		String role = rs.getString(1);
-
-		// Add data to login
-		Login login = new Login();
-		login.setRole(role);
-		return login;
-		/* Sample data ends */
-	}
-
-	////////////////////////////////////////////////////
-	// TODO: Add username and passwords to the DB, then write SQL
-	public String addUser(Login login) throws SQLException {
-		/*
-		 * Query to insert a new record for user login must be implemented
-		 * 
-		 * login, which is the "Login" Class object containing username and
-		 * password for the new user, is given as method parameter
-		 * 
-		 * The username and password from login can get accessed using getter
-		 * methods in the "Login" model
-		 * 
-		 * e.g. getUsername() method will return the username encapsulated in
-		 * login object
-		 * 
-		 * Return "success" on successful insertion of a new user
-		 * 
-		 * Return "failure" for an unsuccessful database operation
-		 */
-
-		// Get connection
-		Connection connection = ConnectionUtils.getMyConnection();
-
-		// Create statement
-		Statement statement = connection.createStatement();
-
-		String username = login.getUsername();
-		String password = login.getPassword();
-		String role = login.getRole();
-
-		String sql = "";
-
-		int result = statement.executeUpdate(sql);
-		if (result != 1) {
-			return "failure";
-		}
-
-		return "success";
-	}
-
+            ResultSet rs = statement.executeQuery();
+            // get the info. seeing if this username belongs to an employee or customer
+            if (rs.next()) {
+                Boolean isPasswordValid = rs.getBoolean("ValidPassword");
+                if (isPasswordValid) {
+                    String email = rs.getString("Email");
+                    String employeeID = rs.getString("EmployeeID");
+                    if (employeeID == null) {
+                        Customer customer = new Customer(username, email);
+                        return customer;
+                    } else {
+                        EmployeeLevel level = EmployeeLevel.valueOf(rs.getString("EmployeeLevel"));
+                        Employee employee = new Employee(username, email, level);
+                        return employee;
+                    }
+                } else {
+                    System.out.println("Password was invalid");
+                    return null;
+                }
+            }
+            // if there were no results than username wasn't valid
+            else {
+                System.out.println("No rows were found because of invalid username");
+                return null;
+            }	
+        } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
+            return null;
+        }
+    }
 }

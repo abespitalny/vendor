@@ -1,8 +1,6 @@
 package resources;
 
 import java.io.IOException;
-import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +10,6 @@ import dao.CustomerDao;
 import dao.EmployeeDao;
 import dao.LoginDao;
 import model.Employee;
-import model.Login;
 
 /**
  * Servlet implementation class AddCustomerController
@@ -43,66 +40,52 @@ public class AddEmployeeController extends HttpServlet {
 		// TODO Auto-generated method stub
 //		doGet(request, response);
 
-		String email = request.getParameter("employeeEmail");
-		String password = request.getParameter("employeePassword");
-		String firstName = request.getParameter("employeeFirstName");
-		String lastName = request.getParameter("employeeLastName");
-		String address = request.getParameter("employeeAddress");
-		String city = request.getParameter("employeeCity");
-		String state= request.getParameter("employeeState");
-		int zipcode = Integer.parseInt(request.getParameter("employeeZipcode"));
-		String telephone = request.getParameter("employeeTelephone");
-		String ssn = request.getParameter("employeeSSN");
-		String startDate = request.getParameter("employeeStartDate");
-		float hourlyRate = Float.parseFloat(request.getParameter("employeeHourlyRate"));
-		
-		Employee employee = new Employee();
-		employee.setEmail(email);
-		employee.setFirstName(firstName);
-		employee.setLastName(lastName);
-		employee.setAddress(address);
-		employee.setCity(city);
-		employee.setStartDate(startDate);
-		employee.setState(state);
-		employee.setZipCode(zipcode);
-		employee.setTelephone(telephone);
-		employee.setEmployeeID(ssn);
-		employee.setHourlyRate(hourlyRate);
-		
-		EmployeeDao employeeDao = new EmployeeDao();
-		String result;
-		try {
-			result = employeeDao.addEmployee(employee);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
-		
-		if(result.equals("success")) {
-			Login login = new Login();
-			login.setUsername(email);
-			login.setPassword(password);
-			login.setRole("customerRepresentative");
-			LoginDao loginDao = new LoginDao();
-			String loginResult;
-			try {
-				loginResult = loginDao.addUser(login);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return;
-			}
-			if(loginResult.equals("success")) {
-				response.sendRedirect("managerHome.jsp?status=addEmployeeSuccess");
-			}
-			else {
-				response.sendRedirect("addEmployee.jsp?status=error");
-			}
-		}
-		else {
-			response.sendRedirect("addEmployee.jsp?status=error");
-		}
+//		String email = request.getParameter("employeeEmail");
+//		String password = request.getParameter("employeePassword");
+//		String firstName = request.getParameter("employeeFirstName");
+//		String lastName = request.getParameter("employeeLastName");
+//		String address = request.getParameter("employeeAddress");
+//		String city = request.getParameter("employeeCity");
+//		String state= request.getParameter("employeeState");
+//		int zipcode = Integer.parseInt(request.getParameter("employeeZipcode"));
+//		String telephone = request.getParameter("employeeTelephone");
+//		String ssn = request.getParameter("employeeSSN");
+//		String startDate = request.getParameter("employeeStartDate");
+//		float hourlyRate = Float.parseFloat(request.getParameter("employeeHourlyRate"));
+//		
+//		Employee employee = new Employee();
+//		employee.setEmail(email);
+//		employee.setFirstName(firstName);
+//		employee.setLastName(lastName);
+//		employee.setAddress(address);
+//		employee.setCity(city);
+//		employee.setStartDate(startDate);
+//		employee.setState(state);
+//		employee.setZipCode(zipcode);
+//		employee.setTelephone(telephone);
+//		employee.setEmployeeID(ssn);
+//		employee.setHourlyRate(hourlyRate);
+//		
+//		EmployeeDao employeeDao = new EmployeeDao();
+//		String result = employeeDao.addEmployee(employee);
+//		
+//		if(result.equals("success")) {
+//			Login login = new Login();
+//			login.setUsername(email);
+//			login.setPassword(password);
+//			login.setRole("customerRepresentative");
+//			LoginDao loginDao = new LoginDao();
+//			String loginResult = loginDao.addUser(login);
+//			if(loginResult.equals("success")) {
+//				response.sendRedirect("managerHome.jsp?status=addEmployeeSuccess");
+//			}
+//			else {
+//				response.sendRedirect("addEmployee.jsp?status=error");
+//			}
+//		}
+//		else {
+//			response.sendRedirect("addEmployee.jsp?status=error");
+//		}
 
 		
 	}
