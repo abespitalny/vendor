@@ -20,7 +20,6 @@ public class LoginDao {
      * @param username Username of VendorUser
      * @param password Plain text password for VendorUser (in the future we hope to hash it with a salt)
      * @return a VendorUser which is either an Employee or Customer if the username and password are valid else it returns null
-     * @throws java.lang.ClassNotFoundException
      */
     public VendorUser login(String username, String password) {
         String sql = "SELECT IF(UserPassword = ?, TRUE, FALSE) AS ValidPassword, Email, CustomerID, EmployeeID, EmployeeLevel" + 
