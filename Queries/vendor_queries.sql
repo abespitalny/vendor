@@ -246,9 +246,15 @@ WHERE AuctionID = ?;
 -- Transaction ends here
 
 -- Personalized item suggestion list
-SELECT DISTINCT I.ItemID, ItemName, ItemType, Description, Quantity
-FROM Item AS I INNER JOIN (Bid INNER JOIN Auction USING (AuctionID)) USING (ItemID)
-WHERE CustomerID = ? AND Quantity > 0;
+SELECT DISTINCT ItemName
+FROM Item AS I
+WHERE Quantity > 0 AND EXISTS(SELECT 1
+                              FROM Bid INNER JOIN Auction AS A USING (AuctionID)
+                              WHERE A.ItemID = I.ItemID AND CustomerID = ?);
+
+SELECT ItemID, ItemName, ItemType, Description, Quantity
+FROM Item
+WHERE MATCH (ItemName) AGAINST (? IN NATURAL LANGUAGE MODE WITH QUERY EXPANSION);
 
 SELECT ItemID, ItemName, Description, ItemType, Quantity
 FROM Item INNER JOIN 

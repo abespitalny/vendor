@@ -117,17 +117,32 @@ public class ItemDao {
         List<Item> items = new ArrayList<>();
         
         // suggestions are based on previous bids placed by the customer
-        String sql = "SELECT DISTINCT I.ItemID, ItemName, ItemType, Description, Quantity" +
-                    " FROM Item AS I INNER JOIN (Bid INNER JOIN Auction USING (AuctionID)) USING (ItemID)\n" +
-                    " WHERE CustomerID = ? AND Quantity > 0";
-		
+        String sqlGetNames = "SELECT DISTINCT ItemName" +
+                            " FROM Item AS I" +
+                            " WHERE Quantity > 0 AND EXISTS" +
+                            " (SELECT 1" +
+                            "  FROM Bid INNER JOIN Auction AS A USING (AuctionID)" +
+                            "  WHERE A.ItemID = I.ItemID AND CustomerID = ?)";
+	
+        String sqlGetSuggestions = "SELECT ItemID, ItemName, ItemType, Description, Quantity" +
+                                  " FROM Item" +
+                                  " WHERE MATCH (ItemName) AGAINST (? IN NATURAL LANGUAGE MODE WITH QUERY EXPANSION)";
+        
         try (
                 Connection conn = ConnectionUtils.getMyConnection();
-                PreparedStatement statement = conn.prepareStatement(sql);
+                PreparedStatement statementGetNames = conn.prepareStatement(sqlGetNames);
+                PreparedStatement statementGetSuggestions = conn.prepareStatement(sqlGetSuggestions);
         ) {
-            statement.setString(1, customerID);
+            statementGetNames.setString(1, customerID);
             
-            try (ResultSet rs = statement.executeQuery()) {
+            List<String> names = new ArrayList<>();
+            try (ResultSet rs = statementGetNames.executeQuery()) {
+                while (rs.next())
+                    names.add(rs.getString(1));
+            }
+            
+            statementGetSuggestions.setString(1, String.join(" ", names));
+            try (ResultSet rs = statementGetSuggestions.executeQuery()) {
                 while (rs.next()) {
                     Item item = new Item(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
                     items.add(item);
