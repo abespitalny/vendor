@@ -5,7 +5,7 @@
   <artifactId>vendor</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>vendor Maven Webapp</name>
+  <name>Vendor Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -14,11 +14,19 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>8.0.12</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/jstl/jstl -->
 	<dependency>
 	    <groupId>jstl</groupId>
 	    <artifactId>jstl</artifactId>
 	    <version>1.2</version>
 	</dependency>	
+	<!-- https://mvnrepository.com/artifact/javax.el/el-api -->
 	<dependency>
 	    <groupId>javax.el</groupId>
 	    <artifactId>el-api</artifactId>
@@ -34,17 +42,12 @@
 	    <artifactId>jquery</artifactId>
 	    <version>3.3.1-1</version>
 	</dependency>
-	<dependency>
-    	<groupId>mysql</groupId>
-    	<artifactId>mysql-connector-java</artifactId>
-    	<version>8.0.13</version>
-	</dependency>
-	<dependency>
-	    <groupId>javax.servlet</groupId>
-	    <artifactId>javax.servlet-api</artifactId>
-	    <version>4.0.1</version>
-	    <scope>provided</scope>
-	</dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>

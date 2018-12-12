@@ -16,38 +16,26 @@ import model.Bid;
 /**
  * Servlet implementation class GetAuctionHistoryController
  */
-public class GetAuctionHistoryController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+public class GetAuctionHistoryController extends HttpServlet {       
     /**
      * @see HttpServlet#HttpServlet()
      */
     public GetAuctionHistoryController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String customerID = (String)request.getSession(false).getAttribute("customerID");;
-		
-		BidDao bidDao = new BidDao();
-		List<Bid> bids = bidDao.getAuctionHistory(customerID);
-		
-		request.setAttribute("bids", bids);
-		RequestDispatcher rd = request.getRequestDispatcher("showAuctionHistory.jsp");
-		rd.forward(request, response);
-	}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String customerID = (String)request.getSession(false).getAttribute("customerID");;
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+        BidDao bidDao = new BidDao();
+        List<Bid> bids = bidDao.getAuctionHistory(customerID);
 
+        request.setAttribute("bids", bids);
+        RequestDispatcher rd = request.getRequestDispatcher("showAuctionHistory.jsp");
+        rd.forward(request, response);
+    }
 }

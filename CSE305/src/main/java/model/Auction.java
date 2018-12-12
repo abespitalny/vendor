@@ -21,8 +21,20 @@ public class Auction {
     private Date endDate;
     private int winningBidID;
     private SaleStatus status;
-    private String itemName;
-    
+
+    public Auction() {
+        super();
+    }
+    public Auction(int auctionID, BigDecimal minBidPrice, BigDecimal currentHighestBidPrice, int numCopies, String seller, int itemID, Date openDate, Date endDate) {
+        this.auctionID = auctionID;
+        this.minBidPrice = minBidPrice;
+        this.currentHighestBidPrice = currentHighestBidPrice;
+        this.numCopies = numCopies;
+        this.seller = seller;
+        this.itemID = itemID;
+        this.openDate = openDate;
+        this.endDate = endDate;
+    }
     public int getAuctionID() {
         return auctionID;
     }
@@ -106,11 +118,5 @@ public class Auction {
     }
     public void setStatus(SaleStatus status) {
         this.status = status;
-    }
-    public String getItemName() {
-        return itemName;
-    }
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
     }
 }

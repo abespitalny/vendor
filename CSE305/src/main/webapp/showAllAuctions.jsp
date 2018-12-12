@@ -1,4 +1,4 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="org.apache.taglibs.standard.tag.el.core.ForEachTag"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -33,29 +33,30 @@
 		  <thead>
 		    <tr>
 		      <th>Auction ID</th>
+		      <th>Minimum Bid Price</th>
+		      <th>Highest Bid Price</th>
+		      <th>Copies</th>
+		      <th>Seller</th>
 		      <th>Item ID</th>
-		      <th>Bid Increment</th>
-		      <th>Minimum Bid</th>
-		      <th>Copies Sold</th>
-		      <th>Closing Bid</th>
-		      <th>Current High Bid</th>
-		      <th></th>
+		      <th>Open Date</th>
+		      <th>End Date</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		     <c:forEach items="${auctions}" var="cd">
 		       <tr>
 		         <td>${cd.auctionID}</td>
-		         <td>${cd.itemID}</td>		         
-		         <td>${cd.bidIncrement}</td>
-		         <td>${cd.minimumBid}</td>		         
-		         <td>${cd.copiesSold}</td>
-		         <td>${cd.closingBid}</td>
-		         <td>${cd.currentHighBid}</td>
+		         <td>${cd.minBidPrice}</td>
+                         <td><c:out value="${empty cd.currentHighestBidPrice ? ' - ' : cd.currentHighestBidPrice}" /></td>
+		         <td>${cd.numCopies}</td>
+		         <td>${cd.seller}</td>		         
+		         <td>${cd.itemID}</td>
+		         <td>${cd.openDate}</td>
+                         <td>${cd.endDate}</td>
 		         <td>
-		         	<form action="bidHistory">
+		         	<form action="bidHistory" method="GET">
 						<div class="form-group">
-			            	<input type="hidden" class="form-control" name="auctionID" value=${cd.auctionID}>
+			            	<input type="hidden" class="form-control" name="auctionID" value="${cd.auctionID}" />
 			        	</div>
 						<input type="submit" value="Bid History" class="btn btn-success"/>
 					</form>

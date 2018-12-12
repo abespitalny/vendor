@@ -14,7 +14,23 @@ public class Item {
     private int numInStock;
     private int numSold;
     private BigDecimal soldPrice;
-    
+
+    public Item() {
+        super();
+    }
+    public Item(int itemID, String name, String type, String description) {
+        this.itemID = itemID;
+        this.name = name;
+        this.type = type;
+        this.description = description;
+    }    
+    public Item(int itemID, String name, String type, String description, int numInStock) {
+        this.itemID = itemID;
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.numInStock = numInStock;
+    }
     public int getItemID() {
         return itemID;
     }

@@ -16,7 +16,6 @@ public class LogoutController extends HttpServlet {
      */
     public LogoutController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -24,6 +23,7 @@ public class LogoutController extends HttpServlet {
      * 
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         // the session is null if it doesn't exist

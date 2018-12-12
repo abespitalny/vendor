@@ -1,68 +1,64 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Auction;
-import model.Bid;
-import model.Employee;
 import model.Item;
 
 public class ItemDao {
+    public List<Item> getItems() {
+        List<Item> items = new ArrayList<>();
 
-	
-	public List<Item> getItems() {
-		
-		/*
-		 * The students code to fetch data from the database will be written here
-		 * Query to fetch details of all the items has to be implemented
-		 * Each record is required to be encapsulated as a "Item" class object and added to the "items" List
-		 */
+        String sql = "SELECT ItemID, ItemName, ItemType, Description, Quantity FROM Item";
 
-//		List<Item> items = new ArrayList<Item>();
-//				
-//		/*Sample data begins*/
-//		for (int i = 0; i < 10; i++) {
-//			Item item = new Item();
-//			item.setItemID(123);
-//			item.setDescription("sample description");
-//			item.setType("BOOK");
-//			item.setName("Sample Book");
-//			item.setNumCopies(2);
-//			items.add(item);
-//		}
-//		/*Sample data ends*/
-//		
-//		return items;
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+        ) {
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Item item = new Item(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+                    items.add(item);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
+        }
+        
+        return items;
+    }
+
+        public List<Item> getBestsellerItems() {
+
+                /*
+                 * The students code to fetch data from the database will be written here
+                 * Query to fetch details of the bestseller items has to be implemented
+                 * Each record is required to be encapsulated as a "Item" class object and added to the "items" List
+                 */
+
+    //		List<Item> items = new ArrayList<Item>();
+    //		
+    //		
+    //		/*Sample data begins*/
+    //		for (int i = 0; i < 5; i++) {
+    //			Item item = new Item();
+    //			item.setItemID(123);
+    //			item.setDescription("sample description");
+    //			item.setType("BOOK");
+    //			item.setName("Sample Book");
+    //			item.setNumCopies(2);
+    //			items.add(item);
+    //		}
+    //		/*Sample data ends*/
+    //		
+    //		return items;
             return null;
-	}
-	
-	public List<Item> getBestsellerItems() {
-		
-		/*
-		 * The students code to fetch data from the database will be written here
-		 * Query to fetch details of the bestseller items has to be implemented
-		 * Each record is required to be encapsulated as a "Item" class object and added to the "items" List
-		 */
-
-//		List<Item> items = new ArrayList<Item>();
-//		
-//		
-//		/*Sample data begins*/
-//		for (int i = 0; i < 5; i++) {
-//			Item item = new Item();
-//			item.setItemID(123);
-//			item.setDescription("sample description");
-//			item.setType("BOOK");
-//			item.setName("Sample Book");
-//			item.setNumCopies(2);
-//			items.add(item);
-//		}
-//		/*Sample data ends*/
-//		
-//		return items;
-            return null;
-	}
+        }
 
 	public List<Item> getSummaryListing(String searchKeyword) {
 		

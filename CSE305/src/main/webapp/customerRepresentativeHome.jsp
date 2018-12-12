@@ -28,7 +28,7 @@
 					if(role.equals("manager")) {
 						response.sendRedirect("managerHome.jsp");
 					}
-					else if(!role.equals("customerRepresentative")) {
+					else if(!role.equals("customer_rep")) {
 						response.sendRedirect("home.jsp");
 					}
 				}

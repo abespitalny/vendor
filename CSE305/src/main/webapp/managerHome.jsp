@@ -25,7 +25,7 @@
 				
 				//redirect to appropriate home page if already logged in
 				if(email != null) {
-					if(role.equals("customerRepresentative")) {
+					if(role.equals("customer_rep")) {
 						response.sendRedirect("customerRepresentativeHome.jsp");
 					}
 					else if(!role.equals("manager")){
@@ -73,7 +73,7 @@
 					  <div class="card-body">
 					    <h5 class="card-title">View Items</h5>
     					<div class="container">
-							<form action="getItems">
+							<form action="getItems" method="GET">
 								<input type="submit" value="View Items" class="btn btn-primary"/>
 							</form>
 						</div>

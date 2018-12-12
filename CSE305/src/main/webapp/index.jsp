@@ -29,7 +29,7 @@
 					if(role.equals("manager")) {
 						response.sendRedirect("managerHome.jsp");
 					}
-					else if(role.equals("customerRepresentative")) {
+					else if(role.equals("customer_rep")) {
 						response.sendRedirect("customerRepresentativeHome.jsp");
 					}
 					else {
@@ -47,9 +47,9 @@
 					}
 				}
 			%>
-			<form action="login">
+			<form action="login" method="POST">
 				<div class="form-group">
-					<input type="email" class="form-control" name="username" placeholder="Username" required>
+					<input class="form-control" name="username" placeholder="Username" required>
 				</div>
 				<div class="form-group">
 	            	<input type="password" class="form-control" name="password" placeholder="Password" required>

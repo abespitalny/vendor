@@ -28,7 +28,7 @@
 				if(role.equals("manager")) {
 					response.sendRedirect("managerHome.jsp");
 				}
-				else if(role.equals("customerRepresentative")) {
+				else if(role.equals("customer_rep")) {
 					response.sendRedirect("customerRepresentativeHome.jsp");
 				}
 			}
@@ -44,7 +44,7 @@
 					  <div class="card-body">
 					    <h5 class="card-title">View Bid History</h5>
     					<div class="container">
-							<form action="getAuctions">
+							<form action="getCustomerAuctions" method="GET">
 								<input type="submit" value="Bid History" class="btn btn-success"/>
 							</form>
 						</div>

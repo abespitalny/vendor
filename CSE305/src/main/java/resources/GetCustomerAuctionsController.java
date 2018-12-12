@@ -15,38 +15,24 @@ import model.Auction;
 /**
  * Servlet implementation class GetCustomerAuctionsController
  */
-public class GetCustomerAuctionsController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+public class GetCustomerAuctionsController extends HttpServlet {       
     /**
      * @see HttpServlet#HttpServlet()
      */
     public GetCustomerAuctionsController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String customerID = request.getParameter("customerID");
-		
-		AuctionDao auctionDao = new AuctionDao();
-		List<Auction> auctions = auctionDao.getAuctions(customerID);
-		
-		request.setAttribute("auctions", auctions);
-		RequestDispatcher rd = request.getRequestDispatcher("showAllAuctions.jsp");
-		rd.forward(request, response);
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String customerID = (String)request.getSession().getAttribute("customerID");
+        AuctionDao auctionDao = new AuctionDao();
+        List<Auction> auctions = auctionDao.getAuctions(customerID);
 
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
+        request.setAttribute("auctions", auctions);
+        RequestDispatcher rd = request.getRequestDispatcher("showAllAuctions.jsp");
+        rd.forward(request, response);
+    }
 }

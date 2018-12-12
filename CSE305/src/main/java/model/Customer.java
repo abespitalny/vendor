@@ -11,6 +11,9 @@ public class Customer extends VendorUser {
     private int itemsSold;
     private int itemsPurchased;
 
+    public Customer() {
+        super();
+    }
     public Customer(String username, String email) {
         super(username, email);
     }

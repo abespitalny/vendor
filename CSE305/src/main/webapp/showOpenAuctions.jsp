@@ -1,4 +1,4 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="org.apache.taglibs.standard.tag.el.core.ForEachTag"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -25,6 +25,16 @@
 <body>
 
 	<h1>The Open Auctions are:</h1>
+        <%
+            String auctionID = request.getParameter("auctionID");
+            if(auctionID != null) {
+                String status = request.getParameter("status");
+                if(status.equals("success"))
+                    out.print("Sale successfully recorded for auction ID " + auctionID);
+                else
+                    out.print("Failed to record sale for auction ID " + auctionID);
+            }
+        %>
 	<div class="container">
 	<c:if test="${empty auctions}">
 		<h3> Auction Data not found! </h3> 
@@ -35,28 +45,29 @@
 		    <tr>
 		      <th>Auction ID</th>
 		      <th>Item ID</th>
-		      <th>Bid Increment</th>
-		      <th>Minimum Bid</th>
-		      <th>Copies Sold</th>
-		      <th>Closing Bid</th>
-		      <th>Current High Bid</th>
-		      <th></th>
+		      <th>Copies</th>
+		      <th>Winning Bidder</th>
+		      <th>Bid Time</th>
+		      <th>Bid Price</th>
+		      <th>Sold Price</th>
+                      <th>End Date</th>
 		    </tr>
 		  </thead>
 		  <tbody>
-		     <c:forEach items="${auctions}" var="cd">
+		     <c:forEach items="${auctions}" var="cd" varStatus="loop">
 		       <tr>
 		         <td>${cd.auctionID}</td>
 		         <td>${cd.itemID}</td>		         
-		         <td>${cd.bidIncrement}</td>
-		         <td>${cd.minimumBid}</td>		         
-		         <td>${cd.copiesSold}</td>
-		         <td>${cd.closingBid}</td>
-		         <td>${cd.currentHighBid}</td>
+		         <td>${cd.numCopies}</td>
+		         <td>${bids[loop.index].customerID}</td>		         
+		         <td>${bids[loop.index].bidTime}</td>
+		         <td>${bids[loop.index].bidPrice}</td>
+		         <td>${cd.currentHighestBidPrice}</td>
+                         <td>${cd.endDate}</td>
 		         <td>
 		         	<form method="POST" action="recordSale">
 						<div class="form-group">
-			            	<input type="hidden" class="form-control" name="auctionID" value=${cd.auctionID}>
+			            	<input type="hidden" class="form-control" name="auctionID" value="${cd.auctionID}">
 			        	</div>
 						<input type="submit" value="Record the Sale" class="btn btn-success"/>
 					</form>

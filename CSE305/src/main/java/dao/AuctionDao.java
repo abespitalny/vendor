@@ -8,168 +8,172 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Auction;
+import model.Bid;
+import model.Customer;
+import model.Item;
 
 public class AuctionDao {
-    public List<Auction> getAllActiveAuctions() {
+    public List<Auction> getAllAuctions() {
         List<Auction> auctions = new ArrayList<>();
         
-        String sql = "SELECT AuctionID, IF(CurrentHighestBidPrice IS NULL, MinBidPrice, CurrentHighestBidPrice) AS Price, ItemID, ItemName, NumCopies" +
-                    " FROM Auction INNER JOIN Item USING (ItemID)" +
-                    " WHERE NOW() < EndDate";
+        String sql = "SELECT AuctionID, MinBidPrice, CurrentHighestBidPrice, NumCopies, Seller, ItemID, OpenDate, EndDate FROM Auction";
 
         try (
                 Connection conn = ConnectionUtils.getMyConnection();
                 PreparedStatement statement = conn.prepareStatement(sql);
         ) {
-            try (
-                    ResultSet rs = statement.executeQuery();
-            ) {
+            try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
-                    Auction auction = new Auction();
-                    auction.setAuctionID(rs.getInt(1));
-                    auction.setCurrentHighestBidPrice(rs.getBigDecimal(2));
-                    auction.setItemID(rs.getInt(3));
-                    auction.setItemName(rs.getString(4));
-                    auction.setNumCopies(rs.getInt(5));
+                    Auction auction = new Auction(rs.getInt(1), rs.getBigDecimal(2), rs.getBigDecimal(3), rs.getInt(4), 
+                        rs.getString(5), rs.getInt(6), rs.getDate(7), rs.getDate(8));
+                    
                     auctions.add(auction);
                 }
             }
-            
-            
         } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
         }
+        
         return auctions;
     }
 
-	public List<Auction> getAuctions(String customerID) {
-		
-//		List<Auction> auctions = new ArrayList<Auction>();
-//		
-//		/*
-//		 * The students code to fetch data from the database will be written here
-//		 * Each record is required to be encapsulated as a "Auction" class object and added to the "auctions" ArrayList
-//		 * Query to get data about all the auctions in which a customer participated should be implemented
-//		 * customerID is the customer's primary key, given as method parameter
-//		 */
-//		
-//		/*Sample data begins*/
-//		for (int i = 0; i < 5; i++) {
-//			Auction auction = new Auction();
-//			auction.setAuctionID(1);
-//			auction.setBidIncrement(10);
-//			auction.setMinimumBid(10);
-//			auction.setCopiesSold(12);
-//			auction.setItemID(1234);
-//			auction.setClosingBid(120);
-//			auction.setCurrentBid(120);
-//			auction.setCurrentHighBid(120);
-//			auction.setReserve(10);
-//			auctions.add(auction);
-//		}
-//		/*Sample data ends*/
-//		
-//		return auctions;
+    /**
+     * Show auctions where the customer bidded in. This is different than the auction history since it's sent to a
+     * with the bid history button
+     * @param customerID
+     * @return 
+     */
+    public List<Auction> getAuctions(String customerID) {
+        List<Auction> auctions = new ArrayList<>();
+
+        String sql = "SELECT AuctionID, MinBidPrice, CurrentHighestBidPrice, NumCopies, Seller, ItemID, OpenDate, EndDate" +
+                    " FROM Auction AS A" +
+                    " WHERE EXISTS(SELECT 1" +
+                    "              FROM Bid AS B" +
+                    "              WHERE B.AuctionID = A.AuctionID AND CustomerID = ?)";
+
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+        ) {
+            statement.setString(1, customerID);
+            
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Auction auction = new Auction(rs.getInt(1), rs.getBigDecimal(2), rs.getBigDecimal(3), rs.getInt(4), 
+                        rs.getString(5), rs.getInt(6), rs.getDate(7), rs.getDate(8));
+
+                    auctions.add(auction);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
+        }
+        
+        return auctions;
+    }
+
+    /**
+     * Get list of auctions to be recorded by a customer rep. who is monitoring the auction 
+     * @param employeeID
+     * @return 
+     */
+    public List<?>[] getOpenAuctions(String employeeID) {
+        List<Auction> auctions = new ArrayList<>();
+        List<Bid> bids = new ArrayList<>();
+        
+        String sql = "SELECT A.AuctionID, ItemID, NumCopies, CustomerID AS WinningBidder, BidTime, BidPrice, CurrentHighestBidPrice AS SoldPrice, EndDate" +
+                    " FROM Auction AS A INNER JOIN Bid AS B ON A.WinningBidID = B.BidID" +
+                    " WHERE EndDate <= NOW() AND WinningBidID IS NOT NULL AND SaleStatus IS NULL AND Monitor = ?";
+
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+        ) {
+            statement.setString(1, employeeID);
+            
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Auction auction = new Auction();
+                    auction.setAuctionID(rs.getInt(1));
+                    auction.setItemID(rs.getInt(2));
+                    auction.setNumCopies(rs.getInt(3));
+                    auction.setCurrentHighestBidPrice(rs.getBigDecimal(7));
+                    auction.setEndDate(rs.getDate(8));
+                    auctions.add(auction);
+                    Bid bid = new Bid(rs.getString(4), rs.getDate(5), rs.getBigDecimal(6));
+                    bids.add(bid);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
+        }
+        
+        return new List<?>[]{auctions, bids};
+    }
+
+    public String recordSale(int auctionID) {
+        // auction is immediately considered to be paid upon recording
+        String sql = "UPDATE Auction SET SaleStatus = 'Paid' WHERE AuctionID = ?";
+        
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+        ) {
+            statement.setInt(1, auctionID);
+            int affected = statement.executeUpdate();
+            
+            if (affected == 1)
+                return "success";
+            else
+                return "failure";
+            
+        } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
+            return "failure";
+        }        
+    }
+
+    public List<Object> getAuctionData(int auctionID) {
+        String sql = "SELECT A.AuctionID, A.ItemID, ItemType, ItemName, Description, BidIncrement, MinBidPrice, CurrentHighestBidPrice, CustomerID, FirstName, LastName" +
+                    " FROM (Auction AS A INNER JOIN Item USING (ItemID)) LEFT JOIN (Bid INNER JOIN VendorUser ON Username = CustomerID) ON BidID = WinningBidID" +
+                    " WHERE NOW() < EndDate AND A.AuctionID = ?";
+
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+        ) {
+            statement.setInt(1, auctionID);
+
+            List<Object> data = new ArrayList<>();
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    Auction auction = new Auction();
+                    auction.setAuctionID(rs.getInt("AuctionID"));
+                    auction.setBidIncrement(rs.getBigDecimal("BidIncrement"));
+                    auction.setMinBidPrice(rs.getBigDecimal("MinBidPrice"));
+                    auction.setCurrentHighestBidPrice(rs.getBigDecimal("CurrentHighestBidPrice"));
+                    data.add(auction);
+                    Item item = new Item(rs.getInt("ItemID"), rs.getString("ItemName"), rs.getString("ItemType"),
+                        rs.getString("Description"));
+                    data.add(item);
+                    Customer customer = new Customer();
+                    customer.setUsername(rs.getString("CustomerID"));
+                    customer.setFirstName(rs.getString("FirstName"));
+                    customer.setLastName(rs.getString("LastName"));
+                    data.add(customer);
+                }
+            }
+            return data;
+            
+        } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
             return null;
-	}
-
-	public List<Auction> getOpenAuctions(String employeeEmail) {
-//		List<Auction> auctions = new ArrayList<Auction>();
-//		
-//		/*
-//		 * The students code to fetch data from the database will be written here
-//		 * Each record is required to be encapsulated as a "Auction" class object and added to the "auctions" ArrayList
-//		 * Query to get data about all the open auctions monitored by a customer representative should be implemented
-//		 * employeeEmail is the email ID of the customer representative, which is given as method parameter
-//		 */
-//		
-//		/*Sample data begins*/
-//		for (int i = 0; i < 5; i++) {
-//			Auction auction = new Auction();
-//			auction.setAuctionID(1);
-//			auction.setBidIncrement(10);
-//			auction.setMinimumBid(10);
-//			auction.setCopiesSold(12);
-//			auction.setItemID(1234);
-//			auction.setClosingBid(120);
-//			auction.setCurrentBid(120);
-//			auction.setCurrentHighBid(120);
-//			auction.setReserve(10);
-//			auctions.add(auction);
-//		}
-//		/*Sample data ends*/
-//		
-//		return auctions;
-            return null;
-		
-		
-	}
-
-	public String recordSale(String auctionID) {
-		/*
-		 * The students code to update data in the database will be written here
-		 * Query to record a sale, indicated by the auction ID, should be implemented
-		 * auctionID is the Auction's ID, given as method parameter
-		 * The method should return a "success" string if the update is successful, else return "failure"
-		 */
-		/* Sample data begins */
-		return "success";
-		/* Sample data ends */
-	}
-
-	public List getAuctionData(String auctionID, String itemID) {
-		
-//		List output = new ArrayList();
-//		Item item = new Item();
-//		Bid bid = new Bid();
-//		Auction auction = new Auction();
-//		Customer customer = new Customer();
-//		
-//		/*
-//		 * The students code to fetch data from the database will be written here
-//		 * The item details are required to be encapsulated as a "Item" class object
-//		 * The bid details are required to be encapsulated as a "Bid" class object
-//		 * The auction details are required to be encapsulated as a "Auction" class object
-//		 * The customer details are required to be encapsulated as a "Customer" class object
-//		 * Query to get data about auction indicated by auctionID and itemID should be implemented
-//		 * auctionID is the Auction's ID, given as method parameter
-//		 * itemID is the Item's ID, given as method parameter
-//		 * The customer details must include details about the current winner of the auction
-//		 * The bid details must include details about the current highest bid
-//		 * The item details must include details about the item, indicated by itemID
-//		 * The auction details must include details about the item, indicated by auctionID
-//		 * All the objects must be added in the "output" list and returned
-//		 */
-//		
-//		/*Sample data begins*/
-//		for (int i = 0; i < 4; i++) {
-//			item.setItemID(123);
-//			item.setDescription("sample description");
-//			item.setType("BOOK");
-//			item.setName("Sample Book");
-//			
-//			bid.setCustomerID("123-12-1234");
-//			bid.setBidPrice(120);
-//			
-//			customer.setCustomerID("123-12-1234");
-//			customer.setFirstName("Shiyong");
-//			customer.setLastName("Lu");
-//			
-//			auction.setMinimumBid(100);
-//			auction.setBidIncrement(10);
-//			auction.setCurrentBid(110);
-//			auction.setCurrentHighBid(115);
-//			auction.setAuctionID(Integer.parseInt(auctionID));
-//		}
-//		/*Sample data ends*/
-//		
-//		output.add(item);
-//		output.add(bid);
-//		output.add(auction);
-//		output.add(customer);
-//		
-//		return output;
-            return null;
-	}
-
-	
+        }
+    }
 }

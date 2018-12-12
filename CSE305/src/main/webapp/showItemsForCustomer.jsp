@@ -1,4 +1,4 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="org.apache.taglibs.standard.tag.el.core.ForEachTag"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -27,7 +27,7 @@
 	<h1>The Customer-wise Item Details are:</h1>
 	<div class="container">
 	<c:if test="${empty items}">
-		<h3> Items not found! <h3/> 
+		<h3> Items not found! </h3> 
 	</c:if>
 	<c:if test="${not empty items}">
 		<table class="table table-striped">
@@ -52,10 +52,9 @@
 		         <td>${auctions[loop.index].minimumBid}</td>
 		         <td>${auctions[loop.index].bidIncrement}</td>
 		         <td>
-    	         	<form method="POST" action="bidInAuction">
+    	         	<form method="GET" action="bidInAuction">
 						<div class="form-group">
-			            	<input type="hidden" class="form-control" name="auctionID" value=${auctions[loop.index].auctionID}>
-			            	<input type="hidden" class="form-control" name="itemID" value=${items[loop.index].itemID}>
+			            	<input type="hidden" class="form-control" name="auctionID" value="${auctions[loop.index].auctionID}">
 			        	</div>
 						<input type="submit" value="Bid" class="btn btn-success"/>
 					</form>		         

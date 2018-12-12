@@ -35,9 +35,7 @@ public class LoginDao {
             // set the username
             statement.setString(2, username);
         
-            try (
-                    ResultSet rs = statement.executeQuery();
-            ) {
+            try (ResultSet rs = statement.executeQuery()) {
                 // get the info. seeing if this username belongs to an employee or customer
                 if (rs.next()) {
                     Boolean isPasswordValid = rs.getBoolean("ValidPassword");

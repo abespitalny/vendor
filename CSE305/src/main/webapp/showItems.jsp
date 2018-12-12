@@ -27,7 +27,7 @@
 	<h1>The Items are:</h1>
 	<div class="container">
 	<c:if test="${empty items}">
-		<h3> Items not found! <h3/> 
+		<h3> Items not found! </h3> 
 	</c:if>
 	<c:if test="${not empty items}">
 		<table class="table table-striped">
@@ -47,7 +47,7 @@
 		         <td>${cd.name}</td>		         
 		         <td>${cd.description}</td>
 		         <td>${cd.type}</td>		         
-		         <td>${cd.numCopies}</td>
+		         <td>${cd.numInStock}</td>
 		         <td></td>
 		       </tr>
 		     </c:forEach>

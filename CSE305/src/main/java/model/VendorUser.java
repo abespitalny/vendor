@@ -15,6 +15,9 @@ public abstract class VendorUser {
     private String telephone;
     private String email;
 
+    public VendorUser() {
+        super();
+    }
     public VendorUser(String username, String email) {
         this.username = username;
         this.email = email;

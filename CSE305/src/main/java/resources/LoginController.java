@@ -45,7 +45,7 @@ public class LoginController extends HttpServlet {
             // - customer
             String role = null;
             if (user instanceof Customer) {
-                role = "customer_rep";
+                role = "customer";
                 request.getSession(true).setAttribute("customerID", username);
             // must be an instance of Employee
             } else {

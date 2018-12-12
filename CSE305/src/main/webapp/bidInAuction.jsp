@@ -36,26 +36,29 @@
 		  <hr class="my-4">
 		  <p>ID: ${item.itemID}</p>
 		  <p>Name: ${item.name}</p>
+                  <p>Type: ${item.type}</p>
 		  <p>${item.description}</p>
-		  <p class="lead">
+                  <div class="lead">
+                    <p>Minimum bid: ${auction.minBidPrice}</p>
 		    <p>Current High Bid: ${auction.currentHighBid}</p>
 		    <p>Bid Increment: ${auction.bidIncrement}</p>
 		    <p>Current Winner: ${winningCustomer.firstName} ${winningCustomer.lastName}</p>
-		  </p>
+                  </div>
 		</div>
-	</c:if>
-	</div>
-	<div class="container pt-1">
+                  
+               <div class="container pt-1">
 		<form method="POST" action="submitBid">
 			<div class="form-group">
 			  <label for="maxBid">Maximum Bid:</label>
 			  <input type="text" class="form-control" id="maxBid" name="maxBid" placeholder="Maximum Bid" required>
 			</div>
-			<input type="hidden" class="form-control" name="currentBid" value=${auction.currentHighBid + auction.bidIncrement}>
-			<input type="hidden" class="form-control" name="auctionID" value=${auction.auctionID}>
-			<input type="hidden" class="form-control" name="itemID" value=${item.itemID}>
+			<input type="hidden" class="form-control" name="currentBid" value="${auction.currentHighBid + auction.bidIncrement}">
+			<input type="hidden" class="form-control" name="auctionID" value="${auction.auctionID}">
+			<input type="hidden" class="form-control" name="itemID" value="${item.itemID}">
 			<input type="submit" value="Submit Bid" class="btn btn-primary"/>
 		</form>
+            </div>
+	</c:if>
 	</div>
 
 	<div class="container pt-1">
