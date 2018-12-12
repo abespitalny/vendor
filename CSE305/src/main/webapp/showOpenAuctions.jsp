@@ -25,16 +25,6 @@
 <body>
 
 	<h1>The Open Auctions are:</h1>
-        <%
-            String auctionID = request.getParameter("auctionID");
-            if(auctionID != null) {
-                String status = request.getParameter("status");
-                if(status.equals("success"))
-                    out.print("Sale successfully recorded for auction ID " + auctionID);
-                else
-                    out.print("Failed to record sale for auction ID " + auctionID);
-            }
-        %>
 	<div class="container">
 	<c:if test="${empty auctions}">
 		<h3> Auction Data not found! </h3> 

@@ -33,86 +33,113 @@ public class ItemDao {
         return items;
     }
 
-        public List<Item> getBestsellerItems() {
+    public List<Item> getBestsellerItems() {
+        List<Item> items = new ArrayList<>();
 
-                /*
-                 * The students code to fetch data from the database will be written here
-                 * Query to fetch details of the bestseller items has to be implemented
-                 * Each record is required to be encapsulated as a "Item" class object and added to the "items" List
-                 */
+        String sql = "SELECT ItemID, ItemName, ItemType, Description, Quantity"
+                  + " FROM Item"
+                  + " WHERE NumSold > (SELECT AVG(NumSold) FROM Item)"
+                  + " ORDER BY NumSold DESC";
 
-    //		List<Item> items = new ArrayList<Item>();
-    //		
-    //		
-    //		/*Sample data begins*/
-    //		for (int i = 0; i < 5; i++) {
-    //			Item item = new Item();
-    //			item.setItemID(123);
-    //			item.setDescription("sample description");
-    //			item.setType("BOOK");
-    //			item.setName("Sample Book");
-    //			item.setNumCopies(2);
-    //			items.add(item);
-    //		}
-    //		/*Sample data ends*/
-    //		
-    //		return items;
-            return null;
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+        ) {
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Item item = new Item(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+                    items.add(item);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
         }
 
-	public List<Item> getSummaryListing(String searchKeyword) {
+        return items;
+    }
+
+    public List<Item> getSummaryListing(String searchBy, String searchKeyword) {
+        List<Item> items = new ArrayList<>();
+
+        String sql;
+        if (searchBy.equals("name"))
+            sql = "SELECT ItemID, ItemName, ItemType, Description, TotalRevenue" +
+                 " FROM Item LEFT JOIN" +
+                 " (SELECT ItemID, SUM(CurrentHighestBidPrice) AS TotalRevenue" +
+                 "  FROM Auction" +
+                 "  WHERE SaleStatus = 'Paid' GROUP BY ItemID" +
+                 " ) AS A USING (ItemID)" +
+                 " WHERE MATCH (ItemName) AGAINST (? IN NATURAL LANGUAGE MODE WITH QUERY EXPANSION)";
+        else if (searchBy.equals("type"))
+            sql = "SELECT ItemID, ItemName, ItemType, Description, TotalRevenue" +
+                 " FROM Item LEFT JOIN" +
+                 " (SELECT ItemID, SUM(CurrentHighestBidPrice) AS TotalRevenue" +
+                 "  FROM Auction" +
+                 "  WHERE SaleStatus = 'Paid' GROUP BY ItemID" +
+                 " ) AS A USING (ItemID)" +
+                 " WHERE ItemType = ?";
+        else
+            sql = "SELECT ItemID, ItemName, ItemType, Description, TotalRevenue" +
+                 " FROM Item INNER JOIN" +
+                 " (SELECT ItemID, SUM(CurrentHighestBidPrice) AS TotalRevenue" +
+                 "  FROM Auction INNER JOIN VendorUser ON Seller = Username" +
+                 "  WHERE (FirstName LIKE CONCAT('%', ?, '%') OR LastName LIKE CONCAT('%', ?, '%')) AND SaleStatus = 'Paid' GROUP BY ItemID" +
+                 " ) AS A USING (ItemID)";
+        
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+        ) {
+            if (searchBy.equals("name") || searchBy.equals("type"))
+                statement.setString(1, searchKeyword);
+            else {
+                statement.setString(1, searchKeyword);
+                statement.setString(2, searchKeyword);
+            }
+            
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Item item = new Item(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                    item.setTotalRevenue(rs.getBigDecimal(5));
+                    items.add(item);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
+        }
+
+        return items;
+    }
+
+    public List<Item> getItemSuggestions(String customerID) {
+        List<Item> items = new ArrayList<>();
+        
+        // suggestions are based on previous bids placed by the customer
+        String sql = "SELECT DISTINCT I.ItemID, ItemName, ItemType, Description, Quantity" +
+                    " FROM Item AS I INNER JOIN (Bid INNER JOIN Auction USING (AuctionID)) USING (ItemID)\n" +
+                    " WHERE CustomerID = ? AND Quantity > 0";
 		
-		/*
-		 * The students code to fetch data from the database will be written here
-		 * Query to fetch details of summary listing of revenue generated by a particular item or item type must be implemented
-		 * Each record is required to be encapsulated as a "Item" class object and added to the "items" ArrayList
-		 * Store the revenue generated by an item in the soldPrice attribute, using setSoldPrice method of each "item" object
-		 */
-
-//		List<Item> items = new ArrayList<Item>();
-//				
-//		/*Sample data begins*/
-//		for (int i = 0; i < 6; i++) {
-//			Item item = new Item();
-//			item.setItemID(123);
-//			item.setDescription("sample description");
-//			item.setType("BOOK");
-//			item.setName("Sample Book");
-//			item.setSoldPrice(150);
-//			items.add(item);
-//		}
-//		/*Sample data ends*/
-//		
-//		return items;
-            return null;
-	}
-
-	public List<Item> getItemSuggestions(String customerID) {
-		
-		/*
-		 * The students code to fetch data from the database will be written here
-		 * Query to fetch item suggestions for a customer, indicated by customerID, must be implemented
-		 * customerID, which is the Customer's ID for whom the item suggestions are fetched, is given as method parameter
-		 * Each record is required to be encapsulated as a "Item" class object and added to the "items" ArrayList
-		 */
-
-//		List<Item> items = new ArrayList<Item>();
-//		
-//		/*Sample data begins*/
-//		for (int i = 0; i < 4; i++) {
-//			Item item = new Item();
-//			item.setItemID(123);
-//			item.setDescription("sample description");
-//			item.setType("BOOK");
-//			item.setName("Sample Book");
-//			item.setNumCopies(2);
-//			items.add(item);
-//		}
-//		/*Sample data ends*/
-//		
-//		return items;
-            return null;
-	}
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+        ) {
+            statement.setString(1, customerID);
+            
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Item item = new Item(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+                    items.add(item);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
+        }
+        
+        return items;
+    }
 
 	public List getItemsBySeller(String sellerID) {
 		
@@ -164,27 +191,29 @@ public class ItemDao {
             return null;
 	}
 
-	public List<Item> getItemTypes() {
-		
-		/*
-		 * The students code to fetch data from the database will be written here
-		 * Each record is required to be encapsulated as a "Item" class object and added to the "items" ArrayList
-		 * A query to fetch the unique item types has to be implemented
-		 * Each item type is to be added to the "item" object using setType method
-		 */
-		
-		List<Item> items = new ArrayList<Item>();
-		
-		/*Sample data begins*/
-		for (int i = 0; i < 6; i++) {
-			Item item = new Item();
-			item.setType("BOOK");
-			items.add(item);
-		}
-		/*Sample data ends*/
-		
-		return items;
-	}
+    public List<Item> getItemTypes() {
+        List<Item> items = new ArrayList<>();
+
+        String sql = "SELECT DISTINCT ItemType FROM Item";
+        
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+        ) {
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Item item = new Item();
+                    item.setType(rs.getString(1));
+                    items.add(item);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
+        }
+
+        return items;
+    }
 
 	public List getItemsByName(String itemName) {
 		

@@ -28,6 +28,6 @@ public class RecordSaleController extends HttpServlet {
         AuctionDao auctionDao = new AuctionDao();
         String status = auctionDao.recordSale(auctionID);
 
-        response.sendRedirect("showOpenAuctions.jsp?auctionID=" + auctionID + "&status=" + status);
+        response.sendRedirect("customerRepresentativeHome.jsp?auctionID=" + auctionID + "&status=" + status);
     }
 }

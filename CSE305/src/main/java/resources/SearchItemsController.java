@@ -15,38 +15,24 @@ import model.Item;
 /**
  * Servlet implementation class SearchItemsController
  */
-public class SearchItemsController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+public class SearchItemsController extends HttpServlet {       
     /**
      * @see HttpServlet#HttpServlet()
      */
     public SearchItemsController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		ItemDao itemDao = new ItemDao();
-		List<Item> items = itemDao.getItemTypes();
-		
-		request.setAttribute("items", items);
-		
-		RequestDispatcher rd = request.getRequestDispatcher("searchItems.jsp");
-		rd.forward(request, response);
-
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ItemDao itemDao = new ItemDao();
+        List<Item> items = itemDao.getItemTypes();
+        
+        request.setAttribute("items", items);
+        RequestDispatcher rd = request.getRequestDispatcher("searchItems.jsp");
+        rd.forward(request, response);
+    }
 }

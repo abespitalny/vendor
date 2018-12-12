@@ -80,7 +80,7 @@
 					  <div class="card-body">
 					    <h5 class="card-title">View Items in Auctions</h5>
     					<div class="container">
-							<form action="searchItems">
+							<form action="searchItems" method="GET">
 								<input type="submit" value="View Auctions" class="btn btn-success"/>
 							</form>
 						</div>

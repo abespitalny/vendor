@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.BidDao;
-import dao.CustomerDao;
 import model.Bid;
 
 /**
@@ -30,7 +29,6 @@ public class GetAuctionHistoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String customerID = (String)request.getSession(false).getAttribute("customerID");;
-
         BidDao bidDao = new BidDao();
         List<Bid> bids = bidDao.getAuctionHistory(customerID);
 

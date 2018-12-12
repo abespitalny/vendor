@@ -13,6 +13,12 @@ public class Bid {
     private Date bidTime;
     private BigDecimal bidPrice;
 
+    public Bid(String customerID, int auctionID, Date bidTime, BigDecimal bidPrice) {
+        this.customerID = customerID;
+        this.auctionID = auctionID;
+        this.bidTime = bidTime;
+        this.bidPrice = bidPrice;
+    }
     public Bid(String customerID, Date bidTime, BigDecimal bidPrice) {
         this.customerID = customerID;
         this.bidTime = bidTime;

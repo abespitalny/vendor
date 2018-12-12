@@ -1,4 +1,4 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="org.apache.taglibs.standard.tag.el.core.ForEachTag"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -27,7 +27,7 @@
 	<h1>The Bid History is:</h1>
 	<div class="container">
 	<c:if test="${empty bids}">
-		<h3> Bids not found! <h3/> 
+		<h3> Bids not found! </h3> 
 	</c:if>
 	<c:if test="${not empty bids}">
 		<table class="table table-striped">

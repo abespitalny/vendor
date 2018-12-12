@@ -13,7 +13,7 @@ public class Item {
     private int yearManufactured;
     private int numInStock;
     private int numSold;
-    private BigDecimal soldPrice;
+    private BigDecimal totalRevenue;
 
     public Item() {
         super();
@@ -70,10 +70,10 @@ public class Item {
     public String getDescription() {
         return description;
     }
-    public BigDecimal getSoldPrice() {
-        return soldPrice;
+    public BigDecimal getTotalRevenue() {
+        return totalRevenue;
     }
-    public void setSoldPrice(BigDecimal soldPrice) {
-        this.soldPrice = soldPrice;
+    public void setTotalRevenue(BigDecimal totalRevenue) {
+        this.totalRevenue = totalRevenue;
     }
 }
