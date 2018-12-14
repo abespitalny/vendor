@@ -1,4 +1,4 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="org.apache.taglibs.standard.tag.el.core.ForEachTag"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -27,7 +27,7 @@
 	<div>
 	<h1>The Seller Details are:</h1>
 	<c:if test="${empty sellers}">
-		<h3> Seller details not found! <h3/> 
+		<h3> Seller details not found! </h3> 
 	</c:if>
 	<c:if test="${not empty sellers}">
 		<table class="table table-striped">
@@ -36,23 +36,25 @@
 		      <th>Seller ID</th>
 		      <th>First Name</th>
 		      <th>Last Name</th>
-			  <th>Email</th>
-			  <th>Rating</th>
-			  <th></th>
+                      <th>Email</th>
+		      <th>Rating</th>
+                      <th>Items sold</th>
+                      <th></th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		     <c:forEach items="${sellers}" var="cd">
 		       <tr>
-		         <td>${cd.customerID}</td>
+		         <td>${cd.username}</td>
 		         <td>${cd.firstName}</td>
 		         <td>${cd.lastName}</td>
 		         <td>${cd.email}</td>
 		         <td>${cd.rating}</td>
+                         <td>${cd.itemsSold}</td>
    		         <td>
-		         	<form method="POST" action="getItemsBySeller">
+		         	<form method="GET" action="getItemsBySeller">
 						<div class="form-group">
-			            	<input type="hidden" class="form-control" name="customerID" value=${cd.customerID}>
+			            	<input type="hidden" class="form-control" name="customerID" value="${cd.username}">
 			        	</div>
 						<input type="submit" value="View Items" class="btn btn-success"/>
 					</form>

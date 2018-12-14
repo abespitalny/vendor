@@ -14,41 +14,26 @@ import dao.ItemDao;
 /**
  * Servlet implementation class SearchItemsByTypeController
  */
-public class SearchItemsByTypeController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+public class SearchItemsByTypeController extends HttpServlet {       
     /**
      * @see HttpServlet#HttpServlet()
      */
     public SearchItemsByTypeController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String itemType = request.getParameter("itemType");
+        ItemDao itemDao = new ItemDao();
+        List<Object> data = itemDao.getItemsByType(itemType);
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String itemType = request.getParameter("itemType");
-		
-		ItemDao itemDao = new ItemDao();
-		List data = itemDao.getItemsByType(itemType);
-		
-		request.setAttribute("items", data.get(0));
-		request.setAttribute("auctions", data.get(1));
-		
-		RequestDispatcher rd = request.getRequestDispatcher("showItemsForCustomer.jsp");
-		rd.forward(request, response);
-
-	}
-
+        request.setAttribute("auctions", data.get(0));
+        request.setAttribute("items", data.get(1));
+        RequestDispatcher rd = request.getRequestDispatcher("showItemsForCustomer.jsp");
+        rd.forward(request, response);
+    }
 }

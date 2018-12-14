@@ -1,5 +1,6 @@
 package dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Bid;
-import model.Customer;
-import model.Item;
+
 
 public class BidDao {
     public List<Bid> getBidHistory(int auctionID) {
@@ -68,31 +68,85 @@ public class BidDao {
         return bids;
     }
 
-	public Bid submitBid(String auctionID, String itemID, Float currentBid, Float maxBid, String customerID) {
-		
-//		Bid bid = new Bid();
-//
-//		/*
-//		 * The students code to insert data in the database
-//		 * auctionID, which is the Auction's ID for which the bid is submitted, is given as method parameter
-//		 * itemID, which is the Item's ID for which the bid is submitted, is given as method parameter
-//		 * currentBid, which is the Customer's current bid, is given as method parameter
-//		 * maxBid, which is the Customer's maximum bid for the item, is given as method parameter
-//		 * customerID, which is the Customer's ID, is given as method parameter
-//		 * Query to submit a bid by a customer, indicated by customerID, must be implemented
-//		 * After inserting the bid data, return the bid details encapsulated in "bid" object
-//		 */
-//
-//		/*Sample data begins*/
-//		bid.setAuctionID(123);
-//		bid.setCustomerID("123-12-1234");
-//		bid.setBidTime("2008-12-11");
-//		bid.setBidPrice(currentBid);
-//		/*Sample data ends*/
-//		
-//		return bid;
-            return null;
-	}
+    /**
+     * 
+     * @param auctionID
+     * @param maxBid
+     * @param customerID
+     * @return true if successful; otherwise, in case of any errors, false
+     */
+    public boolean submitBid(int auctionID, BigDecimal maxBid, String customerID) {
+        String sqlInsertBid = "INSERT INTO Bid (CustomerID, AuctionID, BidTime, BidPrice)" +
+                             " SELECT ? AS CustomerID, AuctionID, NOW() AS BidTime, ? AS BidPrice" +
+                             " FROM Auction" +
+                             " WHERE AuctionID = ? AND IF(CurrentHighestBidPrice IS NULL, ? >= MinBidPrice, ? > CurrentHighestBidPrice) AND Seller <> ?";
+        
+        String sqlGetBidID = "SELECT LAST_INSERT_ID() AS BidID";
+        
+        String sqlUpdateAuction = "UPDATE Auction" +
+                                 " SET CurrentHighestBidPrice = IF(CurrentHighestBidPrice IS NULL, MinBidPrice, IF(? > CurrentMaxBidPrice, LEAST(?, CurrentMaxBidPrice + BidIncrement), LEAST(? + BidIncrement, CurrentMaxBidPrice)))," +
+                                 "     CurrentMaxBidPrice = IF(CurrentMaxBidPrice IS NULL, ?, IF(? > CurrentMaxBidPrice, ?, CurrentMaxBidPrice))," +
+                                 "     BidIncrement = IF(CurrentHighestBidPrice IS NULL, BidIncrement, GREATEST(ROUND(0.02 * CurrentHighestBidPrice, 2), BidIncrement))," +
+                                 "     WinningBidID = IF(WinningBidID IS NULL, ?, IF(? > CurrentMaxBidPrice, ?, WinningBidID))" +
+                                 " WHERE AuctionID = ?";
+        
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statementInsertBid = conn.prepareStatement(sqlInsertBid);
+                PreparedStatement statementGetBidID = conn.prepareStatement(sqlGetBidID);
+                PreparedStatement statementUpdateAuction = conn.prepareStatement(sqlUpdateAuction);
+        ) {
+            statementInsertBid.setString(1, customerID);
+            statementInsertBid.setBigDecimal(2, maxBid);
+            statementInsertBid.setInt(3, auctionID);
+            statementInsertBid.setBigDecimal(4, maxBid);
+            statementInsertBid.setBigDecimal(5, maxBid);
+            statementInsertBid.setString(6, customerID);
+            
+            for (int i = 1; i <= 6; i++)
+                statementUpdateAuction.setBigDecimal(i, maxBid);
+            
+            statementUpdateAuction.setBigDecimal(8, maxBid);
+            statementUpdateAuction.setInt(10, auctionID);
+            
+            // start transaction
+            conn.setAutoCommit(false);
+            try {
+                int affected = statementInsertBid.executeUpdate();
+                // If the bid was not inserted into the Bid table above then do not proceed and rollback the transaction
+                if (affected != 1)
+                    throw new Exception("Unable to insert bid into database.");
+                
+                int bidID = 0;
+                try(ResultSet rs = statementGetBidID.executeQuery()) {
+                    if (rs.next())
+                        bidID = rs.getInt(1);
+                    else
+                        throw new Exception("Could not get the bidID of the new bid");
+                }
+                
+                statementUpdateAuction.setInt(7, bidID);
+                statementUpdateAuction.setInt(9, bidID);
+                affected = statementUpdateAuction.executeUpdate();
+                if (affected != 1)
+                    throw new Exception("Unable to update auction after submitting bid.");
+                
+                conn.commit();
+                // transaction committed
+            } catch (Exception e) {
+                conn.rollback();
+                System.out.println("Submit bid transaction was rolled back");
+                System.err.println(e);
+                return false;
+            }          
+        } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
+            return false;
+        }
+
+        return true;
+    }
 
 	public List<Bid> getSalesListing(String searchKeyword) {
 		

@@ -15,39 +15,25 @@ import model.Item;
 /**
  * Servlet implementation class GetBestsellersForCustomerController
  */
-public class GetBestsellersForCustomerController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+public class GetBestsellersForCustomerController extends HttpServlet {       
     /**
      * @see HttpServlet#HttpServlet()
      */
     public GetBestsellersForCustomerController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String customerID = (String)request.getSession(false).getAttribute("customerID");
-		
-		ItemDao itemDao = new ItemDao();
-		List<Item> items = itemDao.getBestsellersForCustomer(customerID);
-		
-		request.setAttribute("items", items);
-		RequestDispatcher rd = request.getRequestDispatcher("showBestsellersForCustomer.jsp");
-		rd.forward(request, response);
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String customerID = (String)request.getSession(false).getAttribute("customerID");
+        ItemDao itemDao = new ItemDao();
+        List<Item> items = itemDao.getBestsellersForCustomer(customerID);
 
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
+        request.setAttribute("items", items);
+        RequestDispatcher rd = request.getRequestDispatcher("showBestsellersForCustomer.jsp");
+        rd.forward(request, response);
+    }
 }

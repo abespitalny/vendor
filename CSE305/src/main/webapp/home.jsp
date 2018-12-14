@@ -68,7 +68,7 @@
 					  <div class="card-body">
 					    <h5 class="card-title">Items sold by Seller</h5>
     					<div class="container">
-							<form action="getSellers">
+							<form method="GET" action="getSellers">
 								<input type="submit" value="Seller Info" class="btn btn-primary"/>
 							</form>
 						</div>
@@ -92,7 +92,7 @@
 					  <div class="card-body">
 					    <h5 class="card-title">View Best Seller Items</h5>
     					<div class="container">
-							<form action="getBestsellersForCustomer">
+							<form method="GET" action="getBestsellersForCustomer">
 								<input type="submit" value="View Best Sellers" class="btn btn-success"/>
 							</form>
 						</div>

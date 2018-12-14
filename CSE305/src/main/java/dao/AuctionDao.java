@@ -166,7 +166,8 @@ public class AuctionDao {
                     customer.setFirstName(rs.getString("FirstName"));
                     customer.setLastName(rs.getString("LastName"));
                     data.add(customer);
-                }
+                } else
+                    return null;
             }
             return data;
             

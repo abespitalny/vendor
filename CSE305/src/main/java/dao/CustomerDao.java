@@ -158,34 +158,35 @@ public class CustomerDao {
 	}
 
 
-	public List<Customer> getSellers() {
-		
-		/*
-		 * This method fetches the all seller details and returns it
-		 * The students code to fetch data from the database will be written here
-		 * The seller (which is a customer) record is required to be encapsulated as a "Customer" class object and added to the "customers" List
-		 */
+    public List<Customer> getSellers() {
+        List<Customer> customers = new ArrayList<>();
 
-//		List<Customer> customers = new ArrayList<Customer>();
-//		
-//		/*Sample data begins*/
-//		for (int i = 0; i < 10; i++) {
-//			Customer customer = new Customer();
-//			customer.setCustomerID("111-11-1111");
-//			customer.setAddress("123 Success Street");
-//			customer.setLastName("Lu");
-//			customer.setFirstName("Shiyong");
-//			customer.setCity("Stony Brook");
-//			customer.setState("NY");
-//			customer.setEmail("shiyong@cs.sunysb.edu");
-//			customer.setZipCode(11790);
-//			customers.add(customer);			
-//		}
-//		/*Sample data ends*/
-//		
-//		return customers;
-            return null;
-	}
+        String sql = "SELECT DISTINCT Seller, FirstName, LastName, Email, Rating, ItemsSold" +
+                    " FROM Auction INNER JOIN (VendorUser INNER JOIN Customer ON Username = CustomerID) ON Username = Seller";
+
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+        ) {
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Customer customer = new Customer();
+                    customer.setUsername(rs.getString(1));
+                    customer.setFirstName(rs.getString(2));
+                    customer.setLastName(rs.getString(3));
+                    customer.setEmail(rs.getString(4));
+                    customer.setRating(rs.getBigDecimal(5));
+                    customer.setItemsSold(rs.getInt(6));
+                    customers.add(customer);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
+        }
+
+        return customers;
+    }
 
 
 	public String addCustomer(Customer customer) {

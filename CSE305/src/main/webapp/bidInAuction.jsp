@@ -1,4 +1,4 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="org.apache.taglibs.standard.tag.el.core.ForEachTag"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -23,7 +23,6 @@
 	<title>Auction Details</title>
 </head>
 <body>
-
 	<h1>Auction Details:</h1>
 	<div class="container">
 	<c:if test="${empty auction}">
@@ -40,7 +39,7 @@
 		  <p>${item.description}</p>
                   <div class="lead">
                     <p>Minimum bid: ${auction.minBidPrice}</p>
-		    <p>Current High Bid: ${auction.currentHighBid}</p>
+		    <p>Current High Bid: ${auction.currentHighestBidPrice}</p>
 		    <p>Bid Increment: ${auction.bidIncrement}</p>
 		    <p>Current Winner: ${winningCustomer.firstName} ${winningCustomer.lastName}</p>
                   </div>
@@ -52,9 +51,7 @@
 			  <label for="maxBid">Maximum Bid:</label>
 			  <input type="text" class="form-control" id="maxBid" name="maxBid" placeholder="Maximum Bid" required>
 			</div>
-			<input type="hidden" class="form-control" name="currentBid" value="${auction.currentHighBid + auction.bidIncrement}">
 			<input type="hidden" class="form-control" name="auctionID" value="${auction.auctionID}">
-			<input type="hidden" class="form-control" name="itemID" value="${item.itemID}">
 			<input type="submit" value="Submit Bid" class="btn btn-primary"/>
 		</form>
             </div>

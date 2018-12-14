@@ -1,4 +1,4 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="org.apache.taglibs.standard.tag.el.core.ForEachTag"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -27,7 +27,7 @@
 	<h1>The Seller-wise Item Details are:</h1>
 	<div class="container">
 	<c:if test="${empty items}">
-		<h3> Items not found! <h3/> 
+		<h3> Items not found! </h3> 
 	</c:if>
 	<c:if test="${not empty items}">
 		<table class="table table-striped">
@@ -35,12 +35,12 @@
 		    <tr>
 		      <th>Item ID</th>
 		      <th>Name</th>
-		      <th>Description</th>
 		      <th>Type</th>
-		      <th>Sold Price</th>
-		      <th>Customer ID</th>
-		      <th>Minimum Bid</th>
-		      <th>Bid Increment</th>
+		      <th>Minimum Bid Price</th>
+                      <th>Highest Bid Price</th>
+                      <th>Copies</th>
+		      <th>Open Date</th>
+		      <th>End Date</th>
 		      <th></th>
 		    </tr>
 		  </thead>
@@ -49,17 +49,16 @@
 		       <tr>
 		         <td>${items[loop.index].itemID}</td>
 		         <td>${items[loop.index].name}</td>		         
-		         <td>${items[loop.index].description}</td>
 		         <td>${items[loop.index].type}</td>		         
-		         <td>${bids[loop.index].bidPrice}</td>
-		         <td>${bids[loop.index].customerID}</td>
-		         <td>${auctions[loop.index].minimumBid}</td>
-		         <td>${auctions[loop.index].bidIncrement}</td>
+		         <td>${auctions[loop.index].minBidPrice}</td>
+		         <td>${auctions[loop.index].currentHighestBidPrice}</td>
+                         <td>${auctions[loop.index].numCopies}</td>
+                         <td>${auctions[loop.index].openDate}</td>
+                         <td>${auctions[loop.index].endDate}</td>
 		         <td>
-    	         	<form method="POST" action="bidInAuction">
+    	         	<form method="GET" action="bidInAuction">
 						<div class="form-group">
-			            	<input type="hidden" class="form-control" name="auctionID" value=${auctions[loop.index].auctionID}>
-			            	<input type="hidden" class="form-control" name="itemID" value=${items[loop.index].itemID}>
+			            	<input type="hidden" class="form-control" name="auctionID" value="${auctions[loop.index].auctionID}">
 			        	</div>
 						<input type="submit" value="Bid" class="btn btn-success"/>
 					</form>		         

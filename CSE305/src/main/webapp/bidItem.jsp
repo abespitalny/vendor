@@ -1,5 +1,9 @@
+<%@page import="model.Item"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--
 	This is the Bid Item page
@@ -17,44 +21,29 @@
 
 		<script src="webjars/jquery/3.3.1-1/jquery.min.js"></script>
 		<script src="webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-		<script>
-			$(document).ready(function() {
-				function get_bid(){
-				    var feedback = $.ajax({
-				        type: "GET",
-				        url: "getBid",
-				        async: false
-				    }).complete(function(){
-				        setTimeout(function(){get_bid();}, 10000);
-				    }).responseText;
-		
-				    $('#ajaxGetUserServletResponse').text(feedback);
-				    out.println(responseText);
-				}
-			});
-			
-			$(document).on("click", "#somebutton", function() { // When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...
-	            $.get("getBid", function(responseText) {   // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
-	                $("#ajaxGetUserServletResponse").text(responseText);           // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
-	                console.log("hihi");
-	            });
-	        });
-		</script>
-		
 	</head>
 	<body>
 		<div class="container">
 			<h2>Bid Item</h2>
-			<div class="jumbotron">
-			  <h1 class="display-4">Item X</h1>
-			  <p class="lead">This is a sample description of the item.</p>
-			  <hr class="my-4">
-			  <p>This is more description of the item.</p>
-			  <p class="lead">
-			  	<div id="ajaxGetUserServletResponse">Some Bid Value</div>
-			    <button id="somebutton">Refresh Bid</button>
-			  </p>
-			</div>
+                        <c:if test="${empty item}">
+                            <h3> Bid item not found! </h3> 
+                        </c:if>
+                        <c:if test="${not empty item}">
+                            <div class="jumbotron">
+                              <h1 class="display-4">Item ${item.itemID}</h1>
+                              <p class="lead">${item.name}</p>
+                              <p class="lead">${item.type}</p>
+                              <hr class="my-4">
+                              <p>${item.description}</p>
+                              <div class="lead">
+                                  <strong>Highest Bid: </strong><span id="highestBid"></span>
+                                  <br />
+                                  <strong>Current winner: </strong><span id="currentWinner"></span>
+                                  <br />
+                                  <button id="refreshBid">Refresh Bid</button>
+                              </div>
+                            </div>
+                        </c:if>
 		</div>
 		
 		<div class="container">
@@ -64,7 +53,22 @@
 		</div>
 		
 		
-		<script src="webjars/jquery/3.3.1/jquery.min.js"></script>
-		<script src="webjars/bootstrap/4.1.3/bootstrap.min.js"></script>
+                <script>
+                    $(document).ready(function() {
+                        $.get("getBid?auctionID=" + ${auctionID}, function(responseText) {                    
+                            var data = responseText.split(",");
+                            $("#highestBid").text(data[0]);
+                            $("#currentWinner").text(data[1]);                      
+                        });
+                    });
+                    
+                    $("#refreshBid").on("click", function() {
+                        $.get("getBid?auctionID=" + ${auctionID}, function(responseText) {                    
+                            var data = responseText.split(",");
+                            $("#highestBid").text(data[0]);
+                            $("#currentWinner").text(data[1]);                      
+                        });
+                    });
+		</script>
 	</body>
 </html>

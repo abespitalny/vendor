@@ -41,6 +41,7 @@
 		      <th>Bid Price</th>
 		      <th>Sold Price</th>
                       <th>End Date</th>
+                      <th></th>
 		    </tr>
 		  </thead>
 		  <tbody>

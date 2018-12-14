@@ -35,10 +35,12 @@
 		    <tr>
 		      <th>Item ID</th>
 		      <th>Name</th>
-		      <th>Description</th>
 		      <th>Type</th>
-		      <th>Minimum Bid</th>
-		      <th>Bid Increment</th>
+		      <th>Minimum Bid Price</th>
+                      <th>Highest Bid Price</th>
+                      <th>Copies</th>
+		      <th>Open Date</th>
+		      <th>End Date</th>
 		      <th></th>
 		    </tr>
 		  </thead>
@@ -47,10 +49,12 @@
 		       <tr>
 		         <td>${items[loop.index].itemID}</td>
 		         <td>${items[loop.index].name}</td>		         
-		         <td>${items[loop.index].description}</td>
-		         <td>${items[loop.index].type}</td>		         
-		         <td>${auctions[loop.index].minimumBid}</td>
-		         <td>${auctions[loop.index].bidIncrement}</td>
+		         <td>${items[loop.index].type}</td>
+		         <td>${auctions[loop.index].minBidPrice}</td>
+		         <td><c:out value="${empty auctions[loop.index].currentHighestBidPrice ? '-' : auctions[loop.index].currentHighestBidPrice}" /></td>
+                         <td>${auctions[loop.index].numCopies}</td>
+                         <td>${auctions[loop.index].openDate}</td>
+                         <td>${auctions[loop.index].endDate}</td>
 		         <td>
     	         	<form method="GET" action="bidInAuction">
 						<div class="form-group">

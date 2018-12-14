@@ -40,6 +40,7 @@
 		      <th>Item ID</th>
 		      <th>Open Date</th>
 		      <th>End Date</th>
+                      <th></th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -47,7 +48,7 @@
 		       <tr>
 		         <td>${cd.auctionID}</td>
 		         <td>${cd.minBidPrice}</td>
-                         <td><c:out value="${empty cd.currentHighestBidPrice ? ' - ' : cd.currentHighestBidPrice}" /></td>
+                         <td><c:out value="${empty cd.currentHighestBidPrice ? '-' : cd.currentHighestBidPrice}" /></td>
 		         <td>${cd.numCopies}</td>
 		         <td>${cd.seller}</td>		         
 		         <td>${cd.itemID}</td>

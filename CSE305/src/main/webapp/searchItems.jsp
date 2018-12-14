@@ -34,7 +34,7 @@
 						  <div class="card-body">
 						    <h5 class="card-title">Search by Item Type</h5>
 	    					<div class="container">
-								<form method="POST" action="searchItemsByType">
+								<form method="GET" action="searchItemsByType">
 									<label for="itemType">Select Item Type:</label>
 				   				    <select class="form-control" name="itemType">
 										<c:forEach items="${items}" var="cd">
@@ -53,7 +53,7 @@
 					  <div class="card-body">
 					    <h5 class="card-title">Search by Item Name</h5>
     					<div class="container">
-							<form method="POST" action="searchItemsByName">
+							<form method="GET" action="searchItemsByName">
 								<label for="itemName">Item Name:</label>
 	    						<input type="text" class="form-control" id="itemName" name="itemName" placeholder="Type Item Name or a Part of it">
 								<input type="submit" value="Search" class="btn btn-primary"/>
