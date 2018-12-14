@@ -99,12 +99,3 @@ CREATE TABLE IF NOT EXISTS Bid (
 
 ALTER TABLE Auction ADD
 FOREIGN KEY (WinningBidID) REFERENCES Bid(BidID) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- This is used for the customer rep. who produces a item suggestion list for a customer
-CREATE TABLE IF NOT EXISTS ItemSuggestion (
-    CustomerID VARCHAR(16) NOT NULL,
-    ItemID BIGINT UNSIGNED NOT NULL,
-    PRIMARY KEY (CustomerID, ItemID),
-    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (ItemID) REFERENCES Item(ItemID) ON DELETE CASCADE ON UPDATE CASCADE
-);
