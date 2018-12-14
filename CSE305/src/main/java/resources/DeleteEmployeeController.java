@@ -7,47 +7,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.EmployeeDao;
-import model.Employee;
 
 /**
  * Servlet implementation class DeleteEmployeeController
  */
-public class DeleteEmployeeController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+public class DeleteEmployeeController extends HttpServlet {       
     /**
      * @see HttpServlet#HttpServlet()
      */
     public DeleteEmployeeController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String employeeID = request.getParameter("employeeID");
-		
-		EmployeeDao employeeDao = new EmployeeDao();
-		String result = employeeDao.deleteEmployee(employeeID);
-		
-		if(result.equals("success")) {
-			response.sendRedirect("managerHome.jsp?status=deleteSuccess");
-		}
-		else {
-			response.sendRedirect("managerHome.jsp?status=deleteFailure");
-		}
-
-	}
-
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String employeeID = request.getParameter("employeeID");
+        EmployeeDao employeeDao = new EmployeeDao();
+        String status = employeeDao.deleteEmployee(employeeID);
+        response.sendRedirect("managerHome.jsp?status=delete_" + status);
+    }
 }

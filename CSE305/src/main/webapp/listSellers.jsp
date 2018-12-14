@@ -27,7 +27,7 @@
 
 	<h1>The Customer Details are:</h1>
 	<c:if test="${empty sellers}">
-		<h3> Seller details not found! <h3/> 
+		<h3> Seller details not found! </h3> 
 	</c:if>
 	<c:if test="${not empty sellers}">
 		<table class="table table-striped">
@@ -39,10 +39,10 @@
 		      <th>City</th>
 		      <th>State</th>
 		      <th>Zip Code</th>
-			  <th>Telephone</th>
-			  <th>Email</th>
-			  <th>Credit Card</th>
-			  <th>Rating</th>
+		      <th>Telephone</th>
+                      <th>Email</th>
+                      <th>Credit Card</th>
+                      <th>Rating</th>
 		    </tr>
 		  </thead>
 		  <tbody>

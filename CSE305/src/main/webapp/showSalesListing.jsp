@@ -1,6 +1,7 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="org.apache.taglibs.standard.tag.el.core.ForEachTag"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="model.Customer"%>
+<%@page import="model.Bid"%>
+<%@page import="model.Auction"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -28,24 +29,28 @@
 	<h4>(Based on the search criteria)</h4>
 	<div class="container">
 	<c:if test="${empty bids}">
-		<h3> Bids not found! <h3/> 
+		<h3> Bids not found! </h3> 
 	</c:if>
 	<c:if test="${not empty bids}">
 		<table class="table table-striped">
 		  <thead>
 		    <tr>
-		      <th>Customer ID</th>
+		      <th>Buyer</th>
 		      <th>Auction ID</th>
+                      <th>Seller</th>
 		      <th>Bid Price</th>
+                      <th>Sold Price</th>
 		      <th>Bid Time</th>
 		    </tr>
 		  </thead>
 		  <tbody>
-		     <c:forEach items="${bids}" var="cd">
+		     <c:forEach items="${bids}" var="cd" varStatus="loop">
 		       <tr>
 		         <td>${cd.customerID}</td>
-		         <td>${cd.auctionID}</td>		         
+		         <td>${cd.auctionID}</td>
+                         <td>${auctions[loop.index].seller}</td>
 		         <td>${cd.bidPrice}</td>
+                         <td>${auctions[loop.index].currentHighestBidPrice}</td>
 		         <td>${cd.bidTime}</td>
 		       </tr>
 		     </c:forEach>

@@ -1,7 +1,6 @@
 package resources;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,9 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.BidDao;
-import dao.CustomerDao;
 import model.Bid;
-import model.Customer;
 
 /**
  * Servlet implementation class BidHistoryController

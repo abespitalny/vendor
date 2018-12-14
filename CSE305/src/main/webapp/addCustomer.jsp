@@ -1,13 +1,11 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page isELIgnored="false" %> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
+<!DOCTYPE html>
 <!--
 	This is the Add Customer page
 	This page displays fields to add a Customer 
@@ -17,7 +15,7 @@
 
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Add Customer</title>
 	<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />	
 	<script src="webjars/jquery/3.3.1-1/jquery.min.js"></script>
@@ -30,52 +28,52 @@
 
 	<form action="addCustomer" method="POST">
 	  <div class="form-group">
-	    <label for="customerEmail">Email address</label>
-	    <input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="Enter email" required>
+	    <label for="username">Username</label>
+	    <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
 	  </div>
-	  <div class="form-group">
-	    <label for="customerPassword">Password</label>
-	    <input type="password" class="form-control" id="customerPassword" name="customerPassword" placeholder="Password" required>
-	  </div>
-  	  <div class="form-group">
-	    <label for="customerFirstName">First Name</label>
-	    <input type="text" class="form-control" id="customerFirstName" name="customerFirstName" placeholder="First Name" required>
+          <div class="form-group">
+	    <label for="password">Password</label>
+	    <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
 	  </div>
   	  <div class="form-group">
-	    <label for="customerLastName">last Name</label>
-	    <input type="text" class="form-control" id="customerLastName" name="customerLastName" placeholder="Last Name" required>
+	    <label for="firstName">First Name</label>
+	    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>
+	  </div>
+  	  <div class="form-group">
+	    <label for="lastName">Last Name</label>
+	    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required>
 	  </div>
    	  <div class="form-group">
-	    <label for="customerAddress">Address</label>
-	    <input type="text" class="form-control" id="customerAddress" name="customerAddress" placeholder="Address" required>
+	    <label for="address">Address</label>
+	    <input type="text" class="form-control" id="address" name="address" placeholder="Address">
 	  </div>
    	  <div class="form-group">
-	    <label for="customerCity">City</label>
-	    <input type="text" class="form-control" id="customerCity" name="customerCity" placeholder="City" required>
+	    <label for="city">City</label>
+	    <input type="text" class="form-control" id="city" name="city" placeholder="City">
 	  </div>
    	  <div class="form-group">
-	    <label for="customerState">State</label>
-	    <input type="text" class="form-control" id="customerState" name="customerState" placeholder="State" required>
+	    <label for="state">State</label>
+	    <input type="text" class="form-control" id="state" name="state" placeholder="State">
 	  </div>
    	  <div class="form-group">
-	    <label for="customerZipcode">Zipcode</label>
-	    <input type="text" class="form-control" id="customerZipcode" name="customerZipcode" placeholder="Zipcode" required>
+	    <label for="zipCode">Zip Code</label>
+	    <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="Zip Code">
 	  </div>
    	  <div class="form-group">
-	    <label for="customerTelephone">Telephone</label>
-	    <input type="text" class="form-control" id="customerTelephone" name="customerTelephone" placeholder="Telephone number" required>
+	    <label for="telephone">Telephone</label>
+	    <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Telephone number">
+	  </div>
+          <div class="form-group">
+	    <label for="email">Email</label>
+	    <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="${editCustomer.email}" required>
 	  </div>
    	  <div class="form-group">
-	    <label for="customerSSN">SSN</label>
-	    <input type="text" class="form-control" id="customerSSN" name="customerSSN" placeholder="XXX-XX-XXXX" required>
+	    <label for="creditCardNum">Credit Card Number</label>
+	    <input type="text" class="form-control" id="creditCardNum" name="creditCardNum" placeholder="XXXX-XXXX-XXXX-XXXX">
 	  </div>
-   	  <div class="form-group">
-	    <label for="customerCreditCard">Credit Card Number</label>
-	    <input type="text" class="form-control" id="customerCreditCard" name="customerCreditCard" placeholder="XXXX-XXXX-XXXX-XXXX" required>
-	  </div>
-   	  <div class="form-group">
-	    <label for="customerRating">Rating</label>
-	    <input type="text" class="form-control" id="customerRating" name="customerRating" placeholder="Rating" required>
+          <div class="form-group">
+	    <label for="rating">Rating</label>
+	    <input type="text" class="form-control" id="rating" name="rating" placeholder="Rating">
 	  </div>
 	  
 	  <button type="submit" class="btn btn-primary">Submit</button>

@@ -1,6 +1,6 @@
 <%@page import="org.apache.taglibs.standard.tag.el.core.ForEachTag"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="model.Customer"%>
+<%@page import="model.Item"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -48,7 +48,7 @@
 		         <td>${cd.name}</td>		         
 		         <td>${cd.type}</td>
 		         <td>${cd.description}</td>
-		         <td>${cd.totalRevenue}</td>
+		         <td>${cd.revenue}</td>
 		       </tr>
 		     </c:forEach>
 		  </tbody>

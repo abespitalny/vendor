@@ -1,4 +1,4 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="org.apache.taglibs.standard.tag.el.core.ForEachTag"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -27,7 +27,7 @@
 	<div>
 	<h1>The Customer Details are:</h1>
 	<c:if test="${empty customers}">
-		<h3> Customer details not found! <h3/> 
+		<h3> Customer details not found! </h3> 
 	</c:if>
 	<c:if test="${not empty customers}">
 		<table class="table table-striped">
@@ -40,19 +40,19 @@
 		      <th>City</th>
 		      <th>State</th>
 		      <th>Zip Code</th>
-			  <th>Telephone</th>
-			  <th>Email</th>
-			  <th>Credit Card</th>
-			  <th>Rating</th>
-			  <th></th>
-			  <th></th>
-			  <th></th>
+                      <th>Telephone</th>
+                      <th>Email</th>
+                      <th>Credit Card</th>
+                      <th>Rating</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		     <c:forEach items="${customers}" var="cd">
 		       <tr>
-		         <td>${cd.customerID}</td>
+		         <td>${cd.username}</td>
 		         <td>${cd.firstName}</td>
 		         <td>${cd.lastName}</td>
 		         <td>${cd.address}</td>
@@ -61,12 +61,12 @@
 		         <td>${cd.zipCode}</td>
 		         <td>${cd.telephone}</td>
 		         <td>${cd.email}</td>
-		         <td>${cd.creditCard}</td>
+		         <td>${cd.creditCardNum}</td>
 		         <td>${cd.rating}</td>
    		         <td>
-		         	<form method="POST" action="getItemSuggestions">
+		         	<form method="GET" action="getItemSuggestions">
 						<div class="form-group">
-			            	<input type="hidden" class="form-control" name="customerID" value=${cd.customerID}>
+			            	<input type="hidden" class="form-control" name="customerID" value="${cd.username}">
 			        	</div>
 						<input type="submit" value="Suggestions" class="btn btn-success"/>
 					</form>
@@ -74,7 +74,7 @@
 		         <td>
 		         	<form method="POST" action="editCustomer">
 						<div class="form-group">
-			            	<input type="hidden" class="form-control" name="customerID" value=${cd.customerID}>
+			            	<input type="hidden" class="form-control" name="customerID" value="${cd.username}">
 			        	</div>
 						<input type="submit" value="Edit" class="btn btn-success"/>
 					</form>
@@ -82,7 +82,7 @@
    		         <td>
 		         	<form method="POST" action="deleteCustomer">
 						<div class="form-group">
-			            	<input type="hidden" class="form-control" name="customerID" value=${cd.customerID}>
+			            	<input type="hidden" class="form-control" name="customerID" value="${cd.username}">
 			        	</div>
 						<input type="submit" value="Delete" class="btn btn-success"/>
 					</form>

@@ -101,7 +101,7 @@ public class ItemDao {
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
                     Item item = new Item(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
-                    item.setTotalRevenue(rs.getBigDecimal(5));
+                    item.setRevenue(rs.getBigDecimal(5));
                     items.add(item);
                 }
             }

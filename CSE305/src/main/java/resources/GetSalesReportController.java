@@ -1,5 +1,6 @@
 package resources;
 
+import dao.BidDao;
 import java.io.IOException;
 import java.util.List;
 
@@ -9,55 +10,35 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.EmployeeDao;
-import dao.PostDao;
-import model.Employee;
 import model.Item;
 
 /**
  * Servlet implementation class GetSalesReportController
  */
-public class GetSalesReportController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+public class GetSalesReportController extends HttpServlet {       
     /**
      * @see HttpServlet#HttpServlet()
      */
     public GetSalesReportController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		String year = request.getParameter("year");
-//		String month = request.getParameter("month");
-//		String expireDate = month + "-" + year;
-//		
-//		Post post = new Post();
-//		post.setExpireDate(expireDate);
-//		
-//		PostDao postDao = new PostDao();
-//		List<Item> items = postDao.getSalesReport(post);
-//		
-//		request.setAttribute("items", items);
-//		request.setAttribute("year", year);
-//		request.setAttribute("month", month);
-//		System.out.println(month + year);
-//		RequestDispatcher rd = request.getRequestDispatcher("showSalesReport.jsp");
-//		rd.forward(request, response);
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int year = Integer.parseInt(request.getParameter("year"));
+        int month = Integer.parseInt(request.getParameter("month"));
 
-	}
+        BidDao bidDao = new BidDao();
+        List<Item> items = bidDao.getSalesReport(month, year);
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
+        request.setAttribute("items", items);
+        request.setAttribute("year", year);
+        request.setAttribute("month", month);
+        System.out.println(month + year);
+        RequestDispatcher rd = request.getRequestDispatcher("showSalesReport.jsp");
+        rd.forward(request, response);
+    }
 }

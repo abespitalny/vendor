@@ -10,16 +10,19 @@ public class Customer extends VendorUser {
     private String creditCardNum;
     private int itemsSold;
     private int itemsPurchased;
-
+    
     public Customer() {
         super();
     }
     public Customer(String username, String email) {
         super(username, email);
     }
+    public Customer(String username, String firstName, String lastName, String address, String city, String state, String zipCode, String email) {
+        super(username, firstName, lastName, address, city, state, zipCode, email);
+    }
     public Customer(String username, String password, String firstName, String lastName, String address, String city,
-                    String state, String zipCode, String telephone, String email, BigDecimal rating,
-                    String creditCardNum) {
+                    String state, String zipCode, String telephone, String email, String creditCardNum,
+                    BigDecimal rating) {
         super(username, password, firstName, lastName, address, city, state, zipCode, telephone, email);
         this.rating = rating;
         this.creditCardNum = creditCardNum;

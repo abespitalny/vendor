@@ -1,4 +1,3 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -26,6 +25,11 @@
 		<div class="container">
 			<h2>Search Item Name or Customer Name:</h2>
 			<form action="getSales">
+                                <select name="searchBy">
+                                    <option value="item">Item Name</option>
+                                    <option value="buyer">Buyer Name</option>
+                                    <option value="seller">Seller Name</option>
+                                </select>
 				<input type="text" name="searchKeyword" placeholder="Item Name or Customer Name" class="form-control" />
 				<input type="submit" value="Search" class="btn btn-success"/>
 			</form>

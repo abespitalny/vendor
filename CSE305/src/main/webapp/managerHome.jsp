@@ -45,10 +45,10 @@
 					  <div class="card-body">
 					    <h5 class="card-title">Manage Employee</h5>
     					<div class="container">
-							<form action="addEmployee.jsp">
+							<form method="GET" action="addEmployee.jsp">
 								<input type="submit" value="Add Employee" class="btn btn-primary"/>
 							</form>
-							<form action="getEmployees" class="pt-1">
+							<form method="GET" action="getEmployees" class="pt-1">
 								<input type="submit" value="View / Edit / Delete Employee" class="btn btn-primary"/>
 							</form>
 							
@@ -85,7 +85,7 @@
 					  <div class="card-body">
 					    <h5 class="card-title">View Sales</h5>
     					<div class="container">
-							<form action="searchSales.jsp">
+							<form method="GET" action="searchSales.jsp">
 								<input type="submit" value="View Sales" class="btn btn-success"/>
 							</form>
 						</div>
@@ -109,10 +109,10 @@
 					  <div class="card-body">
 					    <h5 class="card-title">View Highest Revenue Generators</h5>
     					<div class="container">
-							<form action="getHighestRevenue">
+							<form method="GET" action="getHighestRevenue">
 								<input type="submit" value="Customer Representative" class="btn btn-success"/>
 							</form>
-							<form action="getHighestRevenueCustomer" class="pt-1">
+							<form method="GET" action="getHighestRevenueCustomer" class="pt-1">
 								<input type="submit" value="Customer" class="btn btn-success"/>
 							</form>
 							

@@ -8,71 +8,50 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.EmployeeDao;
 import dao.LoginDao;
+import java.math.BigDecimal;
 import model.Employee;
 
 /**
  * Servlet implementation class UpdateEmployeeController
  */
-public class UpdateEmployeeController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+public class UpdateEmployeeController extends HttpServlet {       
     /**
      * @see HttpServlet#HttpServlet()
      */
     public UpdateEmployeeController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String address = request.getParameter("address");
+        String city = request.getParameter("city");
+        String state= request.getParameter("state");
+        String zipCode = request.getParameter("zipCode");
+        String telephone = request.getParameter("telephone");
+        String email = request.getParameter("email");
+        String ssn = request.getParameter("ssn");
+        BigDecimal hourlyRate = null;
+        try {
+            hourlyRate = BigDecimal.valueOf(Double.parseDouble(request.getParameter("hourlyRate")));
+        } catch (Exception e) {}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-//		String email = request.getParameter("employeeEmail");
-//		String firstName = request.getParameter("employeeFirstName");
-//		String lastName = request.getParameter("employeeLastName");
-//		String address = request.getParameter("employeeAddress");
-//		String city = request.getParameter("employeeCity");
-//		String state= request.getParameter("employeeState");
-//		int zipcode = Integer.parseInt(request.getParameter("employeeZipcode"));
-//		String telephone = request.getParameter("employeeTelephone");
-//		String ssn = request.getParameter("employeeSSN");
-//		String startDate = request.getParameter("employeeStartDate");
-//		float hourlyRate = Float.parseFloat(request.getParameter("employeeHourlyRate"));
-//		
-//		Employee employee = new Employee();
-//		employee.setEmail(email);
-//		employee.setFirstName(firstName);
-//		employee.setLastName(lastName);
-//		employee.setAddress(address);
-//		employee.setCity(city);
-//		employee.setStartDate(startDate);
-//		employee.setState(state);
-//		employee.setZipCode(zipcode);
-//		employee.setTelephone(telephone);
-//		employee.setEmployeeID(ssn);
-//		employee.setHourlyRate(hourlyRate);
-//		
-//		EmployeeDao employeeDao = new EmployeeDao();
-//		String result = employeeDao.editEmployee(employee);
-//		
-//		if(result.equals("success")) {
-//			response.sendRedirect("managerHome.jsp?status=editEmployeeSuccess");
-//		}
-//		else {
-//			response.sendRedirect("editEmployee.jsp?status=error");
-//		}
+        Employee employee = new Employee(username, password, firstName, lastName, address, city, state, zipCode, telephone,
+            email, ssn, hourlyRate);
 
-	}
-
+        String oldEmployeeID = (String)(request.getSession().getAttribute("oldEmployeeID"));
+        EmployeeDao employeeDao = new EmployeeDao();
+        String status = employeeDao.editEmployee(oldEmployeeID, employee);
+        if(status.equals("success"))
+            response.sendRedirect("managerHome.jsp?status=editEmployeeSuccess");
+        else
+            response.sendRedirect("editEmployee.jsp?status=error");
+    }
 }

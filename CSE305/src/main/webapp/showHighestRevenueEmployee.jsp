@@ -1,6 +1,4 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="model.Customer"%>
+<%@page import="model.Employee"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -28,7 +26,7 @@
 	<div class="container">
 	<h3>The Customer Representative that generated the highest revenue is:</h3>
 	<c:if test="${empty employee}">
-		<h3> Customer Representative details not found! <h3/> 
+		<h3> Customer Representative details not found! </h3> 
 	</c:if>
 	<c:if test="${not empty employee}">
 		<table class="table table-striped">
@@ -37,15 +35,17 @@
 		      <th>Employee ID</th>
 		      <th>First Name</th>
 		      <th>Last Name</th>
-			  <th>Email</th>
+                      <th>Email</th>
+                      <th>Revenue</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		       <tr>
-		         <td>${employee.employeeID}</td>
+		         <td>${employee.username}</td>
 		         <td>${employee.firstName}</td>
 		         <td>${employee.lastName}</td>
 		         <td>${employee.email}</td>
+                         <td>${employee.revenue}</td>
 		       </tr>
 		  </tbody>
 		</table>

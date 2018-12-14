@@ -1,12 +1,11 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page isELIgnored="false" %> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 
 <!--
 	This is the Edit Customer page
@@ -16,7 +15,7 @@
 
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Edit Customer</title>
 	<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />	
 	<script src="webjars/jquery/3.3.1-1/jquery.min.js"></script>
@@ -27,53 +26,57 @@
 	
 	<h1>Edit Customer:</h1>
 	<c:if test="${empty editCustomer}">
-		<h3> Customer details not found! <h3/> 
+		<h3> Customer details not found! </h3> 
 	</c:if>
 	<c:if test="${not empty editCustomer}"> 	
 	<form action="updateCustomer" method="POST">
 	  <div class="form-group">
-	    <label for="customerEmail">Email address</label>
-	    <input type="email" class="form-control" id="customerEmail" name="customerEmail" placeholder="Enter email" value=${editCustomer.email} required>
+	    <label for="username">Username</label>
+	    <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" value="${editCustomer.username}" required>
+	  </div>
+          <div class="form-group">
+	    <label for="password">Password</label>
+	    <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" value="${editCustomer.password}" required>
 	  </div>
   	  <div class="form-group">
-	    <label for="customerFirstName">First Name</label>
-	    <input type="text" class="form-control" id="customerFirstName" name="customerFirstName" placeholder="First Name" value=${editCustomer.firstName} required>
+	    <label for="firstName">First Name</label>
+	    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" value="${editCustomer.firstName}" required>
 	  </div>
   	  <div class="form-group">
-	    <label for="customerLastName">last Name</label>
-	    <input type="text" class="form-control" id="customerLastName" name="customerLastName" placeholder="Last Name" value=${editCustomer.lastName} required>
+	    <label for="lastName">Last Name</label>
+	    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" value="${editCustomer.lastName}" required>
 	  </div>
    	  <div class="form-group">
-	    <label for="customerAddress">Address</label>
-	    <input type="text" class="form-control" id="customerAddress" name="customerAddress" placeholder="Address" value=${editCustomer.address} required>
+	    <label for="address">Address</label>
+	    <input type="text" class="form-control" id="address" name="address" placeholder="Address" value="${editCustomer.address}">
 	  </div>
    	  <div class="form-group">
-	    <label for="customerCity">City</label>
-	    <input type="text" class="form-control" id="customerCity" name="customerCity" placeholder="City" value=${editCustomer.city} required>
+	    <label for="city">City</label>
+	    <input type="text" class="form-control" id="city" name="city" placeholder="City" value="${editCustomer.city}">
 	  </div>
    	  <div class="form-group">
-	    <label for="customerState">State</label>
-	    <input type="text" class="form-control" id="customerState" name="customerState" placeholder="State" value=${editCustomer.state} required>
+	    <label for="state">State</label>
+	    <input type="text" class="form-control" id="state" name="state" placeholder="State" value="${editCustomer.state}">
 	  </div>
    	  <div class="form-group">
-	    <label for="customerZipcode">Zipcode</label>
-	    <input type="text" class="form-control" id="customerZipcode" name="customerZipcode" placeholder="Zipcode" value=${editCustomer.zipCode} required>
+	    <label for="zipCode">Zip Code</label>
+	    <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="Zip Code" value="${editCustomer.zipCode}">
 	  </div>
    	  <div class="form-group">
-	    <label for="customerTelephone">Telephone</label>
-	    <input type="text" class="form-control" id="customerTelephone" name="customerTelephone" placeholder="Telephone number" value=${editCustomer.telephone} required>
+	    <label for="telephone">Telephone</label>
+	    <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Telephone number" value="${editCustomer.telephone}">
+	  </div>
+          <div class="form-group">
+	    <label for="email">Email</label>
+	    <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="${editCustomer.email}" required>
 	  </div>
    	  <div class="form-group">
-	    <label for="customerSSN">SSN (Customer ID)</label>
-	    <input type="text" class="form-control" id="customerSSN" name="customerSSN" placeholder="XXX-XX-XXXX" value=${editCustomer.customerID} readonly>
+	    <label for="creditCardNum">Credit Card Number</label>
+	    <input type="text" class="form-control" id="creditCardNum" name="creditCardNum" placeholder="XXXX-XXXX-XXXX-XXXX" value="${editCustomer.creditCardNum}">
 	  </div>
-   	  <div class="form-group">
-	    <label for="customerCreditCard">Credit Card Number</label>
-	    <input type="text" class="form-control" id="customerCreditCard" name="customerCreditCard" placeholder="YYYY-MM-DD" value=${editCustomer.creditCard} required>
-	  </div>
-   	  <div class="form-group">
-	    <label for="customerRating">Rating</label>
-	    <input type="text" class="form-control" id="customerRating" name="customerRating" placeholder="Hourly Rate" value=${editCustomer.rating} required>
+          <div class="form-group">
+	    <label for="rating">Rating</label>
+	    <input type="text" class="form-control" id="rating" name="rating" placeholder="Rating" value="${editCustomer.rating}">
 	  </div>
 	  
 	  <button type="submit" class="btn btn-primary">Submit</button>
@@ -85,7 +88,5 @@
 			<input type="submit" value="Home" class="btn btn-success"/>
 		</form>
 	</div>
-	
-
 </body>
 </html>

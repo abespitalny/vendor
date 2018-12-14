@@ -1,6 +1,6 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="org.apache.taglibs.standard.tag.el.core.ForEachTag"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="model.Customer"%>
+<%@page import="model.Item"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -28,7 +28,7 @@
 	<div class="container">
 	<h2>Month is: <c:out value = "${month}"/> - <c:out value = "${year}"/></h2>
 	<c:if test="${empty items}">
-		<h3> Sales Report not found! <h3/> 
+		<h3> Sales Report not found! </h3> 
 	</c:if>
 	<c:if test="${not empty items}">
 		<table class="table table-striped">
@@ -42,8 +42,7 @@
 		     <c:forEach items="${items}" var="cd">
 		       <tr>
 		         <td>${cd.name}</td>
-		         <td>${cd.soldPrice}</td>		         
-		         <td></td>
+		         <td>${cd.revenue}</td>
 		       </tr>
 		     </c:forEach>
 		  </tbody>

@@ -1,4 +1,4 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="org.apache.taglibs.standard.tag.el.core.ForEachTag"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -29,26 +29,26 @@
 	<div class="container">
 	<h3>The Customer Details are:</h3>
 	<c:if test="${empty customers}">
-		<h3> Customer details not found! <h3/> 
+		<h3> Customer details not found! </h3> 
 	</c:if>
 	<c:if test="${not empty customers}">
 		<table class="table table-striped">
 		  <thead>
 		    <tr>
-		      <th>SSN</th>
+		      <th>Customer ID</th>
 		      <th>First Name</th>
 		      <th>Last Name</th>
 		      <th>Address</th>
 		      <th>City</th>
 		      <th>State</th>
 		      <th>Zip Code</th>
-			  <th>Email</th>
+                      <th>Email</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		     <c:forEach items="${customers}" var="cd">
 		       <tr>
-		         <td>${cd.customerID}</td>
+		         <td>${cd.username}</td>
 		         <td>${cd.firstName}</td>
 		         <td>${cd.lastName}</td>
 		         <td>${cd.address}</td>

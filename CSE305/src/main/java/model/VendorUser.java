@@ -1,5 +1,7 @@
 package model;
 
+import java.math.BigDecimal;
+
 /*
  * This class is a representation of the VendorUser table from the schema
  */
@@ -14,12 +16,34 @@ public abstract class VendorUser {
     private String zipCode;
     private String telephone;
     private String email;
+    private BigDecimal revenue;
 
     public VendorUser() {
         super();
     }
     public VendorUser(String username, String email) {
         this.username = username;
+        this.email = email;
+    }
+    public VendorUser(String username, String firstName, String lastName, String address, String city, String state, String zipCode, String telephone, String email) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.telephone = telephone;
+        this.email = email;
+    }
+    public VendorUser(String username, String firstName, String lastName, String address, String city, String state, String zipCode, String email) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
         this.email = email;
     }
     public VendorUser(String username, String password, String firstName, String lastName, String address, String city,
@@ -95,5 +119,11 @@ public abstract class VendorUser {
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+    public BigDecimal getRevenue() {
+        return revenue;
+    }
+    public void setRevenue(BigDecimal revenue) {
+        this.revenue = revenue;
     }
 }

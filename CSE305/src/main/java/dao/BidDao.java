@@ -7,8 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Auction;
 
 import model.Bid;
+import model.Item;
 
 
 public class BidDao {
@@ -148,31 +150,81 @@ public class BidDao {
         return true;
     }
 
-	public List<Bid> getSalesListing(String searchKeyword) {
-		
-//		List<Bid> bids = new ArrayList<Bid>();
-//
-//		/*
-//		 * The students code to fetch data from the database
-//		 * Each record is required to be encapsulated as a "Bid" class object and added to the "bids" ArrayList
-//		 * searchKeyword, which is the search parameter, is given as method parameter
-//		 * Query to  produce a list of sales by item name or by customer name must be implemented
-//		 * The item name or the customer name can be searched with the provided searchKeyword
-//		 */
-//
-//		/*Sample data begins*/
-//		for (int i = 0; i < 10; i++) {
-//			Bid bid = new Bid();
-//			bid.setAuctionID(123);
-//			bid.setCustomerID("123-12-1234");
-//			bid.setBidTime("2008-12-11");
-//			bid.setBidPrice(100);
-//			bids.add(bid);			
-//		}
-//		/*Sample data ends*/
-//		
-//		return bids;
-            return null;
-	}
+    public List<?>[] getSalesListing(String searchBy, String searchKeyword) {
+        List<Bid> bids = new ArrayList<>();
+        List<Auction> auctions = new ArrayList<>();
 
+        String sql;
+        if (searchBy.equals("item"))
+            sql = "SELECT CustomerID AS Buyer, A.AuctionID, Seller, BidPrice, CurrentHighestBidPrice AS SoldPrice, BidTime" +
+                 " FROM (Auction AS A INNER JOIN Bid ON WinningBidID = BidID) INNER JOIN Item USING (ItemID)" +
+                 " WHERE ItemName LIKE CONCAT('%', ?, '%') AND SaleStatus = 'Paid'";
+        else if (searchBy.equals("buyer"))
+            sql = "SELECT CustomerID AS Buyer, A.AuctionID, Seller, BidPrice, CurrentHighestBidPrice AS SoldPrice, BidTime" +
+                 " FROM (Auction AS A INNER JOIN Bid ON WinningBidID = BidID) INNER JOIN VendorUser ON CustomerID = Username" +
+                 " WHERE (FirstName LIKE CONCAT('%', ?, '%') OR LastName LIKE CONCAT('%', ?, '%')) AND SaleStatus = 'Paid'";
+        else
+            sql = "SELECT CustomerID AS Buyer, A.AuctionID, Seller, BidPrice, CurrentHighestBidPrice AS SoldPrice, BidTime" +
+                 " FROM (Auction AS A INNER JOIN Bid ON WinningBidID = BidID) INNER JOIN VendorUser ON Seller = Username" +
+                 " WHERE (FirstName LIKE CONCAT('%', ?, '%') OR LastName LIKE CONCAT('%', ?, '%')) AND SaleStatus = 'Paid'";
+
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+        ) {
+            if (searchBy.equals("item"))
+                statement.setString(1, searchKeyword);
+            else {
+                statement.setString(1, searchKeyword);
+                statement.setString(2, searchKeyword);
+            }
+            
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Bid bid = new Bid(rs.getString(1), rs.getInt(2), rs.getDate(6), rs.getBigDecimal(4));
+                    bids.add(bid);
+                    Auction auction = new Auction();
+                    auction.setSeller(rs.getString(3));
+                    auction.setCurrentHighestBidPrice(rs.getBigDecimal(5));
+                    auctions.add(auction);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
+        }
+        
+        return new List<?>[]{bids, auctions};
+    }
+    
+    public List<Item> getSalesReport(int month, int year) {
+        List<Item> items = new ArrayList<>();
+        
+        String sql = "SELECT ItemName, CurrentHighestBidPrice AS SoldPrice" +
+                    " FROM Auction INNER JOIN Item USING (ItemID)" +
+                    " WHERE MONTH(EndDate) = ? AND YEAR(EndDate) = ? AND SaleStatus = 'Paid'";
+           
+        try (
+                Connection conn = ConnectionUtils.getMyConnection();
+                PreparedStatement statement = conn.prepareStatement(sql);
+        ) {
+            statement.setInt(1, month);
+            statement.setInt(2, year);
+            
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Item item = new Item();
+                    item.setName(rs.getString(1));
+                    // using revenue field to store SoldPrice
+                    item.setRevenue(rs.getBigDecimal(2));
+                    items.add(item);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("There was an unexpected error");
+            System.err.println(e);
+        }
+				
+        return items;
+    }
 }

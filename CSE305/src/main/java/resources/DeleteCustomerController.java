@@ -11,42 +11,22 @@ import dao.CustomerDao;
 /**
  * Servlet implementation class DeleteCustomerController
  */
-public class DeleteCustomerController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+public class DeleteCustomerController extends HttpServlet {       
     /**
      * @see HttpServlet#HttpServlet()
      */
     public DeleteCustomerController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String customerID = request.getParameter("customerID");
-		
-		CustomerDao customerDao = new CustomerDao();
-		String result = customerDao.deleteCustomer(customerID);
-		
-		if(result.equals("success")) {
-			response.sendRedirect("customerRepresentativeHome.jsp?status=deleteSuccess");
-		}
-		else {
-			response.sendRedirect("customerRepresentativeHome.jsp?status=deleteFailure");
-		}
-
-	}
-
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String customerID = request.getParameter("customerID");
+        CustomerDao customerDao = new CustomerDao();
+        String status = customerDao.deleteCustomer(customerID);
+        response.sendRedirect("customerRepresentativeHome.jsp?status=delete_" + status);
+    }
 }

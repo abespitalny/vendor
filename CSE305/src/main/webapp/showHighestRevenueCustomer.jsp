@@ -1,4 +1,3 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Customer"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -28,7 +27,7 @@
 	<div class="container">
 	<h3>The Customer that generated the highest revenue is:</h3>
 	<c:if test="${empty customer}">
-		<h3> Customer details not found! <h3/> 
+		<h3> Customer details not found! </h3> 
 	</c:if>
 	<c:if test="${not empty customer}">
 		<table class="table table-striped">
@@ -37,15 +36,17 @@
 		      <th>Customer ID</th>
 		      <th>First Name</th>
 		      <th>Last Name</th>
-			  <th>Email</th>
+	              <th>Email</th>
+                      <th>Revenue</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		       <tr>
-		         <td>${customer.customerID}</td>
+		         <td>${customer.username}</td>
 		         <td>${customer.firstName}</td>
 		         <td>${customer.lastName}</td>
 		         <td>${customer.email}</td>
+                         <td>${customer.revenue}</td>
 		       </tr>
 		  </tbody>
 		</table>

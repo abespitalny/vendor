@@ -7,43 +7,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.CustomerDao;
+import javax.servlet.RequestDispatcher;
 import model.Customer;
 
 /**
  * Servlet implementation class EditCustomerController
  */
-public class EditCustomerController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+public class EditCustomerController extends HttpServlet {       
     /**
      * @see HttpServlet#HttpServlet()
      */
     public EditCustomerController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String customerID = request.getParameter("customerID");
-		
-		CustomerDao customerDao = new CustomerDao();
-		Customer editCustomer = customerDao.getCustomer(customerID);
-		
-		request.getSession(true).setAttribute("editCustomer", editCustomer);
-		response.sendRedirect("editCustomer.jsp");
-
-	}
-
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String customerID = request.getParameter("customerID");
+        CustomerDao customerDao = new CustomerDao();
+        Customer editCustomer = customerDao.getCustomer(customerID);
+        
+        // old customerID
+        request.getSession(true).setAttribute("oldCustomerID", customerID);
+        request.setAttribute("editCustomer", editCustomer);
+        RequestDispatcher rd = request.getRequestDispatcher("editCustomer.jsp");
+        rd.forward(request, response);
+    }
 }

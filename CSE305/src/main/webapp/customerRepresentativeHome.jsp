@@ -44,7 +44,7 @@
 					  <div class="card-body">
 					    <h5 class="card-title">Record a Sale</h5>
     					<div class="container">
-							<form action="getOpenAuctions">
+							<form method="GET" action="getOpenAuctions">
 								<input type="submit" value="Record Sale" class="btn btn-success"/>
 							</form>
 						</div>
@@ -56,13 +56,13 @@
 					  <div class="card-body">
 					    <h5 class="card-title">Manage Customer</h5>
     					<div class="container">
-							<form action="addCustomer.jsp">
+							<form method="GET" action="addCustomer.jsp">
 								<input type="submit" value="Add Customer" class="btn btn-primary"/>
 							</form>
-							<form action="getCustomers" class="pt-1">
+							<form method="GET" action="getCustomers" class="pt-1">
 								<input type="submit" value="View / Edit / Delete Customer" class="btn btn-primary"/>
 							</form>
-							<form action="searchCustomer.jsp" class="pt-1">
+							<form method="GET" action="searchCustomer.jsp" class="pt-1">
 								<input type="submit" value="Search Customer" class="btn btn-primary"/>
 							</form>
 							
@@ -75,7 +75,7 @@
 					  <div class="card-body">
 					    <h5 class="card-title">View Customer Mailing List</h5>
     					<div class="container">
-							<form action="getCustomerMailingList">
+							<form method="GET" action="getCustomerMailingList">
 								<input type="submit" value="Customer Mailing List" class="btn btn-primary"/>
 							</form>
 						</div>
@@ -87,7 +87,7 @@
 					  <div class="card-body">
 					    <h5 class="card-title">View Suggestions for Customers</h5>
     					<div class="container">
-							<form action="getCustomers">
+							<form method="GET" action="getCustomers">
 								<input type="submit" value="View Suggestions" class="btn btn-success"/>
 							</form>
 						</div>
