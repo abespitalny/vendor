@@ -227,11 +227,11 @@ DELETE FROM ItemSuggestion WHERE CustomerID = ?;
 
 -- Place bid
 -- Transaction starts here
-INSERT INTO Bid
+INSERT INTO Bid (CustomerID, AuctionID, BidTime, BidPrice)
 SELECT ? AS CustomerID, AuctionID, NOW() AS BidTime, ? AS BidPrice
 FROM Auction
-WHERE AuctionID = ? AND IF(CurrentHighestBidPrice IS NULL, ? >= MinBidPrice, ? > CurrentHighestBidPrice);
-    
+WHERE AuctionID = ? AND IF(CurrentHighestBidPrice IS NULL, ? >= MinBidPrice, ? > CurrentHighestBidPrice) AND Seller <> ?;
+
 -- If the bid is not inserted into the Bid table above then do not
 -- proceed and rollback the transaction
 
@@ -240,7 +240,7 @@ WHERE AuctionID = ? AND IF(CurrentHighestBidPrice IS NULL, ? >= MinBidPrice, ? >
 UPDATE Auction
 SET CurrentHighestBidPrice = IF(CurrentHighestBidPrice IS NULL, MinBidPrice, IF(? > CurrentMaxBidPrice, LEAST(?, CurrentMaxBidPrice + BidIncrement), LEAST(? + BidIncrement, CurrentMaxBidPrice))),
     CurrentMaxBidPrice = IF(CurrentMaxBidPrice IS NULL, ?, IF(? > CurrentMaxBidPrice, ?, CurrentMaxBidPrice)),
-    BidIncrement = ?,
+    BidIncrement = IF(CurrentHighestBidPrice IS NULL, BidIncrement, GREATEST(ROUND(0.02 * CurrentHighestBidPrice, 2), BidIncrement)),
     WinningBidID = IF(WinningBidID IS NULL, ?, IF(? > CurrentMaxBidPrice, ?, WinningBidID))
 WHERE AuctionID = ?;
 -- Transaction ends here
@@ -297,3 +297,38 @@ ORDER BY LastBidTime DESC;
 
 -- Get the item types in the database
 SELECT DISTINCT ItemType FROM Item;
+
+-- Get sellers
+SELECT DISTINCT Seller, FirstName, LastName, Email, Rating, ItemsSold
+FROM Auction INNER JOIN (VendorUser INNER JOIN Customer ON Username = CustomerID) ON Username = Seller;
+
+-- Get items by seller
+SELECT AuctionID, MinBidPrice, CurrentHighestBidPrice, NumCopies, ItemID, ItemName, ItemType, OpenDate, EndDate
+FROM Auction INNER JOIN Item USING (ItemID)
+WHERE Seller = ?;
+
+-- Get items by name
+SELECT AuctionID, MinBidPrice, CurrentHighestBidPrice, NumCopies, ItemID, ItemName, ItemType, OpenDate, EndDate
+FROM Auction INNER JOIN Item USING (ItemID)
+WHERE ItemName LIKE CONCAT('%', ?, '%');
+
+-- Get items by type
+SELECT AuctionID, MinBidPrice, CurrentHighestBidPrice, NumCopies, ItemID, ItemName, ItemType, OpenDate, EndDate
+FROM Auction INNER JOIN Item USING (ItemID)
+WHERE ItemType = ?;
+
+-- Get best-seller items for customer (in the role of seller)
+SELECT ItemID, ItemName, ItemType, Description, Quantity, NumSold
+FROM Item INNER JOIN Auction USING (ItemID)
+WHERE Seller = ? AND NumSold > (SELECT AVG(NumSold) FROM Item)
+ORDER BY NumSold DESC;
+
+-- Get item from AuctionID
+SELECT ItemID, ItemName, ItemType, Description
+FROM Item INNER JOIN Auction USING (ItemID)
+WHERE AuctionID = ?;
+
+-- Get bid info.
+SELECT CurrentHighestBidPrice, FirstName, LastName
+FROM (Auction INNER JOIN Bid ON WinningBidID = BidID) INNER JOIN VendorUser ON Username = CustomerID
+WHERE AuctionID = ?;
